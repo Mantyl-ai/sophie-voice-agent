@@ -38,5 +38,6 @@ new_sophie.png
 higher_quality_sophie.png
 sophie.png
 
-# Keep public/sophie.png (the processed version)
+# Keep production files in public/
 !public/sophie.png
+!public/index.html
