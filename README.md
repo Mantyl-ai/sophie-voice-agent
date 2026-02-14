@@ -33,13 +33,14 @@ Sophie uses a **dual-model architecture** — each AI provider is chosen for wha
 | Task                  | Provider   | Model                      | Endpoint        |
 | --------------------- | ---------- | -------------------------- | --------------- |
 | Voice conversation    | OpenAI     | GPT-4o                     | `/api/chat`     |
+| Sophie's voice (TTS)  | ElevenLabs | Turbo v2.5                 | `/api/tts`      |
 | Debrief + email draft | Anthropic  | Claude Haiku 4.5            | `/api/debrief`  |
 
 API keys live in Netlify environment variables. The frontend never touches credentials.
 
 ```
 Browser ──POST──▶ Netlify Function ──▶ AI Provider
-                  (chat.js / debrief.js)
+                  (chat.js / debrief.js / tts.js)
 ```
 
 ## Project Structure
@@ -50,6 +51,7 @@ public/
   sophie.png              # Character asset
 netlify/functions/
   chat.js                 # OpenAI proxy — voice conversation
+  tts.js                  # ElevenLabs proxy — Sophie's voice
   debrief.js              # Anthropic proxy — debrief generation
 docs/
   ARCHITECTURE.md         # System design with diagrams
@@ -65,10 +67,11 @@ docs/
 
 Set in **Netlify Dashboard > Site Settings > Environment Variables**:
 
-| Variable             | Required | Provider  |
-| -------------------- | -------- | --------- |
-| `OPENAI_API_KEY`     | Yes      | OpenAI    |
-| `ANTHROPIC_API_KEY`  | Yes      | Anthropic |
+| Variable             | Required | Provider   |
+| -------------------- | -------- | ---------- |
+| `OPENAI_API_KEY`     | Yes      | OpenAI     |
+| `ANTHROPIC_API_KEY`  | Yes      | Anthropic  |
+| `ELEVENLABS_API_KEY` | Yes      | ElevenLabs |
 
 ## Deploy to Production
 
@@ -115,7 +118,7 @@ See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for custom domains, cost estimati
 | Frontend  | React 18 (CDN), vanilla CSS      |
 | Backend   | Netlify Functions (Node 18)       |
 | Voice In  | Web Speech API (SpeechRecognition)|
-| Voice Out | Web Speech API (SpeechSynthesis)  |
+| Voice Out | ElevenLabs Turbo v2.5             |
 | Chat AI   | OpenAI GPT-4o                     |
 | Report AI | Anthropic Claude Haiku 4.5        |
 

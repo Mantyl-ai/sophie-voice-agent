@@ -1,15 +1,16 @@
 /**
- * Sophie Voice Agent — Text-to-Speech Proxy
+ * Sophie Voice Agent — Text-to-Speech Proxy (ElevenLabs)
  *
- * Netlify serverless function that proxies TTS requests to OpenAI.
+ * Netlify serverless function that proxies TTS requests to ElevenLabs.
  * Returns audio as base64-encoded mp3 for playback via Web Audio API.
- * Uses the "shimmer" voice — a warm, clear female voice ideal for Sophie.
+ * Uses voice ID cNYrMw9glwJZXR8RwbuR — a warm, professional female voice for Sophie.
  *
  * @endpoint POST /api/tts → /.netlify/functions/tts
- * @env OPENAI_API_KEY — Required. Set in Netlify Dashboard.
+ * @env ELEVENLABS_API_KEY — Required. Set in Netlify Dashboard.
  */
 
-const OPENAI_TTS_URL = 'https://api.openai.com/v1/audio/speech';
+const VOICE_ID = 'cNYrMw9glwJZXR8RwbuR';
+const ELEVENLABS_TTS_URL = `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`;
 
 const ALLOWED_ORIGINS = [
   'https://sophie.mantyl.ai',
@@ -44,41 +45,42 @@ exports.handler = async (event) => {
     };
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.ELEVENLABS_API_KEY;
   if (!apiKey) {
     return {
       statusCode: 500,
       headers: cors,
-      body: JSON.stringify({ error: { message: 'Server configuration error: API key not set.' } }),
+      body: JSON.stringify({ error: { message: 'Server configuration error: ElevenLabs API key not set.' } }),
     };
   }
 
   try {
-    const { text, voice, speed } = JSON.parse(event.body);
+    const { text } = JSON.parse(event.body);
 
-    if (!text || text.length > 4096) {
+    if (!text || text.length > 5000) {
       return {
         statusCode: 400,
         headers: cors,
-        body: JSON.stringify({ error: { message: 'Text required (max 4096 chars).' } }),
+        body: JSON.stringify({ error: { message: 'Text required (max 5000 chars).' } }),
       };
     }
 
-    const allowedVoices = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'];
-    const selectedVoice = allowedVoices.includes(voice) ? voice : 'shimmer';
-
-    const response = await fetch(OPENAI_TTS_URL, {
+    const response = await fetch(ELEVENLABS_TTS_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
+        'xi-api-key': apiKey,
+        'Accept': 'audio/mpeg',
       },
       body: JSON.stringify({
-        model: 'tts-1',
-        input: text,
-        voice: selectedVoice,
-        speed: Math.min(Math.max(speed || 1.0, 0.25), 4.0),
-        response_format: 'mp3',
+        text: text,
+        model_id: 'eleven_turbo_v2_5',
+        voice_settings: {
+          stability: 0.5,
+          similarity_boost: 0.75,
+          style: 0.4,
+          use_speaker_boost: true,
+        },
       }),
     });
 
@@ -87,7 +89,7 @@ exports.handler = async (event) => {
       return {
         statusCode: response.status,
         headers: cors,
-        body: JSON.stringify({ error: { message: err.error?.message || 'TTS generation failed.' } }),
+        body: JSON.stringify({ error: { message: err.detail?.message || err.detail || 'TTS generation failed.' } }),
       };
     }
 
@@ -101,7 +103,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         audio: base64,
         format: 'mp3',
-        voice: selectedVoice,
+        voice: 'sophie-elevenlabs',
       }),
     };
   } catch (err) {
