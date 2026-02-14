@@ -150,62 +150,184 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 .go-btn:disabled{opacity:.45;cursor:not-allowed}
 .go-btn svg{flex-shrink:0}
 
-/* ─── VOICE SESSION ─── */
-.vs{display:flex;flex-direction:column;align-items:center;min-height:66vh;padding:36px 16px}
-.vs-orb-w{position:relative;width:140px;height:140px;margin-bottom:24px}
-.vs-orb{width:140px;height:140px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;box-shadow:0 0 36px rgba(107,138,219,.12);transition:box-shadow .4s}
-.vs-orb.li{box-shadow:0 0 50px rgba(107,138,219,.3),0 0 90px rgba(155,127,199,.12)}
-.vs-orb.sp{box-shadow:0 0 50px rgba(212,132,154,.3),0 0 90px rgba(232,158,108,.12)}
-.vs-ring{position:absolute;inset:-5px;border-radius:50%;border:2px solid transparent;background:conic-gradient(from 0deg,var(--blue),var(--lav),var(--rose),var(--peach),var(--blue)) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 6s linear infinite;opacity:.25;transition:opacity .4s}
-.vs-orb.li .vs-ring{opacity:.75;animation-duration:2s}
-.vs-orb.sp .vs-ring{opacity:.75;animation-duration:3s}
-@keyframes spin{to{transform:rotate(360deg)}}
-.bars{display:flex;align-items:center;gap:3px;height:36px}
-.bar{width:3.5px;border-radius:2px;height:7px;background:var(--grad);transition:height .1s}
-.vs-orb.id .bar{animation:idle 2.5s ease-in-out infinite}
-.vs-orb.li .bar,.vs-orb.sp .bar{animation:wave .55s ease-in-out infinite alternate}
-.bar:nth-child(1){animation-delay:0s}.bar:nth-child(2){animation-delay:.07s}.bar:nth-child(3){animation-delay:.14s}.bar:nth-child(4){animation-delay:.21s}.bar:nth-child(5){animation-delay:.28s}.bar:nth-child(6){animation-delay:.21s}.bar:nth-child(7){animation-delay:.14s}
-@keyframes idle{0%,100%{height:7px}50%{height:14px}}
-@keyframes wave{0%{height:5px}100%{height:34px}}
-.vs-st{font-size:12px;font-weight:500;color:#94a3b8;margin-bottom:22px;display:flex;align-items:center;gap:7px}
-.sd{width:6px;height:6px;border-radius:50%;background:#94a3b8;transition:.3s}
-.sd.on{background:#22c55e;animation:blink 2s infinite}.sd.li{background:var(--blue);animation:blink 1s infinite}.sd.sp{background:var(--rose);animation:blink 1.5s infinite}
+/* ─── VOICE SESSION — IMMERSIVE AI INTERFACE ─── */
+.vs{display:flex;flex-direction:column;min-height:80vh;background:var(--navy);border-radius:var(--r-xl);overflow:hidden;position:relative;margin:-28px;padding:0}
 
-/* Transcript */
-.tb{width:100%;max-width:600px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:var(--r-lg);padding:14px;max-height:260px;overflow-y:auto;margin-bottom:22px;min-height:90px}
-.tb-e{text-align:center;color:#cbd5e1;font-size:12px;padding:24px 0}
-.tm{margin-bottom:8px;display:flex;gap:8px;animation:tf .3s ease}
-@keyframes tf{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.ta{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
-.ta.s{background:linear-gradient(135deg,var(--blue),var(--lav));color:#fff}
-.ta.u{background:#e2e8f0;color:var(--navy)}
-.tn{font-size:9px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1px}
-.tt{font-size:13px;line-height:1.6;color:var(--navy)}
+/* Session dark background with layered gradient — inspired by Apple Intelligence / Siri */
+.vs::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse 70% 50% at 50% 30%,rgba(107,138,219,.15) 0%,transparent 60%),
+  radial-gradient(ellipse 50% 60% at 30% 70%,rgba(155,127,199,.1) 0%,transparent 55%),
+  radial-gradient(ellipse 40% 40% at 75% 60%,rgba(212,132,154,.08) 0%,transparent 50%);
+  pointer-events:none;z-index:0}
 
-/* Controls */
-.vc{display:flex;gap:10px;align-items:center;margin-bottom:16px}
-.mb{width:54px;height:54px;border-radius:50%;border:none;background:var(--grad);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(107,138,219,.22);transition:.2s}
-.mb:hover{transform:scale(1.06)}.mb.rc{background:#ef4444;box-shadow:0 4px 16px rgba(239,68,68,.3);animation:mg 1.5s infinite}
-@keyframes mg{0%,100%{box-shadow:0 4px 16px rgba(239,68,68,.3)}50%{box-shadow:0 4px 32px rgba(239,68,68,.45)}}
-.mb svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
-.eb{padding:9px 20px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;font-family:var(--font);font-size:12px;font-weight:500;color:var(--navy-ll);cursor:pointer;transition:.15s;display:flex;align-items:center;gap:5px}
-.eb:hover{background:#fef2f2;border-color:#fca5a5;color:#ef4444}
-.eb svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+/* Top bar with Sophie branding inside session */
+.vs-header{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;position:relative;z-index:5}
+.vs-header-left{display:flex;align-items:center;gap:10px}
+.vs-header-name{font-size:13px;font-weight:600;color:rgba(255,255,255,.85);letter-spacing:-.2px}
+.vs-header-tag{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;background:rgba(107,138,219,.08);border:1px solid rgba(107,138,219,.12);border-radius:16px;font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.05em}
+.vs-header-dot{width:5px;height:5px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px rgba(34,197,94,.5);animation:blink 2s infinite}
+
+/* Main session layout — Sophie left, conversation right */
+.vs-body{display:grid;grid-template-columns:.42fr .58fr;flex:1;position:relative;z-index:2;min-height:0}
+
+/* Left — Sophie visual with animated orb */
+.vs-left{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;position:relative}
+
+/* The animated gradient orb behind Sophie — Siri/Apple Intelligence inspired */
+.ai-orb-container{position:relative;width:280px;height:280px;display:flex;align-items:center;justify-content:center}
+
+/* Main gradient blob — morphs shape when active */
+.ai-orb{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,
+  rgba(107,138,219,.6),
+  rgba(155,127,199,.5),
+  rgba(212,132,154,.5),
+  rgba(232,158,108,.4),
+  rgba(107,138,219,.6));
+  filter:blur(45px);opacity:.4;animation:orb-idle 8s ease-in-out infinite;transition:opacity .6s,filter .6s}
+
+/* Listening state — orb intensifies, pulses faster */
+.ai-orb.li{opacity:.75;filter:blur(35px);animation:orb-listen 1.5s ease-in-out infinite}
+
+/* Speaking state — orb expands/contracts dynamically */
+.ai-orb.sp{opacity:.8;filter:blur(30px);animation:orb-speak 2s ease-in-out infinite}
+
+/* Thinking state — slow rotation */
+.ai-orb.th{opacity:.55;filter:blur(40px);animation:orb-think 3s linear infinite}
+
+@keyframes orb-idle{
+  0%,100%{transform:scale(1) rotate(0deg);border-radius:50%}
+  25%{transform:scale(1.03) rotate(90deg);border-radius:48% 52% 50% 50%}
+  50%{transform:scale(.97) rotate(180deg);border-radius:50% 48% 52% 50%}
+  75%{transform:scale(1.02) rotate(270deg);border-radius:52% 50% 48% 50%}
+}
+@keyframes orb-listen{
+  0%,100%{transform:scale(1) rotate(0deg);opacity:.7}
+  25%{transform:scale(1.12) rotate(45deg);opacity:.85}
+  50%{transform:scale(.95) rotate(90deg);opacity:.7}
+  75%{transform:scale(1.15) rotate(135deg);opacity:.9}
+}
+@keyframes orb-speak{
+  0%,100%{transform:scale(1) rotate(0deg);border-radius:50%}
+  15%{transform:scale(1.18) rotate(30deg);border-radius:45% 55% 50% 50%}
+  30%{transform:scale(.92) rotate(60deg);border-radius:55% 45% 48% 52%}
+  45%{transform:scale(1.14) rotate(100deg);border-radius:48% 52% 55% 45%}
+  60%{transform:scale(.96) rotate(140deg);border-radius:52% 48% 45% 55%}
+  75%{transform:scale(1.1) rotate(180deg);border-radius:50% 50% 52% 48%}
+}
+@keyframes orb-think{
+  0%{transform:rotate(0deg) scale(1)}
+  100%{transform:rotate(360deg) scale(1)}
+}
+
+/* Secondary inner glow ring */
+.ai-orb-inner{position:absolute;inset:30px;border-radius:50%;background:conic-gradient(from 180deg,
+  rgba(107,138,219,.3),
+  rgba(155,127,199,.25),
+  rgba(212,132,154,.3),
+  rgba(232,158,108,.25),
+  rgba(107,138,219,.3));
+  filter:blur(25px);opacity:.3;animation:orb-inner-spin 12s linear infinite reverse;transition:opacity .6s}
+.ai-orb.li~.ai-orb-inner,.ai-orb.sp~.ai-orb-inner{opacity:.6}
+@keyframes orb-inner-spin{to{transform:rotate(360deg)}}
+
+/* Pulsing rings — like Siri's ripple effect */
+.ai-pulse-ring{position:absolute;inset:-15px;border-radius:50%;border:1.5px solid rgba(107,138,219,.08);opacity:0;transition:opacity .4s}
+.ai-pulse-ring.r2{inset:-35px;border-color:rgba(155,127,199,.06)}
+.ai-pulse-ring.r3{inset:-55px;border-color:rgba(212,132,154,.04)}
+.vs-left.active .ai-pulse-ring{opacity:1;animation:pulse-expand 2.5s ease-out infinite}
+.vs-left.active .ai-pulse-ring.r2{animation-delay:.5s}
+.vs-left.active .ai-pulse-ring.r3{animation-delay:1s}
+@keyframes pulse-expand{0%{transform:scale(.95);opacity:.6}100%{transform:scale(1.15);opacity:0}}
+
+/* Sophie image inside the orb */
+.vs-sophie{position:relative;z-index:3;width:180px;height:auto;object-fit:contain;filter:drop-shadow(0 16px 40px rgba(0,0,0,.4));transition:transform .4s}
+.vs-left.speaking .vs-sophie{animation:sophie-bob 2s ease-in-out infinite}
+@keyframes sophie-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* Status text below Sophie */
+.vs-status{margin-top:24px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:rgba(255,255,255,.5);position:relative;z-index:3}
+.vs-status-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2);transition:.3s}
+.vs-status-dot.idle{background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.4)}
+.vs-status-dot.listening{background:var(--blue);box-shadow:0 0 8px rgba(107,138,219,.5);animation:blink 1s infinite}
+.vs-status-dot.speaking{background:var(--rose);box-shadow:0 0 8px rgba(212,132,154,.5);animation:blink 1.5s infinite}
+.vs-status-dot.thinking{background:var(--lav);box-shadow:0 0 8px rgba(155,127,199,.5);animation:blink .8s infinite}
+
+/* Waveform visualizer below Sophie */
+.vs-wave{display:flex;align-items:center;gap:2px;height:32px;margin-top:16px;position:relative;z-index:3}
+.vs-wave-bar{width:3px;border-radius:2px;height:6px;transition:height .08s;background:linear-gradient(to top,var(--blue),var(--lav))}
+.vs-wave-bar.active{animation:wave-dance .4s ease-in-out infinite alternate}
+.vs-wave-bar:nth-child(1){animation-delay:0s}.vs-wave-bar:nth-child(2){animation-delay:.04s}
+.vs-wave-bar:nth-child(3){animation-delay:.08s}.vs-wave-bar:nth-child(4){animation-delay:.12s}
+.vs-wave-bar:nth-child(5){animation-delay:.16s}.vs-wave-bar:nth-child(6){animation-delay:.2s}
+.vs-wave-bar:nth-child(7){animation-delay:.24s}.vs-wave-bar:nth-child(8){animation-delay:.28s}
+.vs-wave-bar:nth-child(9){animation-delay:.24s}.vs-wave-bar:nth-child(10){animation-delay:.2s}
+.vs-wave-bar:nth-child(11){animation-delay:.16s}.vs-wave-bar:nth-child(12){animation-delay:.12s}
+.vs-wave-bar:nth-child(13){animation-delay:.08s}
+@keyframes wave-dance{0%{height:4px;opacity:.4}100%{height:28px;opacity:1}}
+
+/* Right — Conversation panel */
+.vs-right{display:flex;flex-direction:column;padding:0 28px 24px 12px;min-height:0}
+
+/* Transcript area */
+.vs-transcript{flex:1;overflow-y:auto;padding:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:var(--r-lg);margin-bottom:16px;min-height:200px}
+.vs-transcript::-webkit-scrollbar{width:4px}
+.vs-transcript::-webkit-scrollbar-track{background:transparent}
+.vs-transcript::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
+.vs-tx-empty{text-align:center;color:rgba(255,255,255,.2);font-size:12px;padding:40px 0}
+
+/* Message bubbles */
+.vs-msg{margin-bottom:12px;display:flex;gap:10px;animation:msg-in .35s ease}
+@keyframes msg-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.vs-msg-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:2px}
+.vs-msg-avatar.sophie{background:linear-gradient(135deg,var(--blue),var(--lav));color:#fff;overflow:hidden}
+.vs-msg-avatar.sophie img{width:100%;height:100%;object-fit:cover}
+.vs-msg-avatar.user{background:rgba(255,255,255,.08);color:rgba(255,255,255,.6)}
+.vs-msg-body{flex:1}
+.vs-msg-name{font-size:9px;font-weight:600;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.vs-msg-text{font-size:13px;line-height:1.65;color:rgba(255,255,255,.85)}
+.vs-msg.sophie-msg .vs-msg-text{color:rgba(255,255,255,.92)}
+
+/* Thinking indicator */
+.vs-thinking{display:flex;align-items:center;gap:7px;font-size:12px;color:rgba(255,255,255,.4);padding:4px 0}
+.thk-dots{display:flex;gap:3px}
+.thk-dots span{width:5px;height:5px;border-radius:50%;background:var(--lav);animation:dp 1.2s infinite}
+.thk-dots span:nth-child(2){animation-delay:.15s}
+.thk-dots span:nth-child(3){animation-delay:.3s}
+@keyframes dp{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.3)}}
+
+/* Controls bar */
+.vs-controls{display:flex;align-items:center;gap:12px;padding:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:var(--r);justify-content:center}
+
+/* Mic button — large, prominent */
+.mic-btn{width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.25s;position:relative;overflow:hidden}
+.mic-btn.idle{background:var(--grad);color:#fff;box-shadow:0 4px 20px rgba(107,138,219,.3)}
+.mic-btn.idle:hover{transform:scale(1.06);box-shadow:0 6px 28px rgba(107,138,219,.4)}
+.mic-btn.recording{background:#ef4444;color:#fff;box-shadow:0 4px 20px rgba(239,68,68,.4);animation:mic-glow 1.5s ease-in-out infinite}
+@keyframes mic-glow{0%,100%{box-shadow:0 4px 20px rgba(239,68,68,.4)}50%{box-shadow:0 6px 36px rgba(239,68,68,.6)}}
+.mic-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;position:relative;z-index:1}
+.mic-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* End session button */
+.end-btn{padding:10px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;font-family:var(--font);font-size:12px;font-weight:500;color:rgba(255,255,255,.45);cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
+.end-btn:hover{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);color:#fca5a5}
+.end-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
 
 /* Text input */
-.tr{display:flex;gap:7px;width:100%;max-width:600px}
-.tr input{flex:1;padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;font-family:var(--font);font-size:13px;outline:none;transition:.15s}
-.tr input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(107,138,219,.08)}
-.tr button{padding:10px 16px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.15s}
-.tr button:hover{background:var(--navy-l)}
-.tr button svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+.vs-input{display:flex;gap:8px}
+.vs-input input{flex:1;padding:11px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;font-family:var(--font);font-size:13px;color:rgba(255,255,255,.85);outline:none;transition:.2s}
+.vs-input input::placeholder{color:rgba(255,255,255,.2)}
+.vs-input input:focus{border-color:rgba(107,138,219,.3);box-shadow:0 0 0 3px rgba(107,138,219,.06);background:rgba(255,255,255,.06)}
+.vs-input button{padding:11px 18px;background:var(--grad);color:#fff;border:none;border-radius:8px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.2s}
+.vs-input button:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(107,138,219,.3)}
+.vs-input button:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none}
+.vs-input button svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
 
-/* Thinking */
-.thk{display:flex;align-items:center;gap:7px;font-size:12px;color:#94a3b8}
-.dts{display:flex;gap:3px}
-.dts span{width:5px;height:5px;border-radius:50%;background:var(--lav);animation:dp 1.2s infinite}
-.dts span:nth-child(2){animation-delay:.15s}.dts span:nth-child(3){animation-delay:.3s}
-@keyframes dp{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.3)}}
+/* Floating ambient particles inside session */
+.vs-particle{position:absolute;border-radius:50%;pointer-events:none;z-index:1}
+.vp-1{width:3px;height:3px;background:var(--blue);top:15%;right:20%;opacity:.15;animation:float-p 10s ease-in-out infinite}
+.vp-2{width:2px;height:2px;background:var(--lav);bottom:20%;left:15%;opacity:.12;animation:float-p 14s ease-in-out infinite 3s}
+.vp-3{width:4px;height:4px;background:var(--rose);top:40%;right:10%;opacity:.1;animation:float-p 12s ease-in-out infinite 6s}
+.vp-4{width:2px;height:2px;background:var(--peach);bottom:30%;right:35%;opacity:.12;animation:float-p 9s ease-in-out infinite 2s}
 
 /* ─── DEBRIEF ─── */
 .db{max-width:760px;margin:0 auto}
@@ -265,9 +387,17 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
   .mn{padding:16px}
   .fg{grid-template-columns:1fr}
   .cta{flex-direction:column;text-align:center}
-  .vc{flex-direction:column}
-  .tr{flex-direction:column}
   .da{flex-direction:column}
+  .vs{margin:-16px;border-radius:0}
+  .vs-body{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .vs-left{padding:16px 16px 0;flex-direction:row;gap:16px;justify-content:center}
+  .ai-orb-container{width:140px;height:140px}
+  .vs-sophie{width:90px}
+  .ai-pulse-ring,.ai-pulse-ring.r2,.ai-pulse-ring.r3{display:none}
+  .vs-right{padding:0 16px 16px}
+  .vs-transcript{min-height:150px}
+  .vs-controls{flex-wrap:wrap}
+  .vs-input{flex-direction:column}
 }
 </style>
 </head>
@@ -313,8 +443,9 @@ At session end, generate:
 // ── DUAL-MODEL API ──────────────────────────────────────────────
 // Voice conversation: OpenAI GPT-4o (fast, natural dialogue)
 // Debrief & reports: Claude Haiku (structured output, cost-efficient)
-const CHAT_ENDPOINT = '/api/chat';     // → Netlify Function → OpenAI
+const CHAT_ENDPOINT = '/api/chat';       // → Netlify Function → OpenAI
 const DEBRIEF_ENDPOINT = '/api/debrief'; // → Netlify Function → Anthropic
+const TTS_ENDPOINT = '/api/tts';         // → Netlify Function → OpenAI TTS
 
 // Voice conversation — OpenAI GPT-4o
 async function ask(messages) {
@@ -427,7 +558,7 @@ function App(){
   const[cid,setCid]=useState(null);
   const[fe,setFe]=useState({});
 
-  const rr=useRef(null),sy=useRef(window.speechSynthesis),sr=useRef(null),mr=useRef(msgs);
+  const rr=useRef(null),sr=useRef(null),mr=useRef(msgs),audioRef=useRef(null);
   useEffect(()=>{mr.current=msgs},[msgs]);
   useEffect(()=>{sr.current?.scrollIntoView({behavior:'smooth'})},[tx]);
 
@@ -453,20 +584,50 @@ function App(){
     }catch(e){setErr(e.message);setStep('setup')}
   };
 
-  const say=t=>{if(!sy.current)return;sy.current.cancel();const u=new SpeechSynthesisUtterance(t);const v=sy.current.getVoices();const pk=v.find(x=>x.name.includes('Samantha'))||v.find(x=>x.name.includes('Karen'))||v.find(x=>x.lang.startsWith('en')&&x.name.includes('Google'))||v.find(x=>x.lang.startsWith('en'));if(pk)u.voice=pk;u.rate=1;u.pitch=1.05;u.onstart=()=>setTalk(true);u.onend=()=>setTalk(false);u.onerror=()=>setTalk(false);sy.current.speak(u)};
+  // OpenAI TTS — "shimmer" voice for Sophie (warm, clear, professional female)
+  // Falls back to Web Speech API if TTS endpoint fails
+  const say=async t=>{
+    // Stop any currently playing audio
+    if(audioRef.current){audioRef.current.pause();audioRef.current=null}
+    setTalk(true);
+    try{
+      const res=await fetch(TTS_ENDPOINT,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({text:t,voice:'shimmer',speed:1.05})
+      });
+      if(!res.ok)throw new Error('TTS failed');
+      const data=await res.json();
+      const audio=new Audio('data:audio/mp3;base64,'+data.audio);
+      audioRef.current=audio;
+      audio.onended=()=>{setTalk(false);audioRef.current=null};
+      audio.onerror=()=>{setTalk(false);audioRef.current=null};
+      await audio.play();
+    }catch(e){
+      // Fallback to Web Speech API
+      const sy=window.speechSynthesis;
+      if(!sy){setTalk(false);return}
+      sy.cancel();
+      const u=new SpeechSynthesisUtterance(t);
+      const v=sy.getVoices();
+      const pk=v.find(x=>x.name.includes('Samantha'))||v.find(x=>x.name.includes('Karen'))||v.find(x=>x.lang.startsWith('en')&&x.name.includes('Google'))||v.find(x=>x.lang.startsWith('en'));
+      if(pk)u.voice=pk;u.rate=1;u.pitch=1.05;
+      u.onstart=()=>setTalk(true);u.onend=()=>setTalk(false);u.onerror=()=>setTalk(false);
+      sy.speak(u);
+    }
+  };
 
-  const listen=()=>{if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){setErr('Speech not supported — use Chrome or type below.');return}const S=window.SpeechRecognition||window.webkitSpeechRecognition;const r=new S();r.continuous=false;r.interimResults=false;r.lang='en-US';r.onstart=()=>setHear(true);r.onresult=e=>{setHear(false);send(e.results[0][0].transcript)};r.onerror=e=>{setHear(false);if(e.error!=='no-speech')setErr(`Mic: ${e.error}`)};r.onend=()=>setHear(false);sy.current?.cancel();setTalk(false);r.start();rr.current=r};
+  const listen=()=>{if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){setErr('Speech not supported — use Chrome or type below.');return}const S=window.SpeechRecognition||window.webkitSpeechRecognition;const r=new S();r.continuous=false;r.interimResults=false;r.lang='en-US';r.onstart=()=>setHear(true);r.onresult=e=>{setHear(false);send(e.results[0][0].transcript)};r.onerror=e=>{setHear(false);if(e.error!=='no-speech')setErr(`Mic: ${e.error}`)};r.onend=()=>setHear(false);if(audioRef.current){audioRef.current.pause();audioRef.current=null}window.speechSynthesis?.cancel();setTalk(false);r.start();rr.current=r};
   const unlisten=()=>{rr.current?.stop();setHear(false)};
 
   const send=async t=>{if(!t.trim())return;const u=[...mr.current,{role:'user',content:t}];setMsgs(u);setTx(p=>[...p,{role:'u',text:t}]);setThink(true);try{const r=await ask(u);setMsgs(p=>[...p,{role:'assistant',content:r}]);setTx(p=>[...p,{role:'s',text:r}]);say(r)}catch(e){setErr(e.message)}finally{setThink(false)}};
   const sub=e=>{e.preventDefault();if(!ti.trim())return;send(ti);setTi('')};
 
-  const end=async()=>{sy.current?.cancel();rr.current?.stop();setHear(false);setTalk(false);setStep('debrief');setBriefing(true);try{setBrief(await genDebrief(mr.current))}catch(e){setBrief('Error: '+e.message)}finally{setBriefing(false)}};
+  const end=async()=>{if(audioRef.current){audioRef.current.pause();audioRef.current=null}window.speechSynthesis?.cancel();rr.current?.stop();setHear(false);setTalk(false);setStep('debrief');setBriefing(true);try{setBrief(await genDebrief(mr.current))}catch(e){setBrief('Error: '+e.message)}finally{setBriefing(false)}};
 
   const cp=(t,id)=>{navigator.clipboard.writeText(t);setCid(id);setTimeout(()=>setCid(null),2e3)};
   const reset=()=>{setStep('setup');setMsgs([]);setTx([]);setBrief('');setErr(null);setFiles([]);setFc('');setCtx('');setTi('')};
 
-  const os=hear?'li':talk?'sp':'id';
   const ps=t=>{const s={};t.split(/^## /m).filter(Boolean).forEach(p=>{const l=p.split('\n'),tt=l[0].trim(),b=l.slice(1).join('\n').trim();if(tt.includes('SIGNAL')||tt.includes('SYNOPSIS'))s.synopsis=b;else if(tt.includes('NEXT')||tt.includes('MOVE')||tt.includes('ACTION'))s.actions=b;else if(tt.includes('EMAIL')||tt.includes('FOLLOW')||tt.includes('MESSAGE'))s.email=b});return s};
   const sec=brief?ps(brief):{};
 
@@ -543,11 +704,85 @@ function App(){
       </div>}
 
       {step==='session'&&<div className="vs fi-a">
-        <div className="vs-orb-w"><div className={`vs-orb ${os}`}><div className="vs-ring"/><div className="bars">{[...Array(7)].map((_,i)=><div key={i} className="bar"/>)}</div></div></div>
-        <div className="vs-st"><span className={`sd ${hear?'li':talk?'sp':think?'on':''}`}/>{hear?'Listening...':talk?'Sophie is speaking...':think?'Sophie is thinking...':'Ready — tap the mic to talk'}</div>
-        <div className="tb">{tx.length===0&&<div className="tb-e">Your conversation will appear here...</div>}{tx.map((m,i)=><div key={i} className="tm"><div className={`ta ${m.role}`}>{m.role==='s'?'S':name[0]?.toUpperCase()||'Y'}</div><div><div className="tn">{m.role==='s'?'Sophie':name||'You'}</div><div className="tt">{m.text}</div></div></div>)}{think&&<div className="tm"><div className="ta s">S</div><div><div className="tn">Sophie</div><div className="thk"><div className="dts"><span/><span/><span/></div>Thinking...</div></div></div>}<div ref={sr}/></div>
-        <div className="vc"><button className={`mb ${hear?'rc':''}`} onClick={hear?unlisten:listen} disabled={think}>{hear?Ic.stop:Ic.mic}</button><button className="eb" onClick={end}>{Ic.sq}End Session</button></div>
-        <form className="tr" onSubmit={sub}><input placeholder="Or type your message..." value={ti} onChange={e=>setTi(e.target.value)} disabled={think}/><button type="submit" disabled={think||!ti.trim()}>{Ic.send}Send</button></form>
+        {/* Ambient particles */}
+        <div className="vs-particle vp-1"/><div className="vs-particle vp-2"/>
+        <div className="vs-particle vp-3"/><div className="vs-particle vp-4"/>
+
+        {/* Session header */}
+        <div className="vs-header">
+          <div className="vs-header-left">
+            <Mark s={16}/>
+            <span className="vs-header-name">Sophie</span>
+            <div className="vs-header-tag"><span className="vs-header-dot"/>Live Session</div>
+          </div>
+          <button className="end-btn" onClick={end}>{Ic.sq}<span>End Session</span></button>
+        </div>
+
+        {/* Main body — Sophie left, conversation right */}
+        <div className="vs-body">
+          {/* Left — Sophie with animated AI orb */}
+          <div className={`vs-left ${hear||talk?'active':''} ${talk?'speaking':''}`}>
+            <div className="ai-orb-container">
+              {/* The gradient orb — morphs based on state */}
+              <div className={`ai-orb ${hear?'li':talk?'sp':think?'th':''}`}/>
+              <div className="ai-orb-inner"/>
+              {/* Pulse rings */}
+              <div className="ai-pulse-ring"/>
+              <div className="ai-pulse-ring r2"/>
+              <div className="ai-pulse-ring r3"/>
+              {/* Sophie image */}
+              <img src="sophie.png" alt="Sophie" className="vs-sophie"/>
+            </div>
+
+            {/* Status indicator */}
+            <div className="vs-status">
+              <span className={`vs-status-dot ${hear?'listening':talk?'speaking':think?'thinking':'idle'}`}/>
+              {hear?'Listening...':talk?'Sophie is speaking...':think?'Analyzing...':'Ready'}
+            </div>
+
+            {/* Waveform visualizer */}
+            <div className="vs-wave">
+              {[...Array(13)].map((_,i)=><div key={i} className={`vs-wave-bar ${hear||talk?'active':''}`}/>)}
+            </div>
+          </div>
+
+          {/* Right — Conversation thread */}
+          <div className="vs-right">
+            <div className="vs-transcript">
+              {tx.length===0&&<div className="vs-tx-empty">Your conversation with Sophie will appear here...</div>}
+              {tx.map((m,i)=><div key={i} className={`vs-msg ${m.role==='s'?'sophie-msg':'user-msg'}`}>
+                <div className={`vs-msg-avatar ${m.role==='s'?'sophie':'user'}`}>
+                  {m.role==='s'?<img src="sophie.png" alt="S"/>:name[0]?.toUpperCase()||'Y'}
+                </div>
+                <div className="vs-msg-body">
+                  <div className="vs-msg-name">{m.role==='s'?'Sophie':name||'You'}</div>
+                  <div className="vs-msg-text">{m.text}</div>
+                </div>
+              </div>)}
+              {think&&<div className="vs-msg sophie-msg">
+                <div className="vs-msg-avatar sophie"><img src="sophie.png" alt="S"/></div>
+                <div className="vs-msg-body">
+                  <div className="vs-msg-name">Sophie</div>
+                  <div className="vs-thinking"><div className="thk-dots"><span/><span/><span/></div>Thinking...</div>
+                </div>
+              </div>}
+              <div ref={sr}/>
+            </div>
+
+            {/* Controls */}
+            <div className="vs-controls">
+              <button className={`mic-btn ${hear?'recording':'idle'}`} onClick={hear?unlisten:listen} disabled={think}>
+                {hear?Ic.stop:Ic.mic}
+              </button>
+            </div>
+
+            {/* Text input fallback */}
+            <form className="vs-input" onSubmit={sub} style={{marginTop:12}}>
+              <input placeholder="Or type a message..." value={ti} onChange={e=>setTi(e.target.value)} disabled={think}/>
+              <button type="submit" disabled={think||!ti.trim()}>{Ic.send}Send</button>
+            </form>
+          </div>
+        </div>
       </div>}
 
       {step==='debrief'&&<div className="db fi-a">

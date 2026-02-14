@@ -14,6 +14,12 @@
   to = "/.netlify/functions/debrief"
   status = 200
 
+# OpenAI TTS — Sophie's voice
+[[redirects]]
+  from = "/api/tts"
+  to = "/.netlify/functions/tts"
+  status = 200
+
 # SPA fallback — serve index.html for all routes
 [[redirects]]
   from = "/*"
