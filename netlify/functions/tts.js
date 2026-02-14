@@ -1,5 +1,5 @@
 /**
- * Sophie — AI Sales Analyst — Text-to-Speech Proxy (ElevenLabs)
+ * Sophie — AI Sales Intelligence Agent — Text-to-Speech Proxy (ElevenLabs)
  *
  * Netlify serverless function that proxies TTS requests to ElevenLabs.
  * Returns audio as base64-encoded mp3 for playback via Web Audio API.

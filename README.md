@@ -1,4 +1,4 @@
-# Sophie — AI Sales Analyst
+# Sophie — AI Sales Intelligence Agent
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/SITE_ID/deploy-status)](https://app.netlify.com/sites/sophie-voice-agent/deploys)
 

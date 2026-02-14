@@ -1,6 +1,6 @@
 # Architecture
 
-> Sophie — AI Sales Analyst — system design reference for engineers and reviewers.
+> Sophie — AI Sales Intelligence Agent — system design reference for engineers and reviewers.
 
 ## System Overview
 

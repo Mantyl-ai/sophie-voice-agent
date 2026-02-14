@@ -1,6 +1,6 @@
 # Deployment Guide
 
-> Sophie — AI Sales Analyst — operations runbook for production deployment and maintenance.
+> Sophie — AI Sales Intelligence Agent — operations runbook for production deployment and maintenance.
 
 ## Prerequisites
 

@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Report a bug in Sophie — AI Sales Analyst
+about: Report a bug in Sophie — AI Sales Intelligence Agent
 title: "[Bug] "
 labels: bug
 ---
