@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Sophie — AI Sales Intelligence | Mantyl</title>
-<meta name="description" content="Talk to Sophie, your AI sales intelligence agent. Upload context, have a live conversation, get a signal report and follow-up — in minutes."/>
+<title>Sophie — AI Sales Analyst | Mantyl</title>
+<meta name="description" content="Talk to Sophie, your AI Sales Analyst. Upload context, have a live conversation, get a signal report and follow-up — in minutes."/>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 44'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0%25' y1='100%25' x2='50%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%235A79CA'/%3E%3Cstop offset='100%25' stop-color='%238B6DB3'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='50%25' y1='100%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23C06E85'/%3E%3Cstop offset='100%25' stop-color='%23D4856A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M4 38 L18 6 L26 30 Z' fill='url(%23a)' opacity='.85'/%3E%3Cpath d='M22 30 L30 6 L44 38 Z' fill='url(%23b)' opacity='.75'/%3E%3C/svg%3E"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
@@ -548,7 +548,7 @@ const CAL='https://calendly.com/jose-mantyl/free-consultation-ai-automation';
 
 // ── SOPHIE IMAGE — uses deployed sophie.png ─────────────────────
 const SophiePortrait=({w=340})=>(
-<img src="sophie.png" alt="Sophie — AI Sales Intelligence Agent" className="sophie-img" style={{width:w}} />
+<img src="sophie.png" alt="Sophie — AI Sales Analyst" className="sophie-img" style={{width:w}} />
 );
 
 // ── System Prompt ────────────────────────────────────────────────
@@ -809,7 +809,7 @@ function App(){
   const [showTx,setShowTx]=useState(false);
 
   return(<div>
-    <header className="hdr"><div className="hdr-l"><a href="https://mantyl.ai" target="_blank" rel="noopener noreferrer"><Logo h={24}/></a><div className="hdr-div"/><span className="hdr-name">Sophie</span></div><div className="hdr-r"><span className="hdr-pill"><span className="hdr-dot"/>Voice AI</span><a href={CAL} target="_blank" rel="noopener noreferrer" className="hdr-cta">Book Now</a></div></header>
+    <header className="hdr"><div className="hdr-l"><a href="https://mantyl.ai" target="_blank" rel="noopener noreferrer"><Logo h={24}/></a><div className="hdr-div"/><span className="hdr-name">Sophie</span></div><div className="hdr-r"><span className="hdr-pill"><span className="hdr-dot"/>Sales Analyst</span><a href={CAL} target="_blank" rel="noopener noreferrer" className="hdr-cta">Book Now</a></div></header>
 
     {/* HERO */}
     <section className="hero">
@@ -820,8 +820,8 @@ function App(){
       <div className="hero-particle hp-4"/><div className="hero-particle hp-5"/><div className="hero-particle hp-6"/>
       <div className="hero-wrap">
         <div className="hero-left">
-          <div className="hero-eyebrow"><div className="hero-tag"><span className="hero-tag-dot"/>AI Sales Intelligence</div></div>
-          <h1 className="hero-h1">Meet <em>Sophie</em> — your<br/>voice-powered analyst.</h1>
+          <div className="hero-eyebrow"><div className="hero-tag"><span className="hero-tag-dot"/>AI Sales Analyst</div></div>
+          <h1 className="hero-h1">Meet <em>Sophie</em> — your<br/>voice-powered sales analyst.</h1>
           <p className="hero-p">Upload your notes, talk through the opportunity, and walk away with a signal report, next moves, and a ready-to-send follow-up. All in under five minutes.</p>
           <div className="hero-stats">
             <div className="hero-stat"><span className="hero-stat-num">30s</span><span className="hero-stat-label">Setup</span></div>

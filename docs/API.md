@@ -1,6 +1,6 @@
 # API Reference
 
-> Sophie Voice Agent — serverless function endpoint specifications.
+> Sophie — AI Sales Analyst — serverless function endpoint specifications.
 
 ## Base URL
 

@@ -1,5 +1,5 @@
 /**
- * Sophie Voice Agent — Chat Proxy
+ * Sophie — AI Sales Analyst — Chat Proxy
  *
  * Netlify serverless function that proxies conversation requests to OpenAI.
  * Used during the voice session phase for multi-turn dialogue with GPT-4o.

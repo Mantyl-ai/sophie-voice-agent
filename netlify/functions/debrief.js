@@ -1,5 +1,5 @@
 /**
- * Sophie Voice Agent — Debrief Proxy
+ * Sophie — AI Sales Analyst — Debrief Proxy
  *
  * Netlify serverless function that proxies debrief requests to Anthropic Claude.
  * Used after the voice session to generate the signal report, recommended next

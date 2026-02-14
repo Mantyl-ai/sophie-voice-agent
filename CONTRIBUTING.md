@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for your interest in contributing to Sophie Voice Agent.
+Thank you for your interest in contributing to Sophie — AI Sales Analyst.
 
 ## Development Setup
 

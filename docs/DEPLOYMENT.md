@@ -1,6 +1,6 @@
 # Deployment Guide
 
-> Sophie Voice Agent — operations runbook for production deployment and maintenance.
+> Sophie — AI Sales Analyst — operations runbook for production deployment and maintenance.
 
 ## Prerequisites
 
