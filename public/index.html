@@ -346,18 +346,18 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 .vp-3{width:4px;height:4px;background:var(--rose);top:40%;right:10%;opacity:.1;animation:float-p 12s ease-in-out infinite 6s}
 .vp-4{width:2px;height:2px;background:var(--peach);bottom:30%;right:35%;opacity:.12;animation:float-p 9s ease-in-out infinite 2s}
 
-/* ─── DEBRIEF — EXECUTIVE DASHBOARD ─── */
-.db{max-width:920px;margin:0 auto;padding-bottom:24px}
+/* ─── DEBRIEF — TABBED EXECUTIVE DASHBOARD ─── */
+.db{max-width:960px;margin:0 auto;padding-bottom:24px}
 
 /* Debrief hero / executive header */
-.db-hero{background:var(--navy);border-radius:var(--r-xl);padding:36px 40px 32px;margin-bottom:24px;position:relative;overflow:hidden}
+.db-hero{background:var(--navy);border-radius:var(--r-xl) var(--r-xl) 0 0;padding:32px 36px 24px;position:relative;overflow:hidden}
 .db-hero::before{content:'';position:absolute;inset:0;background:
   radial-gradient(ellipse 60% 50% at 80% 20%,rgba(107,138,219,.15) 0%,transparent 60%),
   radial-gradient(ellipse 40% 60% at 20% 80%,rgba(155,127,199,.1) 0%,transparent 55%);pointer-events:none}
-.db-hero-top{display:flex;align-items:flex-start;justify-content:space-between;position:relative;z-index:1;margin-bottom:28px}
-.db-hero-title{font-size:24px;font-weight:800;color:#fff;letter-spacing:-.5px;line-height:1.2}
+.db-hero-top{display:flex;align-items:flex-start;justify-content:space-between;position:relative;z-index:1;margin-bottom:20px}
+.db-hero-title{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.5px;line-height:1.2}
 .db-hero-title em{font-style:normal;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.db-hero-sub{font-size:13px;color:#64748b;margin-top:6px;font-weight:400}
+.db-hero-sub{font-size:12px;color:#64748b;margin-top:5px;font-weight:400}
 .db-hero-actions{display:flex;gap:8px}
 .db-hero-btn{padding:8px 18px;border-radius:8px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px;border:none}
 .db-hero-btn.primary{background:var(--grad);color:#fff;box-shadow:0 4px 14px rgba(107,138,219,.25)}
@@ -366,83 +366,103 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 .db-hero-btn.secondary:hover{background:rgba(255,255,255,.1);color:rgba(255,255,255,.85)}
 .db-hero-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
 
-/* Session metadata grid */
-.db-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;z-index:1}
-.db-meta-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px 16px}
-.db-meta-label{font-size:10px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
-.db-meta-value{font-size:14px;font-weight:600;color:rgba(255,255,255,.9);line-height:1.3}
+/* Session metadata grid — compact row */
+.db-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;position:relative;z-index:1}
+.db-meta-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px 14px}
+.db-meta-label{font-size:9px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.db-meta-value{font-size:13px;font-weight:600;color:rgba(255,255,255,.9);line-height:1.3}
 .db-meta-value.sm{font-size:12px;font-weight:500}
 
 /* Risk badge */
-.risk-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
+.risk-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:16px;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
 .risk-badge.green{background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.2)}
 .risk-badge.yellow{background:rgba(234,179,8,.12);color:#eab308;border:1px solid rgba(234,179,8,.2)}
 .risk-badge.red{background:rgba(239,68,68,.12);color:#ef4444;border:1px solid rgba(239,68,68,.2)}
-.risk-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.risk-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .risk-badge.green .risk-dot{background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.5)}
 .risk-badge.yellow .risk-dot{background:#eab308;box-shadow:0 0 8px rgba(234,179,8,.5)}
 .risk-badge.red .risk-dot{background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,.5)}
 
-/* Section cards */
-.db-section{background:#fff;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 3px rgba(15,23,42,.03),0 4px 12px rgba(15,23,42,.02);transition:box-shadow .2s}
-.db-section:hover{box-shadow:0 2px 6px rgba(15,23,42,.05),0 8px 24px rgba(15,23,42,.04)}
+/* ── Tabs Navigation (Chrome-style) ── */
+.db-tabs-wrap{background:var(--navy);border-bottom:3px solid var(--grad);padding:0 36px;position:sticky;top:56px;z-index:50}
+.db-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.db-tabs::-webkit-scrollbar{display:none}
+.db-tab{padding:12px 22px;font-family:var(--font);font-size:12px;font-weight:600;color:rgba(255,255,255,.4);cursor:pointer;border:none;background:rgba(255,255,255,.02);border-radius:10px 10px 0 0;transition:.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;position:relative}
+.db-tab:hover{color:rgba(255,255,255,.7);background:rgba(255,255,255,.04)}
+.db-tab.active{color:#fff;background:rgba(255,255,255,.08)}
+.db-tab.active::after{content:'';position:absolute;bottom:0;left:16px;right:16px;height:2px;background:var(--grad);border-radius:2px 2px 0 0}
+.db-tab-icon{width:16px;height:16px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.db-tab-icon svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+.db-tab-icon.blue{color:var(--blue)}
+.db-tab-icon.lav{color:var(--lav)}
+.db-tab-icon.rose{color:var(--rose)}
+.db-tab-icon.navy{color:rgba(255,255,255,.35)}
 
-/* Section with colored left accent */
-.db-section.accent-blue{border-left:4px solid var(--blue)}
-.db-section.accent-lav{border-left:4px solid var(--lav)}
-.db-section.accent-rose{border-left:4px solid var(--rose)}
-.db-section.accent-navy{border-left:4px solid var(--navy-ll)}
+/* ── Tab Panel (content area) ── */
+.db-panel{background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 var(--r-xl) var(--r-xl);min-height:420px;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(15,23,42,.04)}
 
-/* Section header */
-.db-sh{padding:18px 24px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f1f5f9}
-.db-sh-left{display:flex;align-items:center;gap:12px}
-.db-sh-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.db-sh-icon.blue{background:rgba(107,138,219,.08);color:var(--blue)}
-.db-sh-icon.lav{background:rgba(155,127,199,.08);color:var(--lav)}
-.db-sh-icon.rose{background:rgba(212,132,154,.08);color:var(--rose)}
-.db-sh-icon.navy{background:rgba(15,23,42,.05);color:var(--navy-ll)}
-.db-sh-text h3{font-size:15px;font-weight:700;color:var(--navy);letter-spacing:-.2px}
-.db-sh-text p{font-size:11px;color:#94a3b8;margin-top:2px;font-weight:400}
-.db-sh-right{display:flex;gap:6px}
+/* Panel header with copy */
+.db-ph{padding:20px 32px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f1f5f9}
+.db-ph-left{display:flex;align-items:center;gap:10px}
+.db-ph-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.db-ph-icon.blue{background:rgba(107,138,219,.08);color:var(--blue)}
+.db-ph-icon.lav{background:rgba(155,127,199,.08);color:var(--lav)}
+.db-ph-icon.rose{background:rgba(212,132,154,.08);color:var(--rose)}
+.db-ph-icon.navy{background:rgba(15,23,42,.04);color:var(--navy-ll)}
+.db-ph-icon svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+.db-ph-text h3{font-size:16px;font-weight:700;color:var(--navy);letter-spacing:-.3px}
+.db-ph-text p{font-size:11px;color:#94a3b8;margin-top:2px}
 
-/* Copy button refined */
+/* Copy button */
 .cp{padding:6px 14px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;font-family:var(--font);font-size:11px;font-weight:500;color:#94a3b8;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:5px}
 .cp:hover{border-color:var(--blue);color:var(--blue);background:#f8fafc}
 .cp.ok{border-color:#22c55e;color:#22c55e;background:rgba(34,197,94,.04)}
 .cp svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
 
-/* Section body */
-.db-sb{padding:20px 24px 24px}
-.db-sb p,.db-sb li{font-size:14px;line-height:1.75;color:var(--navy-l)}
-.db-sb strong{color:var(--navy);font-weight:600}
+/* Panel body */
+.db-pb{padding:24px 32px 32px}
 
-/* Signal findings list */
-.db-findings{list-style:none;padding:0;margin:0}
-.db-findings li{padding:10px 0;border-bottom:1px solid #f8fafc;display:flex;align-items:flex-start;gap:10px;font-size:13.5px;line-height:1.65;color:var(--navy-l)}
-.db-findings li:last-child{border-bottom:none}
-.db-findings li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:8px}
-.db-diagnosis{margin-top:16px;padding:16px 20px;background:#f8fafc;border-radius:12px;border-left:3px solid var(--blue);font-size:14px;line-height:1.75;color:var(--navy-l)}
+/* ── Rendered markdown text ── */
+.db-rich{font-size:14.5px;line-height:1.85;color:#334155}
+.db-rich strong,.db-rich b{color:var(--navy);font-weight:700}
+.db-rich em,.db-rich i{font-style:italic;color:#475569}
+.db-rich p{margin-bottom:14px}
+.db-rich p:last-child{margin-bottom:0}
 
-/* Numbered next moves */
-.db-moves{list-style:none;padding:0;margin:0;counter-reset:move}
-.db-moves li{counter-increment:move;padding:14px 0;border-bottom:1px solid #f1f5f9;display:flex;align-items:flex-start;gap:14px;font-size:14px;line-height:1.7;color:var(--navy-l)}
-.db-moves li:last-child{border-bottom:none}
-.db-moves li::before{content:counter(move);width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--lav),var(--rose));color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
+/* Signal findings — clean cards */
+.db-findings{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.db-findings li{padding:14px 18px;background:#f8fafc;border-radius:10px;border-left:3px solid var(--blue);font-size:14px;line-height:1.75;color:#334155}
+.db-findings li strong,.db-findings li b{color:var(--navy);font-weight:700}
+.db-diagnosis{margin-top:18px;padding:18px 22px;background:linear-gradient(135deg,rgba(107,138,219,.04),rgba(155,127,199,.04));border-radius:12px;border:1px solid rgba(107,138,219,.12);font-size:14.5px;line-height:1.8;color:#334155}
+.db-diagnosis strong{color:var(--navy);font-weight:700}
+.db-diagnosis-label{font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
 
-/* Email preview */
-.db-email{background:#fafbfc;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;margin:0}
-.db-email-header{padding:14px 20px;border-bottom:1px solid #e2e8f0;background:#fff}
-.db-email-row{display:flex;align-items:center;gap:8px;font-size:12px;margin-bottom:6px}
+/* Numbered next moves — clean layout */
+.db-moves{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:4px}
+.db-moves li{display:flex;align-items:flex-start;gap:16px;padding:18px 20px;border-radius:10px;transition:background .15s}
+.db-moves li:hover{background:#f8fafc}
+.db-moves-num{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--lav),var(--rose));color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;margin-top:1px}
+.db-moves-content{flex:1;min-width:0}
+.db-moves-title{font-size:14.5px;font-weight:700;color:var(--navy);line-height:1.4;margin-bottom:6px}
+.db-moves-desc{font-size:13.5px;line-height:1.75;color:#475569}
+.db-moves-desc strong{font-weight:600;color:var(--navy)}
+
+/* Email preview — polished */
+.db-email{border-radius:12px;border:1px solid #e2e8f0;overflow:hidden}
+.db-email-header{padding:16px 22px;border-bottom:1px solid #e2e8f0;background:#fafbfc}
+.db-email-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .db-email-row:last-child{margin-bottom:0}
-.db-email-label{font-weight:600;color:#94a3b8;width:60px;flex-shrink:0;text-transform:uppercase;font-size:10px;letter-spacing:.04em}
-.db-email-val{font-weight:500;color:var(--navy);font-size:13px}
-.db-email-body{padding:20px 24px;font-size:14px;line-height:1.8;color:var(--navy-l);white-space:pre-wrap;word-wrap:break-word;font-family:var(--font)}
+.db-email-label{font-weight:700;color:#94a3b8;width:56px;flex-shrink:0;text-transform:uppercase;font-size:10px;letter-spacing:.04em}
+.db-email-val{font-weight:500;color:var(--navy);font-size:13.5px}
+.db-email-body{padding:24px 28px;font-size:14.5px;line-height:1.85;color:#334155;font-family:var(--font)}
+.db-email-body p{margin-bottom:12px}
+.db-email-body p:last-child{margin-bottom:0}
 
-/* Transcript section */
-.db-transcript{max-height:400px;overflow-y:auto;padding:0}
+/* Transcript — full height in panel */
+.db-transcript{max-height:520px;overflow-y:auto;padding:4px 0}
 .db-transcript::-webkit-scrollbar{width:4px}
 .db-transcript::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:4px}
-.db-tx-msg{display:flex;gap:12px;padding:14px 24px;border-bottom:1px solid #fafbfc;transition:background .15s}
+.db-tx-msg{display:flex;gap:12px;padding:14px 32px;border-bottom:1px solid #fafbfc;transition:background .15s}
 .db-tx-msg:hover{background:#fafbfc}
 .db-tx-msg:last-child{border-bottom:none}
 .db-tx-avatar{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
@@ -451,13 +471,7 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 .db-tx-avatar.user{background:#f1f5f9;color:var(--navy-ll)}
 .db-tx-body{flex:1;min-width:0}
 .db-tx-name{font-size:11px;font-weight:600;color:var(--navy);margin-bottom:3px}
-.db-tx-text{font-size:13px;line-height:1.65;color:var(--navy-l)}
-
-/* Collapsible transcript toggle */
-.db-collapse-btn{width:100%;padding:12px;background:#f8fafc;border:none;border-top:1px solid #e2e8f0;font-family:var(--font);font-size:12px;font-weight:500;color:#94a3b8;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:.15s}
-.db-collapse-btn:hover{background:#f1f5f9;color:var(--navy-ll)}
-.db-collapse-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .2s}
-.db-collapse-btn.open svg{transform:rotate(180deg)}
+.db-tx-text{font-size:13.5px;line-height:1.7;color:#475569}
 
 /* Action footer */
 .db-actions{display:flex;gap:12px;margin-top:8px;padding:20px 0;border-top:1px solid #f1f5f9}
@@ -807,6 +821,48 @@ function App(){
   };
   const sec=brief?ps(brief):{raw:'',risk:'yellow',signals:[],diagnosis:'',moves:[],emailSubject:'',emailBody:''};
   const [showTx,setShowTx]=useState(false);
+  const [dbTab,setDbTab]=useState('signals');
+
+  // ── Markdown-to-JSX renderer (handles **bold**, *italic*, line breaks) ──
+  const md=t=>{
+    if(!t)return null;
+    // Split into paragraphs on double newlines
+    const paras=t.split(/\n\n+/).filter(Boolean);
+    return paras.map((p,pi)=>{
+      // Process inline markdown per paragraph
+      const parts=[];let last=0;
+      const rx=/(\*\*(.+?)\*\*|\*(.+?)\*)/g;
+      let m;
+      while((m=rx.exec(p))!==null){
+        if(m.index>last)parts.push(p.slice(last,m.index));
+        if(m[2])parts.push(React.createElement('strong',{key:`b${pi}-${m.index}`},m[2]));
+        else if(m[3])parts.push(React.createElement('em',{key:`i${pi}-${m.index}`},m[3]));
+        last=m.index+m[0].length;
+      }
+      if(last<p.length)parts.push(p.slice(last));
+      // Convert single newlines to <br/>
+      const final=[];
+      parts.forEach((seg,si)=>{
+        if(typeof seg==='string'){
+          seg.split('\n').forEach((line,li)=>{
+            if(li>0)final.push(React.createElement('br',{key:`br${pi}-${si}-${li}`}));
+            if(line)final.push(line);
+          });
+        }else final.push(seg);
+      });
+      return React.createElement('p',{key:`p${pi}`},final);
+    });
+  };
+
+  // Parse move text into title + description
+  const parseMove=t=>{
+    // Match pattern like "Title (by date)": description  OR  "**Title**: description"
+    const m1=t.match(/^\*\*(.+?)\*\*[:\s]*(.+)/s);
+    if(m1)return{title:m1[1],desc:m1[2].trim()};
+    const m2=t.match(/^([^:]+?):\s*(.+)/s);
+    if(m2&&m2[1].length<80)return{title:m2[1],desc:m2[2].trim()};
+    return{title:'',desc:t};
+  };
 
   return(<div>
     <header className="hdr"><div className="hdr-l"><a href="https://mantyl.ai" target="_blank" rel="noopener noreferrer"><Logo h={24}/></a><div className="hdr-div"/><span className="hdr-name">Sophie</span></div><div className="hdr-r"><span className="hdr-pill"><span className="hdr-dot"/>AI Agent</span><a href={CAL} target="_blank" rel="noopener noreferrer" className="hdr-cta">Book Now</a></div></header>
@@ -999,122 +1055,116 @@ function App(){
               </div>
             </div>
             <div className="db-meta">
-              <div className="db-meta-item">
-                <div className="db-meta-label">Account</div>
-                <div className="db-meta-value">{prospect||'—'}</div>
-              </div>
-              <div className="db-meta-item">
-                <div className="db-meta-label">Stage</div>
-                <div className="db-meta-value sm">{stage||'—'}</div>
-              </div>
-              <div className="db-meta-item">
-                <div className="db-meta-label">Exchanges</div>
-                <div className="db-meta-value">{tx.length}</div>
-              </div>
-              <div className="db-meta-item">
-                <div className="db-meta-label">Risk Level</div>
-                <div className="db-meta-value">
-                  <span className={`risk-badge ${sec.risk}`}><span className="risk-dot"/>{sec.risk.toUpperCase()}</span>
-                </div>
-              </div>
+              <div className="db-meta-item"><div className="db-meta-label">Account</div><div className="db-meta-value">{prospect||'—'}</div></div>
+              <div className="db-meta-item"><div className="db-meta-label">Stage</div><div className="db-meta-value sm">{stage||'—'}</div></div>
+              <div className="db-meta-item"><div className="db-meta-label">Exchanges</div><div className="db-meta-value">{tx.length}</div></div>
+              <div className="db-meta-item"><div className="db-meta-label">Risk Level</div><div className="db-meta-value"><span className={`risk-badge ${sec.risk}`}><span className="risk-dot"/>{sec.risk.toUpperCase()}</span></div></div>
             </div>
           </div>
 
-          {/* ── Signal Report ── */}
-          {(sec.signals.length>0||sec.diagnosis)&&<div className="db-section accent-blue">
-            <div className="db-sh">
-              <div className="db-sh-left">
-                <div className="db-sh-icon blue">{Ic.chart}</div>
-                <div className="db-sh-text"><h3>Signal Report</h3><p>Key findings from the conversation</p></div>
-              </div>
-              <div className="db-sh-right">
+          {/* ── Tab Navigation ── */}
+          <div className="db-tabs-wrap">
+            <div className="db-tabs">
+              <button className={`db-tab ${dbTab==='signals'?'active':''}`} onClick={()=>setDbTab('signals')}>
+                <span className="db-tab-icon blue">{Ic.chart}</span>Signal Report
+              </button>
+              <button className={`db-tab ${dbTab==='moves'?'active':''}`} onClick={()=>setDbTab('moves')}>
+                <span className="db-tab-icon lav">{Ic.target}</span>Next Moves
+              </button>
+              <button className={`db-tab ${dbTab==='email'?'active':''}`} onClick={()=>setDbTab('email')}>
+                <span className="db-tab-icon rose">{Ic.mail}</span>Follow-Up Email
+              </button>
+              <button className={`db-tab ${dbTab==='transcript'?'active':''}`} onClick={()=>setDbTab('transcript')}>
+                <span className="db-tab-icon navy">{Ic.msg}</span>Transcript ({tx.length})
+              </button>
+            </div>
+          </div>
+
+          {/* ── Tab Panel Content ── */}
+          <div className="db-panel">
+
+            {/* Signal Report */}
+            {dbTab==='signals'&&<>
+              <div className="db-ph">
+                <div className="db-ph-left">
+                  <div className="db-ph-icon blue">{Ic.chart}</div>
+                  <div className="db-ph-text"><h3>Signal Report</h3><p>Key findings from the conversation</p></div>
+                </div>
                 <button className={`cp ${cid==='s'?'ok':''}`} onClick={()=>cp(sec.synopsis||'','s')}>{Ic.copy}{cid==='s'?'Copied':'Copy'}</button>
               </div>
-            </div>
-            <div className="db-sb">
-              {sec.signals.length>0&&<ul className="db-findings">{sec.signals.map((s,i)=><li key={i}>{s}</li>)}</ul>}
-              {sec.diagnosis&&<div className="db-diagnosis"><strong>Diagnosis:</strong> {sec.diagnosis}</div>}
-            </div>
-          </div>}
-
-          {/* ── Recommended Next Moves ── */}
-          {sec.moves.length>0&&<div className="db-section accent-lav">
-            <div className="db-sh">
-              <div className="db-sh-left">
-                <div className="db-sh-icon lav">{Ic.target}</div>
-                <div className="db-sh-text"><h3>Recommended Next Moves</h3><p>Prioritized actions to advance this opportunity</p></div>
+              <div className="db-pb">
+                {sec.signals.length>0?<>
+                  <ul className="db-findings">{sec.signals.map((s,i)=><li key={i}>{md(s)}</li>)}</ul>
+                  {sec.diagnosis&&<div className="db-diagnosis"><div className="db-diagnosis-label">Diagnosis</div><div className="db-rich">{md(sec.diagnosis)}</div></div>}
+                </>:<div className="db-rich">{md(sec.raw||brief)}</div>}
               </div>
-              <div className="db-sh-right">
+            </>}
+
+            {/* Next Moves */}
+            {dbTab==='moves'&&<>
+              <div className="db-ph">
+                <div className="db-ph-left">
+                  <div className="db-ph-icon lav">{Ic.target}</div>
+                  <div className="db-ph-text"><h3>Recommended Next Moves</h3><p>Prioritized actions to advance this opportunity</p></div>
+                </div>
                 <button className={`cp ${cid==='a'?'ok':''}`} onClick={()=>cp(sec.actions||'','a')}>{Ic.copy}{cid==='a'?'Copied':'Copy'}</button>
               </div>
-            </div>
-            <div className="db-sb">
-              <ol className="db-moves">{sec.moves.map((m,i)=><li key={i}><span>{m}</span></li>)}</ol>
-            </div>
-          </div>}
-
-          {/* ── Draft Follow-Up Email ── */}
-          {(sec.emailSubject||sec.emailBody)&&<div className="db-section accent-rose">
-            <div className="db-sh">
-              <div className="db-sh-left">
-                <div className="db-sh-icon rose">{Ic.mail}</div>
-                <div className="db-sh-text"><h3>Draft Follow-Up Email</h3><p>Ready to review, personalize, and send</p></div>
+              <div className="db-pb">
+                {sec.moves.length>0?<ol className="db-moves">{sec.moves.map((m,i)=>{
+                  const pm=parseMove(m);
+                  return <li key={i}>
+                    <span className="db-moves-num">{i+1}</span>
+                    <div className="db-moves-content">
+                      {pm.title&&<div className="db-moves-title">{pm.title}</div>}
+                      <div className="db-moves-desc">{md(pm.desc)}</div>
+                    </div>
+                  </li>
+                })}</ol>:<div className="db-rich" style={{color:'#94a3b8'}}>No specific moves were identified. Review the signal report for insights.</div>}
               </div>
-              <div className="db-sh-right">
+            </>}
+
+            {/* Follow-Up Email */}
+            {dbTab==='email'&&<>
+              <div className="db-ph">
+                <div className="db-ph-left">
+                  <div className="db-ph-icon rose">{Ic.mail}</div>
+                  <div className="db-ph-text"><h3>Draft Follow-Up Email</h3><p>Ready to review, personalize, and send</p></div>
+                </div>
                 <button className={`cp ${cid==='e'?'ok':''}`} onClick={()=>cp(sec.email||'','e')}>{Ic.copy}{cid==='e'?'Copied':'Copy'}</button>
               </div>
-            </div>
-            <div className="db-sb">
-              <div className="db-email">
-                {sec.emailSubject&&<div className="db-email-header">
-                  <div className="db-email-row"><span className="db-email-label">To</span><span className="db-email-val">{prospect||'Prospect'}</span></div>
-                  <div className="db-email-row"><span className="db-email-label">Subject</span><span className="db-email-val" style={{fontWeight:600}}>{sec.emailSubject}</span></div>
-                </div>}
-                <div className="db-email-body">{sec.emailBody}</div>
+              <div className="db-pb">
+                <div className="db-email">
+                  {sec.emailSubject&&<div className="db-email-header">
+                    <div className="db-email-row"><span className="db-email-label">To</span><span className="db-email-val">{prospect||'Prospect'}</span></div>
+                    <div className="db-email-row"><span className="db-email-label">Subject</span><span className="db-email-val" style={{fontWeight:700}}>{sec.emailSubject}</span></div>
+                  </div>}
+                  <div className="db-email-body">{md(sec.emailBody)}</div>
+                </div>
               </div>
-            </div>
-          </div>}
+            </>}
 
-          {/* ── Fallback if parsing failed ── */}
-          {!sec.signals.length&&!sec.moves.length&&!sec.emailBody&&brief&&<div className="db-section accent-navy">
-            <div className="db-sh">
-              <div className="db-sh-left">
-                <div className="db-sh-icon navy">{Ic.clip}</div>
-                <div className="db-sh-text"><h3>Full Debrief</h3><p>Complete analysis from Sophie</p></div>
-              </div>
-              <div className="db-sh-right">
-                <button className={`cp ${cid==='f'?'ok':''}`} onClick={()=>cp(brief,'f')}>{Ic.copy}{cid==='f'?'Copied':'Copy'}</button>
-              </div>
-            </div>
-            <div className="db-sb"><p style={{whiteSpace:'pre-wrap',lineHeight:1.8}}>{brief}</p></div>
-          </div>}
-
-          {/* ── Conversation Transcript (collapsible) ── */}
-          <div className="db-section accent-navy">
-            <div className="db-sh">
-              <div className="db-sh-left">
-                <div className="db-sh-icon navy">{Ic.msg}</div>
-                <div className="db-sh-text"><h3>Conversation Transcript</h3><p>{tx.length} exchanges between {name||'you'} and Sophie</p></div>
-              </div>
-              <div className="db-sh-right">
+            {/* Transcript */}
+            {dbTab==='transcript'&&<>
+              <div className="db-ph">
+                <div className="db-ph-left">
+                  <div className="db-ph-icon navy">{Ic.msg}</div>
+                  <div className="db-ph-text"><h3>Conversation Transcript</h3><p>{tx.length} exchanges between {name||'you'} and Sophie</p></div>
+                </div>
                 <button className={`cp ${cid==='t'?'ok':''}`} onClick={()=>cp(tx.map(m=>`${m.role==='s'?'Sophie':name}: ${m.text}`).join('\n\n'),'t')}>{Ic.copy}{cid==='t'?'Copied':'Copy'}</button>
               </div>
-            </div>
-            {showTx&&<div className="db-transcript">
-              {tx.map((m,i)=><div key={i} className="db-tx-msg">
-                <div className={`db-tx-avatar ${m.role==='s'?'sophie':'user'}`}>
-                  {m.role==='s'?<img src="sophie.png" alt="S"/>:name[0]?.toUpperCase()||'Y'}
-                </div>
-                <div className="db-tx-body">
-                  <div className="db-tx-name">{m.role==='s'?'Sophie':name||'You'}</div>
-                  <div className="db-tx-text">{m.text}</div>
-                </div>
-              </div>)}
-            </div>}
-            <button className={`db-collapse-btn ${showTx?'open':''}`} onClick={()=>setShowTx(!showTx)}>
-              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-              {showTx?'Hide Transcript':`Show Full Transcript (${tx.length} messages)`}
-            </button>
+              <div className="db-transcript">
+                {tx.map((m,i)=><div key={i} className="db-tx-msg">
+                  <div className={`db-tx-avatar ${m.role==='s'?'sophie':'user'}`}>
+                    {m.role==='s'?<img src="sophie.png" alt="S"/>:name[0]?.toUpperCase()||'Y'}
+                  </div>
+                  <div className="db-tx-body">
+                    <div className="db-tx-name">{m.role==='s'?'Sophie':name||'You'}</div>
+                    <div className="db-tx-text">{m.text}</div>
+                  </div>
+                </div>)}
+              </div>
+            </>}
+
           </div>
 
           {/* ── Action Footer ── */}
