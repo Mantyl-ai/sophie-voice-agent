@@ -296,10 +296,11 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 @keyframes dp{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.3)}}
 
 /* Controls bar */
-.vs-controls{display:flex;align-items:center;gap:12px;padding:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:var(--r);justify-content:center}
+.vs-controls{display:flex;align-items:center;gap:16px;padding:18px 20px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:var(--r);justify-content:center;flex-direction:column}
+.vs-controls-row{display:flex;align-items:center;gap:16px;justify-content:center;width:100%}
 
 /* Mic button — large, prominent */
-.mic-btn{width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.25s;position:relative;overflow:hidden}
+.mic-btn{width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.25s;position:relative;overflow:hidden;flex-shrink:0}
 .mic-btn.idle{background:var(--grad);color:#fff;box-shadow:0 4px 20px rgba(107,138,219,.3)}
 .mic-btn.idle:hover{transform:scale(1.06);box-shadow:0 6px 28px rgba(107,138,219,.4)}
 .mic-btn.recording{background:#ef4444;color:#fff;box-shadow:0 4px 20px rgba(239,68,68,.4);animation:mic-glow 1.5s ease-in-out infinite}
@@ -307,15 +308,30 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 .mic-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;position:relative;z-index:1}
 .mic-btn:disabled{opacity:.4;cursor:not-allowed}
 
-/* End session button */
+/* Mic label — guides user to press to talk */
+.mic-label{font-size:12px;font-weight:500;color:rgba(255,255,255,.5);text-align:center;letter-spacing:.01em;line-height:1.4;max-width:120px}
+.mic-label strong{color:rgba(255,255,255,.75);font-weight:600}
+.mic-label.recording-label{color:rgba(239,68,68,.7)}
+.mic-label.recording-label strong{color:#fca5a5}
+
+/* End session button — prominent so user knows to exit */
 .end-btn{padding:10px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;font-family:var(--font);font-size:12px;font-weight:500;color:rgba(255,255,255,.45);cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
 .end-btn:hover{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);color:#fca5a5}
 .end-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
 
+/* Session exit hint — tells user to press End when done */
+.vs-exit-hint{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:rgba(255,255,255,.28);padding:0;margin-top:2px}
+.vs-exit-hint svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;opacity:.5}
+
+/* Divider between text input and voice */
+.vs-input-divider{display:flex;align-items:center;gap:10px;margin-top:14px;margin-bottom:2px}
+.vs-input-divider-line{flex:1;height:1px;background:rgba(255,255,255,.06)}
+.vs-input-divider-text{font-size:10px;font-weight:500;color:rgba(255,255,255,.2);text-transform:uppercase;letter-spacing:.06em}
+
 /* Text input */
 .vs-input{display:flex;gap:8px}
 .vs-input input{flex:1;padding:11px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;font-family:var(--font);font-size:13px;color:rgba(255,255,255,.85);outline:none;transition:.2s}
-.vs-input input::placeholder{color:rgba(255,255,255,.2)}
+.vs-input input::placeholder{color:rgba(255,255,255,.18)}
 .vs-input input:focus{border-color:rgba(107,138,219,.3);box-shadow:0 0 0 3px rgba(107,138,219,.06);background:rgba(255,255,255,.06)}
 .vs-input button{padding:11px 18px;background:var(--grad);color:#fff;border:none;border-radius:8px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.2s}
 .vs-input button:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(107,138,219,.3)}
@@ -397,6 +413,9 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
   .vs-right{padding:0 16px 16px}
   .vs-transcript{min-height:150px}
   .vs-controls{flex-wrap:wrap}
+  .vs-controls-row{flex-wrap:wrap;gap:10px}
+  .mic-label{font-size:11px;max-width:100px}
+  .vs-exit-hint{font-size:10px;text-align:center}
   .vs-input{flex-direction:column}
 }
 </style>
@@ -445,7 +464,7 @@ At session end, generate:
 // Debrief & reports: Claude Haiku (structured output, cost-efficient)
 const CHAT_ENDPOINT = '/api/chat';       // → Netlify Function → OpenAI
 const DEBRIEF_ENDPOINT = '/api/debrief'; // → Netlify Function → Anthropic
-const TTS_ENDPOINT = '/api/tts';         // → Netlify Function → OpenAI TTS
+const TTS_ENDPOINT = '/api/tts';         // → Netlify Function → ElevenLabs TTS
 
 // Voice conversation — OpenAI GPT-4o
 async function ask(messages) {
@@ -584,7 +603,7 @@ function App(){
     }catch(e){setErr(e.message);setStep('setup')}
   };
 
-  // OpenAI TTS — "shimmer" voice for Sophie (warm, clear, professional female)
+  // ElevenLabs TTS — Sophie's voice (warm, professional female)
   // Falls back to Web Speech API if TTS endpoint fails
   const say=async t=>{
     // Stop any currently playing audio
@@ -715,7 +734,7 @@ function App(){
             <span className="vs-header-name">Sophie</span>
             <div className="vs-header-tag"><span className="vs-header-dot"/>Live Session</div>
           </div>
-          <button className="end-btn" onClick={end}>{Ic.sq}<span>End Session</span></button>
+          <button className="end-btn" onClick={end}>{Ic.sq}<span>End & Get Report</span></button>
         </div>
 
         {/* Main body — Sophie left, conversation right */}
@@ -771,14 +790,31 @@ function App(){
 
             {/* Controls */}
             <div className="vs-controls">
-              <button className={`mic-btn ${hear?'recording':'idle'}`} onClick={hear?unlisten:listen} disabled={think}>
-                {hear?Ic.stop:Ic.mic}
-              </button>
+              <div className="vs-controls-row">
+                <div className={`mic-label ${hear?'recording-label':''}`}>
+                  {hear?<><strong>Listening...</strong><br/>Press to stop</>:talk?<><strong>Sophie is speaking</strong><br/>Wait to respond</>:<><strong>Press to talk</strong><br/>with Sophie</>}
+                </div>
+                <button className={`mic-btn ${hear?'recording':'idle'}`} onClick={hear?unlisten:listen} disabled={think||talk}>
+                  {hear?Ic.stop:Ic.mic}
+                </button>
+                <button className="end-btn" onClick={end} title="End conversation and get your debrief">{Ic.sq}<span>End & Get Report</span></button>
+              </div>
+              <div className="vs-exit-hint">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Press "End & Get Report" when you're done to receive your signal report, next moves, and follow-up email.
+              </div>
             </div>
 
-            {/* Text input fallback */}
-            <form className="vs-input" onSubmit={sub} style={{marginTop:12}}>
-              <input placeholder="Or type a message..." value={ti} onChange={e=>setTi(e.target.value)} disabled={think}/>
+            {/* Divider — or type instead */}
+            <div className="vs-input-divider">
+              <div className="vs-input-divider-line"/>
+              <span className="vs-input-divider-text">or type instead</span>
+              <div className="vs-input-divider-line"/>
+            </div>
+
+            {/* Text input alternative */}
+            <form className="vs-input" onSubmit={sub} style={{marginTop:4}}>
+              <input placeholder="Type your message to Sophie..." value={ti} onChange={e=>setTi(e.target.value)} disabled={think}/>
               <button type="submit" disabled={think||!ti.trim()}>{Ic.send}Send</button>
             </form>
           </div>
