@@ -1,0 +1,41 @@
+{
+  "name": "sophie-voice-agent",
+  "version": "1.0.0",
+  "description": "Sophie — AI Sales Intelligence Voice Agent by Mantyl. Dual-model architecture: OpenAI GPT-4o for voice conversation, Anthropic Claude Haiku for debrief generation.",
+  "private": true,
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'Static site — no build step required'",
+    "deploy": "netlify deploy --prod",
+    "deploy:preview": "netlify deploy",
+    "logs:chat": "netlify logs:function chat",
+    "logs:debrief": "netlify logs:function debrief",
+    "link": "netlify link",
+    "status": "netlify status"
+  },
+  "keywords": [
+    "ai",
+    "voice-agent",
+    "sales-intelligence",
+    "mantyl",
+    "openai",
+    "anthropic",
+    "claude",
+    "gpt-4o",
+    "netlify-functions",
+    "web-speech-api"
+  ],
+  "author": "Mantyl <hello@mantyl.ai> (https://mantyl.ai)",
+  "license": "MIT",
+  "homepage": "https://sophie.mantyl.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mantyl/sophie-voice-agent"
+  },
+  "bugs": {
+    "url": "https://github.com/mantyl/sophie-voice-agent/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

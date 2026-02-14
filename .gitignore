@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build
+.netlify/
+dist/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dev versions (keep only production files in public/)
+katie-v1.html
+sophie-v1.html
+sophie-v2.html
+index.html
+
+# Source assets (processed versions live in public/)
+d8bdba4a-*.png
+new_sophie.png
+higher_quality_sophie.png
+sophie.png
+
+# Keep public/sophie.png (the processed version)
+!public/sophie.png
