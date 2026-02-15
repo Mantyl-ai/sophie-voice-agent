@@ -57,7 +57,7 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 .hero-stat-label{font-size:11px;color:#64748b;font-weight:500;margin-top:4px}
 
 /* Right — Sophie showcase */
-.hero-right{position:relative;display:flex;align-items:center;justify-content:center;padding:32px 0}
+.hero-right{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:52px 0 20px}
 
 /* Sophie container with brand gradient background */
 .sophie-showcase{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center}
@@ -99,7 +99,7 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,black,transparent);-webkit-mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,black,transparent)}
 
 /* Sophie preview audio button */
-.sophie-preview{position:relative;z-index:4;margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.sophie-preview{position:relative;z-index:4;margin-top:auto;padding-top:12px;display:flex;flex-direction:column;align-items:center;gap:6px}
 .sophie-preview-label{font-size:10px;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
 .sophie-preview-btn{display:inline-flex;align-items:center;gap:10px;padding:12px 28px;background:rgba(255,255,255,.06);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.12);border-radius:48px;cursor:pointer;transition:all .25s;font-family:var(--font);font-size:13px;font-weight:600;color:rgba(255,255,255,.9);box-shadow:0 4px 24px rgba(0,0,0,.2)}
 .sophie-preview-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(107,138,219,.35);transform:translateY(-2px);box-shadow:0 8px 32px rgba(107,138,219,.15)}
@@ -565,11 +565,11 @@ function App(){
             <div className="sophie-ring"/>
             <div className="sophie-ring-2"/>
             <SophiePortrait w={320}/>
-            <SophiePreview/>
           </div>
           <div className="insight-card ic-1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B8ADB" strokeWidth="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><div><div className="insight-card-text">Signal detected</div><div className="insight-card-sub">Timeline avoidance</div></div></div>
           <div className="insight-card ic-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D4849A" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div><div className="insight-card-text">Risk analysis</div><div className="insight-card-sub">Single-threaded</div></div></div>
           <div className="insight-card ic-3"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E89E6C" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><div><div className="insight-card-text">Follow-up ready</div><div className="insight-card-sub">Auto-drafted</div></div></div>
+          <SophiePreview/>
         </div>
       </div>
     </section>
