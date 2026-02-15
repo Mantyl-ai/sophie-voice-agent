@@ -73,7 +73,7 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 @keyframes glow-breathe{0%,100%{transform:translateX(-50%) scale(1);opacity:.7}50%{transform:translateX(-50%) scale(1.08);opacity:1}}
 
 /* Sophie image */
-.sophie-img{width:340px;height:auto;position:relative;z-index:2;object-fit:contain;display:block;filter:drop-shadow(0 24px 48px rgba(0,0,0,.35)) drop-shadow(0 8px 16px rgba(107,138,219,.15));image-rendering:high-quality}
+.sophie-img{width:320px;height:auto;position:relative;z-index:2;object-fit:contain;display:block;filter:drop-shadow(0 24px 48px rgba(0,0,0,.35)) drop-shadow(0 8px 16px rgba(107,138,219,.15))}
 
 /* Floating insight cards */
 .insight-card{position:absolute;z-index:3;padding:9px 16px;background:rgba(15,23,42,.88);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.06);border-radius:14px;display:flex;align-items:center;gap:9px;animation:card-float 5s ease-in-out infinite;box-shadow:0 12px 32px rgba(0,0,0,.3),0 0 0 1px rgba(255,255,255,.03) inset}
@@ -98,6 +98,26 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 /* Subtle grid */
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,black,transparent);-webkit-mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,black,transparent)}
 
+/* Sophie preview audio button */
+.sophie-preview{position:relative;z-index:4;margin-top:16px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.sophie-preview-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:rgba(15,23,42,.75);backdrop-filter:blur(12px);border:1px solid rgba(107,138,219,.2);border-radius:40px;cursor:pointer;transition:all .3s;font-family:var(--font);font-size:12px;font-weight:600;color:rgba(255,255,255,.85);box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.sophie-preview-btn:hover{background:rgba(15,23,42,.9);border-color:rgba(107,138,219,.4);transform:translateY(-2px);box-shadow:0 6px 28px rgba(107,138,219,.2)}
+.sophie-preview-btn.playing{border-color:rgba(212,132,154,.4);background:rgba(15,23,42,.9)}
+.sophie-preview-btn svg{flex-shrink:0}
+.sophie-preview-icon{width:28px;height:28px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sophie-preview-icon svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2.5}
+.sophie-preview-icon.playing svg{animation:sp-pulse 1s ease-in-out infinite}
+@keyframes sp-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.9)}}
+.sophie-preview-wave{display:flex;align-items:center;gap:2px;height:14px}
+.sophie-preview-wave span{width:2.5px;border-radius:2px;background:var(--grad);animation:sp-wave .5s ease-in-out infinite alternate}
+.sophie-preview-wave span:nth-child(1){height:4px;animation-delay:0s}
+.sophie-preview-wave span:nth-child(2){height:8px;animation-delay:.08s}
+.sophie-preview-wave span:nth-child(3){height:12px;animation-delay:.16s}
+.sophie-preview-wave span:nth-child(4){height:8px;animation-delay:.24s}
+.sophie-preview-wave span:nth-child(5){height:4px;animation-delay:.32s}
+@keyframes sp-wave{0%{height:3px}100%{height:14px}}
+.sophie-preview-hint{font-size:10px;color:rgba(255,255,255,.3);font-weight:500;letter-spacing:.03em}
+
 /* Bottom gradient fade to white */
 .hero-fade{position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to bottom,transparent,rgba(15,23,42,.8));z-index:1;pointer-events:none}
 
@@ -114,7 +134,6 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 
 /* ─── MAIN ─── */
 .mn{flex:1;padding:28px;max-width:840px;margin:0 auto;width:100%}
-.mn.wide{max-width:960px}
 
 /* ─── FORM ─── */
 .card{background:#fff;border:1px solid #e2e8f0;border-radius:var(--r-lg);padding:24px;margin-bottom:18px;box-shadow:0 1px 3px rgba(15,23,42,.04);transition:box-shadow .2s}
@@ -151,345 +170,83 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 .go-btn:disabled{opacity:.45;cursor:not-allowed}
 .go-btn svg{flex-shrink:0}
 
-/* ─── VOICE SESSION — IMMERSIVE AI INTERFACE ─── */
-.vs{display:flex;flex-direction:column;min-height:80vh;background:var(--navy);border-radius:var(--r-xl);overflow:hidden;position:relative;margin:-28px;padding:0}
+/* ─── VOICE SESSION ─── */
+.vs{display:flex;flex-direction:column;align-items:center;min-height:66vh;padding:36px 16px}
+.vs-orb-w{position:relative;width:140px;height:140px;margin-bottom:24px}
+.vs-orb{width:140px;height:140px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;box-shadow:0 0 36px rgba(107,138,219,.12);transition:box-shadow .4s}
+.vs-orb.li{box-shadow:0 0 50px rgba(107,138,219,.3),0 0 90px rgba(155,127,199,.12)}
+.vs-orb.sp{box-shadow:0 0 50px rgba(212,132,154,.3),0 0 90px rgba(232,158,108,.12)}
+.vs-ring{position:absolute;inset:-5px;border-radius:50%;border:2px solid transparent;background:conic-gradient(from 0deg,var(--blue),var(--lav),var(--rose),var(--peach),var(--blue)) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 6s linear infinite;opacity:.25;transition:opacity .4s}
+.vs-orb.li .vs-ring{opacity:.75;animation-duration:2s}
+.vs-orb.sp .vs-ring{opacity:.75;animation-duration:3s}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bars{display:flex;align-items:center;gap:3px;height:36px}
+.bar{width:3.5px;border-radius:2px;height:7px;background:var(--grad);transition:height .1s}
+.vs-orb.id .bar{animation:idle 2.5s ease-in-out infinite}
+.vs-orb.li .bar,.vs-orb.sp .bar{animation:wave .55s ease-in-out infinite alternate}
+.bar:nth-child(1){animation-delay:0s}.bar:nth-child(2){animation-delay:.07s}.bar:nth-child(3){animation-delay:.14s}.bar:nth-child(4){animation-delay:.21s}.bar:nth-child(5){animation-delay:.28s}.bar:nth-child(6){animation-delay:.21s}.bar:nth-child(7){animation-delay:.14s}
+@keyframes idle{0%,100%{height:7px}50%{height:14px}}
+@keyframes wave{0%{height:5px}100%{height:34px}}
+.vs-st{font-size:12px;font-weight:500;color:#94a3b8;margin-bottom:22px;display:flex;align-items:center;gap:7px}
+.sd{width:6px;height:6px;border-radius:50%;background:#94a3b8;transition:.3s}
+.sd.on{background:#22c55e;animation:blink 2s infinite}.sd.li{background:var(--blue);animation:blink 1s infinite}.sd.sp{background:var(--rose);animation:blink 1.5s infinite}
 
-/* Session dark background with layered gradient — inspired by Apple Intelligence / Siri */
-.vs::before{content:'';position:absolute;inset:0;background:
-  radial-gradient(ellipse 70% 50% at 50% 30%,rgba(107,138,219,.15) 0%,transparent 60%),
-  radial-gradient(ellipse 50% 60% at 30% 70%,rgba(155,127,199,.1) 0%,transparent 55%),
-  radial-gradient(ellipse 40% 40% at 75% 60%,rgba(212,132,154,.08) 0%,transparent 50%);
-  pointer-events:none;z-index:0}
+/* Transcript */
+.tb{width:100%;max-width:600px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:var(--r-lg);padding:14px;max-height:260px;overflow-y:auto;margin-bottom:22px;min-height:90px}
+.tb-e{text-align:center;color:#cbd5e1;font-size:12px;padding:24px 0}
+.tm{margin-bottom:8px;display:flex;gap:8px;animation:tf .3s ease}
+@keyframes tf{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.ta{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.ta.s{background:linear-gradient(135deg,var(--blue),var(--lav));color:#fff}
+.ta.u{background:#e2e8f0;color:var(--navy)}
+.tn{font-size:9px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1px}
+.tt{font-size:13px;line-height:1.6;color:var(--navy)}
 
-/* Top bar with Sophie branding inside session */
-.vs-header{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;position:relative;z-index:5}
-.vs-header-left{display:flex;align-items:center;gap:10px}
-.vs-header-name{font-size:13px;font-weight:600;color:rgba(255,255,255,.85);letter-spacing:-.2px}
-.vs-header-tag{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;background:rgba(107,138,219,.08);border:1px solid rgba(107,138,219,.12);border-radius:16px;font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.05em}
-.vs-header-dot{width:5px;height:5px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px rgba(34,197,94,.5);animation:blink 2s infinite}
-
-/* Main session layout — Sophie left, conversation right */
-.vs-body{display:grid;grid-template-columns:.42fr .58fr;flex:1;position:relative;z-index:2;min-height:0}
-
-/* Left — Sophie visual with animated orb */
-.vs-left{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;position:relative}
-
-/* The animated gradient orb behind Sophie — Siri/Apple Intelligence inspired */
-.ai-orb-container{position:relative;width:280px;height:280px;display:flex;align-items:center;justify-content:center}
-
-/* Main gradient blob — morphs shape when active */
-.ai-orb{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,
-  rgba(107,138,219,.6),
-  rgba(155,127,199,.5),
-  rgba(212,132,154,.5),
-  rgba(232,158,108,.4),
-  rgba(107,138,219,.6));
-  filter:blur(45px);opacity:.4;animation:orb-idle 8s ease-in-out infinite;transition:opacity .6s,filter .6s}
-
-/* Listening state — orb intensifies, pulses faster */
-.ai-orb.li{opacity:.75;filter:blur(35px);animation:orb-listen 1.5s ease-in-out infinite}
-
-/* Speaking state — orb expands/contracts dynamically */
-.ai-orb.sp{opacity:.8;filter:blur(30px);animation:orb-speak 2s ease-in-out infinite}
-
-/* Thinking state — slow rotation */
-.ai-orb.th{opacity:.55;filter:blur(40px);animation:orb-think 3s linear infinite}
-
-@keyframes orb-idle{
-  0%,100%{transform:scale(1) rotate(0deg);border-radius:50%}
-  25%{transform:scale(1.03) rotate(90deg);border-radius:48% 52% 50% 50%}
-  50%{transform:scale(.97) rotate(180deg);border-radius:50% 48% 52% 50%}
-  75%{transform:scale(1.02) rotate(270deg);border-radius:52% 50% 48% 50%}
-}
-@keyframes orb-listen{
-  0%,100%{transform:scale(1) rotate(0deg);opacity:.7}
-  25%{transform:scale(1.12) rotate(45deg);opacity:.85}
-  50%{transform:scale(.95) rotate(90deg);opacity:.7}
-  75%{transform:scale(1.15) rotate(135deg);opacity:.9}
-}
-@keyframes orb-speak{
-  0%,100%{transform:scale(1) rotate(0deg);border-radius:50%}
-  15%{transform:scale(1.18) rotate(30deg);border-radius:45% 55% 50% 50%}
-  30%{transform:scale(.92) rotate(60deg);border-radius:55% 45% 48% 52%}
-  45%{transform:scale(1.14) rotate(100deg);border-radius:48% 52% 55% 45%}
-  60%{transform:scale(.96) rotate(140deg);border-radius:52% 48% 45% 55%}
-  75%{transform:scale(1.1) rotate(180deg);border-radius:50% 50% 52% 48%}
-}
-@keyframes orb-think{
-  0%{transform:rotate(0deg) scale(1)}
-  100%{transform:rotate(360deg) scale(1)}
-}
-
-/* Secondary inner glow ring */
-.ai-orb-inner{position:absolute;inset:30px;border-radius:50%;background:conic-gradient(from 180deg,
-  rgba(107,138,219,.3),
-  rgba(155,127,199,.25),
-  rgba(212,132,154,.3),
-  rgba(232,158,108,.25),
-  rgba(107,138,219,.3));
-  filter:blur(25px);opacity:.3;animation:orb-inner-spin 12s linear infinite reverse;transition:opacity .6s}
-.ai-orb.li~.ai-orb-inner,.ai-orb.sp~.ai-orb-inner{opacity:.6}
-@keyframes orb-inner-spin{to{transform:rotate(360deg)}}
-
-/* Pulsing rings — like Siri's ripple effect */
-.ai-pulse-ring{position:absolute;inset:-15px;border-radius:50%;border:1.5px solid rgba(107,138,219,.08);opacity:0;transition:opacity .4s}
-.ai-pulse-ring.r2{inset:-35px;border-color:rgba(155,127,199,.06)}
-.ai-pulse-ring.r3{inset:-55px;border-color:rgba(212,132,154,.04)}
-.vs-left.active .ai-pulse-ring{opacity:1;animation:pulse-expand 2.5s ease-out infinite}
-.vs-left.active .ai-pulse-ring.r2{animation-delay:.5s}
-.vs-left.active .ai-pulse-ring.r3{animation-delay:1s}
-@keyframes pulse-expand{0%{transform:scale(.95);opacity:.6}100%{transform:scale(1.15);opacity:0}}
-
-/* Sophie image inside the orb */
-.vs-sophie{position:relative;z-index:3;width:180px;height:auto;object-fit:contain;filter:drop-shadow(0 16px 40px rgba(0,0,0,.4));transition:transform .4s}
-.vs-left.speaking .vs-sophie{animation:sophie-bob 2s ease-in-out infinite}
-@keyframes sophie-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-
-/* Status text below Sophie */
-.vs-status{margin-top:24px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:rgba(255,255,255,.5);position:relative;z-index:3}
-.vs-status-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2);transition:.3s}
-.vs-status-dot.idle{background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.4)}
-.vs-status-dot.listening{background:var(--blue);box-shadow:0 0 8px rgba(107,138,219,.5);animation:blink 1s infinite}
-.vs-status-dot.speaking{background:var(--rose);box-shadow:0 0 8px rgba(212,132,154,.5);animation:blink 1.5s infinite}
-.vs-status-dot.thinking{background:var(--lav);box-shadow:0 0 8px rgba(155,127,199,.5);animation:blink .8s infinite}
-
-/* Waveform visualizer below Sophie */
-.vs-wave{display:flex;align-items:center;gap:2px;height:32px;margin-top:16px;position:relative;z-index:3}
-.vs-wave-bar{width:3px;border-radius:2px;height:6px;transition:height .08s;background:linear-gradient(to top,var(--blue),var(--lav))}
-.vs-wave-bar.active{animation:wave-dance .4s ease-in-out infinite alternate}
-.vs-wave-bar:nth-child(1){animation-delay:0s}.vs-wave-bar:nth-child(2){animation-delay:.04s}
-.vs-wave-bar:nth-child(3){animation-delay:.08s}.vs-wave-bar:nth-child(4){animation-delay:.12s}
-.vs-wave-bar:nth-child(5){animation-delay:.16s}.vs-wave-bar:nth-child(6){animation-delay:.2s}
-.vs-wave-bar:nth-child(7){animation-delay:.24s}.vs-wave-bar:nth-child(8){animation-delay:.28s}
-.vs-wave-bar:nth-child(9){animation-delay:.24s}.vs-wave-bar:nth-child(10){animation-delay:.2s}
-.vs-wave-bar:nth-child(11){animation-delay:.16s}.vs-wave-bar:nth-child(12){animation-delay:.12s}
-.vs-wave-bar:nth-child(13){animation-delay:.08s}
-@keyframes wave-dance{0%{height:4px;opacity:.4}100%{height:28px;opacity:1}}
-
-/* Right — Conversation panel */
-.vs-right{display:flex;flex-direction:column;padding:0 28px 24px 12px;min-height:0}
-
-/* Transcript area */
-.vs-transcript{flex:1;overflow-y:auto;padding:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:var(--r-lg);margin-bottom:16px;min-height:200px}
-.vs-transcript::-webkit-scrollbar{width:4px}
-.vs-transcript::-webkit-scrollbar-track{background:transparent}
-.vs-transcript::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
-.vs-tx-empty{text-align:center;color:rgba(255,255,255,.2);font-size:12px;padding:40px 0}
-
-/* Message bubbles */
-.vs-msg{margin-bottom:12px;display:flex;gap:10px;animation:msg-in .35s ease}
-@keyframes msg-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.vs-msg-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:2px}
-.vs-msg-avatar.sophie{background:linear-gradient(135deg,var(--blue),var(--lav));color:#fff;overflow:hidden}
-.vs-msg-avatar.sophie img{width:100%;height:100%;object-fit:cover}
-.vs-msg-avatar.user{background:rgba(255,255,255,.08);color:rgba(255,255,255,.6)}
-.vs-msg-body{flex:1}
-.vs-msg-name{font-size:9px;font-weight:600;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
-.vs-msg-text{font-size:13px;line-height:1.65;color:rgba(255,255,255,.85)}
-.vs-msg.sophie-msg .vs-msg-text{color:rgba(255,255,255,.92)}
-
-/* Thinking indicator */
-.vs-thinking{display:flex;align-items:center;gap:7px;font-size:12px;color:rgba(255,255,255,.4);padding:4px 0}
-.thk-dots{display:flex;gap:3px}
-.thk-dots span{width:5px;height:5px;border-radius:50%;background:var(--lav);animation:dp 1.2s infinite}
-.thk-dots span:nth-child(2){animation-delay:.15s}
-.thk-dots span:nth-child(3){animation-delay:.3s}
-@keyframes dp{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.3)}}
-
-/* Controls bar */
-.vs-controls{display:flex;align-items:center;gap:16px;padding:18px 20px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:var(--r);justify-content:center;flex-direction:column}
-.vs-controls-row{display:flex;align-items:center;gap:16px;justify-content:center;width:100%}
-
-/* Mic button — large, prominent */
-.mic-btn{width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.25s;position:relative;overflow:hidden;flex-shrink:0}
-.mic-btn.idle{background:var(--grad);color:#fff;box-shadow:0 4px 20px rgba(107,138,219,.3)}
-.mic-btn.idle:hover{transform:scale(1.06);box-shadow:0 6px 28px rgba(107,138,219,.4)}
-.mic-btn.recording{background:#ef4444;color:#fff;box-shadow:0 4px 20px rgba(239,68,68,.4);animation:mic-glow 1.5s ease-in-out infinite}
-@keyframes mic-glow{0%,100%{box-shadow:0 4px 20px rgba(239,68,68,.4)}50%{box-shadow:0 6px 36px rgba(239,68,68,.6)}}
-.mic-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;position:relative;z-index:1}
-.mic-btn:disabled{opacity:.4;cursor:not-allowed}
-
-/* Mic label — guides user to press to talk */
-.mic-label{font-size:12px;font-weight:500;color:rgba(255,255,255,.5);text-align:center;letter-spacing:.01em;line-height:1.4;max-width:120px}
-.mic-label strong{color:rgba(255,255,255,.75);font-weight:600}
-.mic-label.recording-label{color:rgba(239,68,68,.7)}
-.mic-label.recording-label strong{color:#fca5a5}
-
-/* End session button — prominent so user knows to exit */
-.end-btn{padding:10px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;font-family:var(--font);font-size:12px;font-weight:500;color:rgba(255,255,255,.45);cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
-.end-btn:hover{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);color:#fca5a5}
-.end-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
-
-/* Session exit hint — tells user to press End when done */
-.vs-exit-hint{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:rgba(255,255,255,.28);padding:0;margin-top:2px}
-.vs-exit-hint svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;opacity:.5}
-
-/* Divider between text input and voice */
-.vs-input-divider{display:flex;align-items:center;gap:10px;margin-top:14px;margin-bottom:2px}
-.vs-input-divider-line{flex:1;height:1px;background:rgba(255,255,255,.06)}
-.vs-input-divider-text{font-size:10px;font-weight:500;color:rgba(255,255,255,.2);text-transform:uppercase;letter-spacing:.06em}
+/* Controls */
+.vc{display:flex;gap:10px;align-items:center;margin-bottom:16px}
+.mb{width:54px;height:54px;border-radius:50%;border:none;background:var(--grad);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(107,138,219,.22);transition:.2s}
+.mb:hover{transform:scale(1.06)}.mb.rc{background:#ef4444;box-shadow:0 4px 16px rgba(239,68,68,.3);animation:mg 1.5s infinite}
+@keyframes mg{0%,100%{box-shadow:0 4px 16px rgba(239,68,68,.3)}50%{box-shadow:0 4px 32px rgba(239,68,68,.45)}}
+.mb svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
+.eb{padding:9px 20px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;font-family:var(--font);font-size:12px;font-weight:500;color:var(--navy-ll);cursor:pointer;transition:.15s;display:flex;align-items:center;gap:5px}
+.eb:hover{background:#fef2f2;border-color:#fca5a5;color:#ef4444}
+.eb svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
 
 /* Text input */
-.vs-input{display:flex;gap:8px}
-.vs-input input{flex:1;padding:11px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;font-family:var(--font);font-size:13px;color:rgba(255,255,255,.85);outline:none;transition:.2s}
-.vs-input input::placeholder{color:rgba(255,255,255,.18)}
-.vs-input input:focus{border-color:rgba(107,138,219,.3);box-shadow:0 0 0 3px rgba(107,138,219,.06);background:rgba(255,255,255,.06)}
-.vs-input button{padding:11px 18px;background:var(--grad);color:#fff;border:none;border-radius:8px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.2s}
-.vs-input button:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(107,138,219,.3)}
-.vs-input button:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none}
-.vs-input button svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+.tr{display:flex;gap:7px;width:100%;max-width:600px}
+.tr input{flex:1;padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;font-family:var(--font);font-size:13px;outline:none;transition:.15s}
+.tr input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(107,138,219,.08)}
+.tr button{padding:10px 16px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.15s}
+.tr button:hover{background:var(--navy-l)}
+.tr button svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
 
-/* Floating ambient particles inside session */
-.vs-particle{position:absolute;border-radius:50%;pointer-events:none;z-index:1}
-.vp-1{width:3px;height:3px;background:var(--blue);top:15%;right:20%;opacity:.15;animation:float-p 10s ease-in-out infinite}
-.vp-2{width:2px;height:2px;background:var(--lav);bottom:20%;left:15%;opacity:.12;animation:float-p 14s ease-in-out infinite 3s}
-.vp-3{width:4px;height:4px;background:var(--rose);top:40%;right:10%;opacity:.1;animation:float-p 12s ease-in-out infinite 6s}
-.vp-4{width:2px;height:2px;background:var(--peach);bottom:30%;right:35%;opacity:.12;animation:float-p 9s ease-in-out infinite 2s}
+/* Thinking */
+.thk{display:flex;align-items:center;gap:7px;font-size:12px;color:#94a3b8}
+.dts{display:flex;gap:3px}
+.dts span{width:5px;height:5px;border-radius:50%;background:var(--lav);animation:dp 1.2s infinite}
+.dts span:nth-child(2){animation-delay:.15s}.dts span:nth-child(3){animation-delay:.3s}
+@keyframes dp{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.3)}}
 
-/* ─── DEBRIEF — TABBED EXECUTIVE DASHBOARD ─── */
-.db{max-width:960px;margin:0 auto;padding-bottom:24px}
-
-/* Debrief hero / executive header */
-.db-hero{background:var(--navy);border-radius:var(--r-xl) var(--r-xl) 0 0;padding:32px 36px 24px;position:relative;overflow:hidden}
-.db-hero::before{content:'';position:absolute;inset:0;background:
-  radial-gradient(ellipse 60% 50% at 80% 20%,rgba(107,138,219,.15) 0%,transparent 60%),
-  radial-gradient(ellipse 40% 60% at 20% 80%,rgba(155,127,199,.1) 0%,transparent 55%);pointer-events:none}
-.db-hero-top{display:flex;align-items:flex-start;justify-content:space-between;position:relative;z-index:1;margin-bottom:20px}
-.db-hero-title{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.5px;line-height:1.2}
-.db-hero-title em{font-style:normal;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.db-hero-sub{font-size:12px;color:#64748b;margin-top:5px;font-weight:400}
-.db-hero-actions{display:flex;gap:8px}
-.db-hero-btn{padding:8px 18px;border-radius:8px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px;border:none}
-.db-hero-btn.primary{background:var(--grad);color:#fff;box-shadow:0 4px 14px rgba(107,138,219,.25)}
-.db-hero-btn.primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(107,138,219,.35)}
-.db-hero-btn.secondary{background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.1)}
-.db-hero-btn.secondary:hover{background:rgba(255,255,255,.1);color:rgba(255,255,255,.85)}
-.db-hero-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
-
-/* Session metadata grid — compact row */
-.db-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;position:relative;z-index:1}
-.db-meta-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px 14px}
-.db-meta-label{font-size:9px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
-.db-meta-value{font-size:13px;font-weight:600;color:rgba(255,255,255,.9);line-height:1.3}
-.db-meta-value.sm{font-size:12px;font-weight:500}
-
-/* Risk badge */
-.risk-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:16px;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
-.risk-badge.green{background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.2)}
-.risk-badge.yellow{background:rgba(234,179,8,.12);color:#eab308;border:1px solid rgba(234,179,8,.2)}
-.risk-badge.red{background:rgba(239,68,68,.12);color:#ef4444;border:1px solid rgba(239,68,68,.2)}
-.risk-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.risk-badge.green .risk-dot{background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.5)}
-.risk-badge.yellow .risk-dot{background:#eab308;box-shadow:0 0 8px rgba(234,179,8,.5)}
-.risk-badge.red .risk-dot{background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,.5)}
-
-/* ── Tabs Navigation (Chrome-style) ── */
-.db-tabs-wrap{background:var(--navy);border-bottom:3px solid var(--grad);padding:0 36px;position:sticky;top:56px;z-index:50}
-.db-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
-.db-tabs::-webkit-scrollbar{display:none}
-.db-tab{padding:12px 22px;font-family:var(--font);font-size:12px;font-weight:600;color:rgba(255,255,255,.4);cursor:pointer;border:none;background:rgba(255,255,255,.02);border-radius:10px 10px 0 0;transition:.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;position:relative}
-.db-tab:hover{color:rgba(255,255,255,.7);background:rgba(255,255,255,.04)}
-.db-tab.active{color:#fff;background:rgba(255,255,255,.08)}
-.db-tab.active::after{content:'';position:absolute;bottom:0;left:16px;right:16px;height:2px;background:var(--grad);border-radius:2px 2px 0 0}
-.db-tab-icon{width:16px;height:16px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.db-tab-icon svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
-.db-tab-icon.blue{color:var(--blue)}
-.db-tab-icon.lav{color:var(--lav)}
-.db-tab-icon.rose{color:var(--rose)}
-.db-tab-icon.navy{color:rgba(255,255,255,.35)}
-
-/* ── Tab Panel (content area) ── */
-.db-panel{background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 var(--r-xl) var(--r-xl);min-height:420px;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(15,23,42,.04)}
-
-/* Panel header with copy */
-.db-ph{padding:20px 32px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f1f5f9}
-.db-ph-left{display:flex;align-items:center;gap:10px}
-.db-ph-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.db-ph-icon.blue{background:rgba(107,138,219,.08);color:var(--blue)}
-.db-ph-icon.lav{background:rgba(155,127,199,.08);color:var(--lav)}
-.db-ph-icon.rose{background:rgba(212,132,154,.08);color:var(--rose)}
-.db-ph-icon.navy{background:rgba(15,23,42,.04);color:var(--navy-ll)}
-.db-ph-icon svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
-.db-ph-text h3{font-size:16px;font-weight:700;color:var(--navy);letter-spacing:-.3px}
-.db-ph-text p{font-size:11px;color:#94a3b8;margin-top:2px}
-
-/* Copy button */
-.cp{padding:6px 14px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;font-family:var(--font);font-size:11px;font-weight:500;color:#94a3b8;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:5px}
-.cp:hover{border-color:var(--blue);color:var(--blue);background:#f8fafc}
-.cp.ok{border-color:#22c55e;color:#22c55e;background:rgba(34,197,94,.04)}
-.cp svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
-
-/* Panel body */
-.db-pb{padding:24px 32px 32px}
-
-/* ── Rendered markdown text ── */
-.db-rich{font-size:14.5px;line-height:1.85;color:#334155}
-.db-rich strong,.db-rich b{color:var(--navy);font-weight:700}
-.db-rich em,.db-rich i{font-style:italic;color:#475569}
-.db-rich p{margin-bottom:14px}
-.db-rich p:last-child{margin-bottom:0}
-
-/* Signal findings — clean cards */
-.db-findings{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
-.db-findings li{padding:14px 18px;background:#f8fafc;border-radius:10px;border-left:3px solid var(--blue);font-size:14px;line-height:1.75;color:#334155}
-.db-findings li strong,.db-findings li b{color:var(--navy);font-weight:700}
-.db-diagnosis{margin-top:18px;padding:18px 22px;background:linear-gradient(135deg,rgba(107,138,219,.04),rgba(155,127,199,.04));border-radius:12px;border:1px solid rgba(107,138,219,.12);font-size:14.5px;line-height:1.8;color:#334155}
-.db-diagnosis strong{color:var(--navy);font-weight:700}
-.db-diagnosis-label{font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
-
-/* Numbered next moves — clean layout */
-.db-moves{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:4px}
-.db-moves li{display:flex;align-items:flex-start;gap:16px;padding:18px 20px;border-radius:10px;transition:background .15s}
-.db-moves li:hover{background:#f8fafc}
-.db-moves-num{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--lav),var(--rose));color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;margin-top:1px}
-.db-moves-content{flex:1;min-width:0}
-.db-moves-title{font-size:14.5px;font-weight:700;color:var(--navy);line-height:1.4;margin-bottom:6px}
-.db-moves-desc{font-size:13.5px;line-height:1.75;color:#475569}
-.db-moves-desc strong{font-weight:600;color:var(--navy)}
-
-/* Email preview — polished */
-.db-email{border-radius:12px;border:1px solid #e2e8f0;overflow:hidden}
-.db-email-header{padding:16px 22px;border-bottom:1px solid #e2e8f0;background:#fafbfc}
-.db-email-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.db-email-row:last-child{margin-bottom:0}
-.db-email-label{font-weight:700;color:#94a3b8;width:56px;flex-shrink:0;text-transform:uppercase;font-size:10px;letter-spacing:.04em}
-.db-email-val{font-weight:500;color:var(--navy);font-size:13.5px}
-.db-email-body{padding:24px 28px;font-size:14.5px;line-height:1.85;color:#334155;font-family:var(--font)}
-.db-email-body p{margin-bottom:12px}
-.db-email-body p:last-child{margin-bottom:0}
-
-/* Transcript — full height in panel */
-.db-transcript{max-height:520px;overflow-y:auto;padding:4px 0}
-.db-transcript::-webkit-scrollbar{width:4px}
-.db-transcript::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:4px}
-.db-tx-msg{display:flex;gap:12px;padding:14px 32px;border-bottom:1px solid #fafbfc;transition:background .15s}
-.db-tx-msg:hover{background:#fafbfc}
-.db-tx-msg:last-child{border-bottom:none}
-.db-tx-avatar{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
-.db-tx-avatar.sophie{background:linear-gradient(135deg,var(--blue),var(--lav));color:#fff;overflow:hidden}
-.db-tx-avatar.sophie img{width:100%;height:100%;object-fit:cover}
-.db-tx-avatar.user{background:#f1f5f9;color:var(--navy-ll)}
-.db-tx-body{flex:1;min-width:0}
-.db-tx-name{font-size:11px;font-weight:600;color:var(--navy);margin-bottom:3px}
-.db-tx-text{font-size:13.5px;line-height:1.7;color:#475569}
-
-/* Action footer */
-.db-actions{display:flex;gap:12px;margin-top:8px;padding:20px 0;border-top:1px solid #f1f5f9}
-.da-btn{padding:12px 24px;border-radius:10px;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:8px;border:none}
-.da-btn.primary{background:var(--grad);color:#fff;box-shadow:0 4px 14px rgba(107,138,219,.22)}
-.da-btn.primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(107,138,219,.32)}
-.da-btn.secondary{background:#fff;color:var(--navy);border:1px solid #e2e8f0}
-.da-btn.secondary:hover{background:#f8fafc;border-color:#cbd5e1}
-.da-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
-
-/* Loading state for debrief */
-.db-loading{text-align:center;padding:80px 24px}
-.db-loading-text{font-size:15px;font-weight:500;color:var(--navy-ll);margin-top:20px}
-.db-loading-sub{font-size:12px;color:#94a3b8;margin-top:6px}
-.db-loading-dots{display:flex;gap:4px;justify-content:center;margin-top:20px}
-.db-loading-dots span{width:8px;height:8px;border-radius:50%;background:var(--lav);animation:dp 1.2s infinite}
-.db-loading-dots span:nth-child(2){animation-delay:.15s}
-.db-loading-dots span:nth-child(3){animation-delay:.3s}
+/* ─── DEBRIEF ─── */
+.db{max-width:760px;margin:0 auto}
+.dc{background:#fff;border:1px solid #e2e8f0;border-radius:var(--r-lg);overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.04);margin-bottom:18px}
+.dc-h{padding:12px 20px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between}
+.dc-h h3{font-size:13px;font-weight:600;color:var(--navy);display:flex;align-items:center;gap:7px}
+.dc-h h3 svg{flex-shrink:0}
+.dc-b{padding:18px 20px}
+.dc-b pre{white-space:pre-wrap;word-wrap:break-word;font-family:var(--font);font-size:13px;line-height:1.7;color:var(--navy)}
+.cp{padding:4px 10px;background:#fff;border:1px solid #e2e8f0;border-radius:6px;font-family:var(--font);font-size:10px;font-weight:500;color:#94a3b8;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:4px}
+.cp:hover{border-color:var(--blue);color:var(--blue)}
+.cp.ok{border-color:#22c55e;color:#22c55e}
+.cp svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2}
+.da{display:flex;gap:10px;margin-top:6px}
+.bp{padding:11px 22px;background:var(--grad);color:#fff;border:none;border-radius:8px;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:7px}
+.bp:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(107,138,219,.3)}
+.bp svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.bs{padding:11px 22px;background:#fff;color:var(--navy);border:1px solid #e2e8f0;border-radius:8px;font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:7px}
+.bs:hover{background:#f8fafc}
+.bs svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.tf{max-height:320px;overflow-y:auto}
 
 /* ─── CTA ─── */
 .cta{padding:18px 24px;background:var(--navy);border-radius:var(--r-lg);display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:24px}
@@ -528,26 +285,9 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
   .mn{padding:16px}
   .fg{grid-template-columns:1fr}
   .cta{flex-direction:column;text-align:center}
-  .db-hero{padding:24px 20px}
-  .db-hero-top{flex-direction:column;gap:16px}
-  .db-hero-title{font-size:20px}
-  .db-meta{grid-template-columns:1fr 1fr;gap:10px}
-  .db-sh{padding:14px 16px}
-  .db-sb{padding:16px}
-  .db-actions{flex-direction:column}
-  .vs{margin:-16px;border-radius:0}
-  .vs-body{grid-template-columns:1fr;grid-template-rows:auto 1fr}
-  .vs-left{padding:16px 16px 0;flex-direction:row;gap:16px;justify-content:center}
-  .ai-orb-container{width:140px;height:140px}
-  .vs-sophie{width:90px}
-  .ai-pulse-ring,.ai-pulse-ring.r2,.ai-pulse-ring.r3{display:none}
-  .vs-right{padding:0 16px 16px}
-  .vs-transcript{min-height:150px}
-  .vs-controls{flex-wrap:wrap}
-  .vs-controls-row{flex-wrap:wrap;gap:10px}
-  .mic-label{font-size:11px;max-width:100px}
-  .vs-exit-hint{font-size:10px;text-align:center}
-  .vs-input{flex-direction:column}
+  .vc{flex-direction:column}
+  .tr{flex-direction:column}
+  .da{flex-direction:column}
 }
 </style>
 </head>
@@ -564,6 +304,50 @@ const CAL='https://calendly.com/jose-mantyl/free-consultation-ai-automation';
 const SophiePortrait=({w=340})=>(
 <img src="sophie.png" alt="Sophie — AI Sales Intelligence Agent" className="sophie-img" style={{width:w}} />
 );
+
+// ── SOPHIE PREVIEW — hear what she sounds like ──────────────────
+const SOPHIE_SAYINGS=[
+  "Hey there! I'm Sophie — ready to help you debrief your last sales meeting?",
+  "Need help following up? Tell me about the call and I'll draft something sharp.",
+  "I noticed some buying signals in your last conversation — want me to break them down?",
+  "Let's figure out your next move. Walk me through what happened and I'll find the gaps.",
+  "Got a stalled deal? Let's talk through it — I bet we can find an angle you haven't tried."
+];
+const SophiePreview=()=>{
+  const[playing,setPlaying]=useState(false);
+  const[idx,setIdx]=useState(0);
+  const synRef=useRef(window.speechSynthesis);
+  const play=()=>{
+    if(playing){synRef.current.cancel();setPlaying(false);return}
+    synRef.current.cancel();
+    const u=new SpeechSynthesisUtterance(SOPHIE_SAYINGS[idx]);
+    const v=synRef.current.getVoices();
+    const pk=v.find(x=>x.name.includes('Samantha'))||v.find(x=>x.name.includes('Karen'))||v.find(x=>x.lang.startsWith('en')&&x.name.includes('Google'))||v.find(x=>x.lang.startsWith('en'));
+    if(pk)u.voice=pk;
+    u.rate=1;u.pitch=1.05;
+    u.onstart=()=>setPlaying(true);
+    u.onend=()=>{setPlaying(false);setIdx(p=>(p+1)%SOPHIE_SAYINGS.length)};
+    u.onerror=()=>setPlaying(false);
+    synRef.current.speak(u);
+  };
+  // Preload voices
+  useEffect(()=>{synRef.current.getVoices();const h=()=>synRef.current.getVoices();synRef.current.addEventListener?.('voiceschanged',h);return()=>synRef.current.removeEventListener?.('voiceschanged',h)},[]);
+  return(
+    <div className="sophie-preview">
+      <button className={`sophie-preview-btn ${playing?'playing':''}`} onClick={play}>
+        <span className={`sophie-preview-icon ${playing?'playing':''}`}>
+          {playing
+            ?<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+            :<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="#fff" stroke="none"/></svg>}
+        </span>
+        {playing
+          ?<><div className="sophie-preview-wave"><span/><span/><span/><span/><span/></div>Sophie is speaking...</>
+          :<>Hear what Sophie sounds like</>}
+      </button>
+      {!playing&&<span className="sophie-preview-hint">Click to preview Sophie's voice</span>}
+    </div>
+  );
+};
 
 // ── System Prompt ────────────────────────────────────────────────
 const SYS=`You are Sophie, a senior sales intelligence analyst built by Mantyl. You speak with confidence, warmth, and directness — like a trusted advisor who's been in the trenches alongside thousands of revenue teams.
@@ -590,81 +374,35 @@ At session end, generate:
 2. Draft follow-up message
 3. Recommended next moves`;
 
-// ── DUAL-MODEL API ──────────────────────────────────────────────
-// Voice conversation: OpenAI GPT-4o (fast, natural dialogue)
-// Debrief & reports: Claude Haiku (structured output, cost-efficient)
-const CHAT_ENDPOINT = '/api/chat';       // → Netlify Function → OpenAI
-const DEBRIEF_ENDPOINT = '/api/debrief'; // → Netlify Function → Anthropic
-const TTS_ENDPOINT = '/api/tts';         // → Netlify Function → ElevenLabs TTS
+// ── API (key injected backend — placeholder for demo) ────────────
+// In production, replace with your backend endpoint that wraps OpenAI
+const API_ENDPOINT = null; // Set to your backend URL, e.g. 'https://api.mantyl.ai/sophie/chat'
 
-// Voice conversation — OpenAI GPT-4o
-async function ask(messages) {
-  const res = await fetch(CHAT_ENDPOINT, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+async function ask(messages, key) {
+  const endpoint = API_ENDPOINT || 'https://api.openai.com/v1/chat/completions';
+  const headers = API_ENDPOINT
+    ? { 'Content-Type': 'application/json' }
+    : { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` };
+  const res = await fetch(endpoint, {
+    method: 'POST', headers,
     body: JSON.stringify({ model: 'gpt-4o', messages, temperature: .7, max_tokens: 800 })
   });
   if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error?.message||`Error ${res.status}`); }
   return (await res.json()).choices[0].message.content;
 }
 
-// Debrief generation — Claude Haiku
-async function genDebrief(messages) {
-  // Convert OpenAI-format messages to Claude format
-  // Extract system message and convert the rest
-  const systemMsg = messages.find(m => m.role === 'system');
-  const chatMsgs = messages.filter(m => m.role !== 'system');
-
-  const debriefPrompt = `Based on the full conversation transcript below, generate a comprehensive executive debrief. Use EXACTLY this format with these section headers (## markers are critical for parsing):
-
-## SIGNAL REPORT
-Risk Level: [GREEN or YELLOW or RED]
-
-Key Signals:
-- [Signal 1: specific observation from the conversation]
-- [Signal 2: specific observation]
-- [Signal 3: specific observation]
-- [Signal 4: if applicable]
-- [Signal 5: if applicable]
-
-Diagnosis: [2-4 sentences. Write this as a concise executive summary a CRO could read in 15 seconds. What is the real state of this opportunity? What is the buyer actually telling us between the lines? Be specific — reference names, timelines, and concrete details from the conversation.]
-
-## RECOMMENDED NEXT MOVES
-1. [HIGHEST PRIORITY — specific action with exact language/talk track to use. Include who should do what, by when, and the desired outcome.]
-2. [SECOND PRIORITY — specific tactical action with context on why it matters now.]
-3. [THIRD PRIORITY — strategic action to de-risk the engagement or accelerate timeline.]
-4. [FOURTH PRIORITY — optional but recommended if there's a clear fourth move.]
-
-## DRAFT FOLLOW-UP EMAIL
-Subject: [Compelling, specific subject line that references something from the conversation — not generic]
-
-[Professional email body, 120-180 words. Reference specific points discussed. Include a clear next step or ask. Write in the rep's voice — warm but direct. End with a specific CTA, not a vague "let me know".]
-
-Best regards,
-[Rep Name]`;
-
-  // Build Claude messages from the conversation
-  const claudeMessages = [
-    ...chatMsgs.map(m => ({
-      role: m.role === 'assistant' ? 'assistant' : 'user',
-      content: m.content
-    })),
-    { role: 'user', content: debriefPrompt }
-  ];
-
-  const res = await fetch(DEBRIEF_ENDPOINT, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      system: systemMsg ? systemMsg.content + '\n\nYou are now generating the post-session debrief. Be specific, actionable, and reference actual details from the conversation.' : '',
-      messages: claudeMessages,
-      max_tokens: 2000
-    })
+async function genDebrief(messages, key) {
+  const p = `Based on the conversation, generate:\n\n## SIGNAL REPORT\nRisk Level: [GREEN/YELLOW/RED]\n- Key signals (3-5 bullets)\n- Diagnosis (2-3 sentences)\n\n## RECOMMENDED NEXT MOVES\n1. [Highest priority with specific language]\n2. [Second]\n3. [Third]\n\n## DRAFT FOLLOW-UP MESSAGE\nSubject: [line]\n\n[Body, 150 words max, professional, specific]\n\nBest,\n[Rep Name]`;
+  const endpoint = API_ENDPOINT || 'https://api.openai.com/v1/chat/completions';
+  const headers = API_ENDPOINT
+    ? { 'Content-Type': 'application/json' }
+    : { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` };
+  const res = await fetch(endpoint, {
+    method: 'POST', headers,
+    body: JSON.stringify({ model: 'gpt-4o', messages: [...messages, { role: 'user', content: p }], temperature: .5, max_tokens: 1200 })
   });
-
   if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error?.message||`Error ${res.status}`); }
-  const data = await res.json();
-  return data.content;
+  return (await res.json()).choices[0].message.content;
 }
 
 // ── Icons ────────────────────────────────────────────────────────
@@ -716,10 +454,12 @@ function App(){
   const[cid,setCid]=useState(null);
   const[fe,setFe]=useState({});
 
-  const rr=useRef(null),sr=useRef(null),mr=useRef(msgs),audioRef=useRef(null);
+  const rr=useRef(null),sy=useRef(window.speechSynthesis),sr=useRef(null),mr=useRef(msgs);
   useEffect(()=>{mr.current=msgs},[msgs]);
   useEffect(()=>{sr.current?.scrollIntoView({behavior:'smooth'})},[tx]);
 
+  // For demo/development: allow optional API key via URL param
+  const urlKey = new URLSearchParams(window.location.search).get('key') || '';
 
   const addF=useCallback(nf=>{const a=Array.from(nf);setFiles(p=>[...p,...a]);a.forEach(f=>{const r=new FileReader();r.onload=e=>setFc(p=>p+`\n\n--- ${f.name} ---\n${e.target.result}`);r.readAsText(f)})},[]);
   const rmF=i=>setFiles(p=>p.filter((_,x)=>x!==i));
@@ -735,134 +475,29 @@ function App(){
     const s={role:'system',content:SYS+'\n\n'+c};
     setMsgs([s]);setTx([]);setStep('session');
     try{
-      const g=await ask([s,{role:'user',content:`Session started. I'm ${name}. I want to talk about my engagement with ${prospect}. We're in ${stage}. Acknowledge what you know, then ask your first question.`}]);
+      const g=await ask([s,{role:'user',content:`Session started. I'm ${name}. I want to talk about my engagement with ${prospect}. We're in ${stage}. Acknowledge what you know, then ask your first question.`}],urlKey);
       setMsgs(p=>[...p,{role:'user',content:'[Session started]'},{role:'assistant',content:g}]);
       setTx(p=>[...p,{role:'s',text:g}]);
       say(g);
     }catch(e){setErr(e.message);setStep('setup')}
   };
 
-  // ElevenLabs TTS — Sophie's voice (warm, professional female)
-  // Falls back to Web Speech API if TTS endpoint fails
-  const say=async t=>{
-    // Stop any currently playing audio
-    if(audioRef.current){audioRef.current.pause();audioRef.current=null}
-    setTalk(true);
-    try{
-      const res=await fetch(TTS_ENDPOINT,{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({text:t,voice:'shimmer',speed:1.05})
-      });
-      if(!res.ok)throw new Error('TTS failed');
-      const data=await res.json();
-      const audio=new Audio('data:audio/mp3;base64,'+data.audio);
-      audioRef.current=audio;
-      audio.onended=()=>{setTalk(false);audioRef.current=null};
-      audio.onerror=()=>{setTalk(false);audioRef.current=null};
-      await audio.play();
-    }catch(e){
-      // Fallback to Web Speech API
-      const sy=window.speechSynthesis;
-      if(!sy){setTalk(false);return}
-      sy.cancel();
-      const u=new SpeechSynthesisUtterance(t);
-      const v=sy.getVoices();
-      const pk=v.find(x=>x.name.includes('Samantha'))||v.find(x=>x.name.includes('Karen'))||v.find(x=>x.lang.startsWith('en')&&x.name.includes('Google'))||v.find(x=>x.lang.startsWith('en'));
-      if(pk)u.voice=pk;u.rate=1;u.pitch=1.05;
-      u.onstart=()=>setTalk(true);u.onend=()=>setTalk(false);u.onerror=()=>setTalk(false);
-      sy.speak(u);
-    }
-  };
+  const say=t=>{if(!sy.current)return;sy.current.cancel();const u=new SpeechSynthesisUtterance(t);const v=sy.current.getVoices();const pk=v.find(x=>x.name.includes('Samantha'))||v.find(x=>x.name.includes('Karen'))||v.find(x=>x.lang.startsWith('en')&&x.name.includes('Google'))||v.find(x=>x.lang.startsWith('en'));if(pk)u.voice=pk;u.rate=1;u.pitch=1.05;u.onstart=()=>setTalk(true);u.onend=()=>setTalk(false);u.onerror=()=>setTalk(false);sy.current.speak(u)};
 
-  const listen=()=>{if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){setErr('Speech not supported — use Chrome or type below.');return}const S=window.SpeechRecognition||window.webkitSpeechRecognition;const r=new S();r.continuous=false;r.interimResults=false;r.lang='en-US';r.onstart=()=>setHear(true);r.onresult=e=>{setHear(false);send(e.results[0][0].transcript)};r.onerror=e=>{setHear(false);if(e.error!=='no-speech')setErr(`Mic: ${e.error}`)};r.onend=()=>setHear(false);if(audioRef.current){audioRef.current.pause();audioRef.current=null}window.speechSynthesis?.cancel();setTalk(false);r.start();rr.current=r};
+  const listen=()=>{if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){setErr('Speech not supported — use Chrome or type below.');return}const S=window.SpeechRecognition||window.webkitSpeechRecognition;const r=new S();r.continuous=false;r.interimResults=false;r.lang='en-US';r.onstart=()=>setHear(true);r.onresult=e=>{setHear(false);send(e.results[0][0].transcript)};r.onerror=e=>{setHear(false);if(e.error!=='no-speech')setErr(`Mic: ${e.error}`)};r.onend=()=>setHear(false);sy.current?.cancel();setTalk(false);r.start();rr.current=r};
   const unlisten=()=>{rr.current?.stop();setHear(false)};
 
-  const send=async t=>{if(!t.trim())return;const u=[...mr.current,{role:'user',content:t}];setMsgs(u);setTx(p=>[...p,{role:'u',text:t}]);setThink(true);try{const r=await ask(u);setMsgs(p=>[...p,{role:'assistant',content:r}]);setTx(p=>[...p,{role:'s',text:r}]);say(r)}catch(e){setErr(e.message)}finally{setThink(false)}};
+  const send=async t=>{if(!t.trim())return;const u=[...mr.current,{role:'user',content:t}];setMsgs(u);setTx(p=>[...p,{role:'u',text:t}]);setThink(true);try{const r=await ask(u,urlKey);setMsgs(p=>[...p,{role:'assistant',content:r}]);setTx(p=>[...p,{role:'s',text:r}]);say(r)}catch(e){setErr(e.message)}finally{setThink(false)}};
   const sub=e=>{e.preventDefault();if(!ti.trim())return;send(ti);setTi('')};
 
-  const end=async()=>{if(audioRef.current){audioRef.current.pause();audioRef.current=null}window.speechSynthesis?.cancel();rr.current?.stop();setHear(false);setTalk(false);setStep('debrief');setBriefing(true);try{setBrief(await genDebrief(mr.current))}catch(e){setBrief('Error: '+e.message)}finally{setBriefing(false)}};
+  const end=async()=>{sy.current?.cancel();rr.current?.stop();setHear(false);setTalk(false);setStep('debrief');setBriefing(true);try{setBrief(await genDebrief(mr.current,urlKey))}catch(e){setBrief('Error: '+e.message)}finally{setBriefing(false)}};
 
   const cp=(t,id)=>{navigator.clipboard.writeText(t);setCid(id);setTimeout(()=>setCid(null),2e3)};
   const reset=()=>{setStep('setup');setMsgs([]);setTx([]);setBrief('');setErr(null);setFiles([]);setFc('');setCtx('');setTi('')};
 
-  // Enhanced parser — extracts structured data for executive rendering
-  const ps=t=>{
-    const s={raw:t,risk:'yellow',signals:[],diagnosis:'',moves:[],emailSubject:'',emailBody:''};
-    t.split(/^## /m).filter(Boolean).forEach(p=>{
-      const l=p.split('\n'),tt=l[0].trim(),b=l.slice(1).join('\n').trim();
-      if(tt.includes('SIGNAL')||tt.includes('SYNOPSIS')){
-        // Extract risk level
-        const rm=b.match(/Risk\s*Level[:\s]*(\w+)/i);
-        if(rm)s.risk=rm[1].toLowerCase();
-        // Extract bullet signals
-        const bullets=b.match(/^[-*]\s+(.+)$/gm);
-        if(bullets)s.signals=bullets.map(x=>x.replace(/^[-*]\s+/,'').trim());
-        // Extract diagnosis
-        const dm=b.match(/Diagnosis[:\s]*(.+(?:\n(?![-*\n#]).+)*)/i);
-        if(dm)s.diagnosis=dm[1].trim();
-        else{const lines=b.split('\n').filter(x=>!x.match(/^[-*]/)&&!x.match(/Risk\s*Level/i)&&!x.match(/Key\s*Signals/i)&&x.trim());s.diagnosis=lines.join(' ').trim()}
-        s.synopsis=b;
-      }else if(tt.includes('NEXT')||tt.includes('MOVE')||tt.includes('ACTION')){
-        const items=b.match(/^\d+\.\s*(.+(?:\n(?!\d+\.).+)*)/gm);
-        if(items)s.moves=items.map(x=>x.replace(/^\d+\.\s*/,'').trim());
-        s.actions=b;
-      }else if(tt.includes('EMAIL')||tt.includes('FOLLOW')||tt.includes('MESSAGE')){
-        const sm=b.match(/Subject[:\s]*(.+)/i);
-        if(sm)s.emailSubject=sm[1].trim();
-        // Email body is everything after Subject line
-        const bodyStart=b.indexOf('\n',b.search(/Subject/i));
-        if(bodyStart>-1)s.emailBody=b.slice(bodyStart).trim();
-        else s.emailBody=b;
-        s.email=b;
-      }
-    });
-    return s;
-  };
-  const sec=brief?ps(brief):{raw:'',risk:'yellow',signals:[],diagnosis:'',moves:[],emailSubject:'',emailBody:''};
-  const [showTx,setShowTx]=useState(false);
-  const [dbTab,setDbTab]=useState('signals');
-
-  // ── Markdown-to-JSX renderer (handles **bold**, *italic*, line breaks) ──
-  const md=t=>{
-    if(!t)return null;
-    // Split into paragraphs on double newlines
-    const paras=t.split(/\n\n+/).filter(Boolean);
-    return paras.map((p,pi)=>{
-      // Process inline markdown per paragraph
-      const parts=[];let last=0;
-      const rx=/(\*\*(.+?)\*\*|\*(.+?)\*)/g;
-      let m;
-      while((m=rx.exec(p))!==null){
-        if(m.index>last)parts.push(p.slice(last,m.index));
-        if(m[2])parts.push(React.createElement('strong',{key:`b${pi}-${m.index}`},m[2]));
-        else if(m[3])parts.push(React.createElement('em',{key:`i${pi}-${m.index}`},m[3]));
-        last=m.index+m[0].length;
-      }
-      if(last<p.length)parts.push(p.slice(last));
-      // Convert single newlines to <br/>
-      const final=[];
-      parts.forEach((seg,si)=>{
-        if(typeof seg==='string'){
-          seg.split('\n').forEach((line,li)=>{
-            if(li>0)final.push(React.createElement('br',{key:`br${pi}-${si}-${li}`}));
-            if(line)final.push(line);
-          });
-        }else final.push(seg);
-      });
-      return React.createElement('p',{key:`p${pi}`},final);
-    });
-  };
-
-  // Parse move text into title + description
-  const parseMove=t=>{
-    // Match pattern like "Title (by date)": description  OR  "**Title**: description"
-    const m1=t.match(/^\*\*(.+?)\*\*[:\s]*(.+)/s);
-    if(m1)return{title:m1[1],desc:m1[2].trim()};
-    const m2=t.match(/^([^:]+?):\s*(.+)/s);
-    if(m2&&m2[1].length<80)return{title:m2[1],desc:m2[2].trim()};
-    return{title:'',desc:t};
-  };
+  const os=hear?'li':talk?'sp':'id';
+  const ps=t=>{const s={};t.split(/^## /m).filter(Boolean).forEach(p=>{const l=p.split('\n'),tt=l[0].trim(),b=l.slice(1).join('\n').trim();if(tt.includes('SIGNAL')||tt.includes('SYNOPSIS'))s.synopsis=b;else if(tt.includes('NEXT')||tt.includes('MOVE')||tt.includes('ACTION'))s.actions=b;else if(tt.includes('EMAIL')||tt.includes('FOLLOW')||tt.includes('MESSAGE'))s.email=b});return s};
+  const sec=brief?ps(brief):{};
 
   return(<div>
     <header className="hdr"><div className="hdr-l"><a href="https://mantyl.ai" target="_blank" rel="noopener noreferrer"><Logo h={24}/></a><div className="hdr-div"/><span className="hdr-name">Sophie</span></div><div className="hdr-r"><span className="hdr-pill"><span className="hdr-dot"/>AI Agent</span><a href={CAL} target="_blank" rel="noopener noreferrer" className="hdr-cta">Book Now</a></div></header>
@@ -891,6 +526,7 @@ function App(){
             <div className="sophie-ring"/>
             <div className="sophie-ring-2"/>
             <SophiePortrait w={320}/>
+            <SophiePreview/>
           </div>
           <div className="insight-card ic-1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B8ADB" strokeWidth="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><div><div className="insight-card-text">Signal detected</div><div className="insight-card-sub">Timeline avoidance</div></div></div>
           <div className="insight-card ic-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D4849A" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div><div className="insight-card-text">Risk analysis</div><div className="insight-card-sub">Single-threaded</div></div></div>
@@ -908,7 +544,7 @@ function App(){
       <div className={`step ${step==='debrief'?'on':''}`}><span className="step-n">3</span>Debrief</div>
     </div>
 
-    <main className={`mn ${step==='debrief'?'wide':''}`}>
+    <main className="mn">
       {err&&<div className="err-b fi-a">{Ic.alert}<span>{err}</span></div>}
 
       {step==='setup'&&<div className="fi-a">
@@ -937,242 +573,21 @@ function App(){
       </div>}
 
       {step==='session'&&<div className="vs fi-a">
-        {/* Ambient particles */}
-        <div className="vs-particle vp-1"/><div className="vs-particle vp-2"/>
-        <div className="vs-particle vp-3"/><div className="vs-particle vp-4"/>
-
-        {/* Session header */}
-        <div className="vs-header">
-          <div className="vs-header-left">
-            <Mark s={16}/>
-            <span className="vs-header-name">Sophie</span>
-            <div className="vs-header-tag"><span className="vs-header-dot"/>Live Session</div>
-          </div>
-          <button className="end-btn" onClick={end}>{Ic.sq}<span>End & Get Report</span></button>
-        </div>
-
-        {/* Main body — Sophie left, conversation right */}
-        <div className="vs-body">
-          {/* Left — Sophie with animated AI orb */}
-          <div className={`vs-left ${hear||talk?'active':''} ${talk?'speaking':''}`}>
-            <div className="ai-orb-container">
-              {/* The gradient orb — morphs based on state */}
-              <div className={`ai-orb ${hear?'li':talk?'sp':think?'th':''}`}/>
-              <div className="ai-orb-inner"/>
-              {/* Pulse rings */}
-              <div className="ai-pulse-ring"/>
-              <div className="ai-pulse-ring r2"/>
-              <div className="ai-pulse-ring r3"/>
-              {/* Sophie image */}
-              <img src="sophie.png" alt="Sophie" className="vs-sophie"/>
-            </div>
-
-            {/* Status indicator */}
-            <div className="vs-status">
-              <span className={`vs-status-dot ${hear?'listening':talk?'speaking':think?'thinking':'idle'}`}/>
-              {hear?'Listening...':talk?'Sophie is speaking...':think?'Analyzing...':'Ready'}
-            </div>
-
-            {/* Waveform visualizer */}
-            <div className="vs-wave">
-              {[...Array(13)].map((_,i)=><div key={i} className={`vs-wave-bar ${hear||talk?'active':''}`}/>)}
-            </div>
-          </div>
-
-          {/* Right — Conversation thread */}
-          <div className="vs-right">
-            <div className="vs-transcript">
-              {tx.length===0&&<div className="vs-tx-empty">Your conversation with Sophie will appear here...</div>}
-              {tx.map((m,i)=><div key={i} className={`vs-msg ${m.role==='s'?'sophie-msg':'user-msg'}`}>
-                <div className={`vs-msg-avatar ${m.role==='s'?'sophie':'user'}`}>
-                  {m.role==='s'?<img src="sophie.png" alt="S"/>:name[0]?.toUpperCase()||'Y'}
-                </div>
-                <div className="vs-msg-body">
-                  <div className="vs-msg-name">{m.role==='s'?'Sophie':name||'You'}</div>
-                  <div className="vs-msg-text">{m.text}</div>
-                </div>
-              </div>)}
-              {think&&<div className="vs-msg sophie-msg">
-                <div className="vs-msg-avatar sophie"><img src="sophie.png" alt="S"/></div>
-                <div className="vs-msg-body">
-                  <div className="vs-msg-name">Sophie</div>
-                  <div className="vs-thinking"><div className="thk-dots"><span/><span/><span/></div>Thinking...</div>
-                </div>
-              </div>}
-              <div ref={sr}/>
-            </div>
-
-            {/* Controls */}
-            <div className="vs-controls">
-              <div className="vs-controls-row">
-                <div className={`mic-label ${hear?'recording-label':''}`}>
-                  {hear?<><strong>Listening...</strong><br/>Press to stop</>:talk?<><strong>Sophie is speaking</strong><br/>Wait to respond</>:<><strong>Press to talk</strong><br/>with Sophie</>}
-                </div>
-                <button className={`mic-btn ${hear?'recording':'idle'}`} onClick={hear?unlisten:listen} disabled={think||talk}>
-                  {hear?Ic.stop:Ic.mic}
-                </button>
-                <button className="end-btn" onClick={end} title="End conversation and get your debrief">{Ic.sq}<span>End & Get Report</span></button>
-              </div>
-              <div className="vs-exit-hint">
-                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                Press "End & Get Report" when you're done to receive your signal report, next moves, and follow-up email.
-              </div>
-            </div>
-
-            {/* Divider — or type instead */}
-            <div className="vs-input-divider">
-              <div className="vs-input-divider-line"/>
-              <span className="vs-input-divider-text">or type instead</span>
-              <div className="vs-input-divider-line"/>
-            </div>
-
-            {/* Text input alternative */}
-            <form className="vs-input" onSubmit={sub} style={{marginTop:4}}>
-              <input placeholder="Type your message to Sophie..." value={ti} onChange={e=>setTi(e.target.value)} disabled={think}/>
-              <button type="submit" disabled={think||!ti.trim()}>{Ic.send}Send</button>
-            </form>
-          </div>
-        </div>
+        <div className="vs-orb-w"><div className={`vs-orb ${os}`}><div className="vs-ring"/><div className="bars">{[...Array(7)].map((_,i)=><div key={i} className="bar"/>)}</div></div></div>
+        <div className="vs-st"><span className={`sd ${hear?'li':talk?'sp':think?'on':''}`}/>{hear?'Listening...':talk?'Sophie is speaking...':think?'Sophie is thinking...':'Ready — tap the mic to talk'}</div>
+        <div className="tb">{tx.length===0&&<div className="tb-e">Your conversation will appear here...</div>}{tx.map((m,i)=><div key={i} className="tm"><div className={`ta ${m.role}`}>{m.role==='s'?'S':name[0]?.toUpperCase()||'Y'}</div><div><div className="tn">{m.role==='s'?'Sophie':name||'You'}</div><div className="tt">{m.text}</div></div></div>)}{think&&<div className="tm"><div className="ta s">S</div><div><div className="tn">Sophie</div><div className="thk"><div className="dts"><span/><span/><span/></div>Thinking...</div></div></div>}<div ref={sr}/></div>
+        <div className="vc"><button className={`mb ${hear?'rc':''}`} onClick={hear?unlisten:listen} disabled={think}>{hear?Ic.stop:Ic.mic}</button><button className="eb" onClick={end}>{Ic.sq}End Session</button></div>
+        <form className="tr" onSubmit={sub}><input placeholder="Or type your message..." value={ti} onChange={e=>setTi(e.target.value)} disabled={think}/><button type="submit" disabled={think||!ti.trim()}>{Ic.send}Send</button></form>
       </div>}
 
       {step==='debrief'&&<div className="db fi-a">
-        {briefing?<div className="db-loading">
-          <Mark s={40}/>
-          <div className="db-loading-text">Sophie is analyzing your conversation</div>
-          <div className="db-loading-sub">Generating signal report, next moves, and follow-up email...</div>
-          <div className="db-loading-dots"><span/><span/><span/></div>
-        </div>:<>
-          {/* ── Executive Header ── */}
-          <div className="db-hero">
-            <div className="db-hero-top">
-              <div>
-                <div className="db-hero-title">Session Debrief — <em>{prospect||'Prospect'}</em></div>
-                <div className="db-hero-sub">Prepared by Sophie for {name} on {new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</div>
-              </div>
-              <div className="db-hero-actions">
-                <button className="db-hero-btn secondary" onClick={()=>cp(brief,'all')}>{Ic.copy}{cid==='all'?'Copied':'Copy All'}</button>
-                <button className="db-hero-btn primary" onClick={reset}>{Ic.refresh}New Session</button>
-              </div>
-            </div>
-            <div className="db-meta">
-              <div className="db-meta-item"><div className="db-meta-label">Account</div><div className="db-meta-value">{prospect||'—'}</div></div>
-              <div className="db-meta-item"><div className="db-meta-label">Stage</div><div className="db-meta-value sm">{stage||'—'}</div></div>
-              <div className="db-meta-item"><div className="db-meta-label">Exchanges</div><div className="db-meta-value">{tx.length}</div></div>
-              <div className="db-meta-item"><div className="db-meta-label">Risk Level</div><div className="db-meta-value"><span className={`risk-badge ${sec.risk}`}><span className="risk-dot"/>{sec.risk.toUpperCase()}</span></div></div>
-            </div>
-          </div>
-
-          {/* ── Tab Navigation ── */}
-          <div className="db-tabs-wrap">
-            <div className="db-tabs">
-              <button className={`db-tab ${dbTab==='signals'?'active':''}`} onClick={()=>setDbTab('signals')}>
-                <span className="db-tab-icon blue">{Ic.chart}</span>Signal Report
-              </button>
-              <button className={`db-tab ${dbTab==='moves'?'active':''}`} onClick={()=>setDbTab('moves')}>
-                <span className="db-tab-icon lav">{Ic.target}</span>Next Moves
-              </button>
-              <button className={`db-tab ${dbTab==='email'?'active':''}`} onClick={()=>setDbTab('email')}>
-                <span className="db-tab-icon rose">{Ic.mail}</span>Follow-Up Email
-              </button>
-              <button className={`db-tab ${dbTab==='transcript'?'active':''}`} onClick={()=>setDbTab('transcript')}>
-                <span className="db-tab-icon navy">{Ic.msg}</span>Transcript ({tx.length})
-              </button>
-            </div>
-          </div>
-
-          {/* ── Tab Panel Content ── */}
-          <div className="db-panel">
-
-            {/* Signal Report */}
-            {dbTab==='signals'&&<>
-              <div className="db-ph">
-                <div className="db-ph-left">
-                  <div className="db-ph-icon blue">{Ic.chart}</div>
-                  <div className="db-ph-text"><h3>Signal Report</h3><p>Key findings from the conversation</p></div>
-                </div>
-                <button className={`cp ${cid==='s'?'ok':''}`} onClick={()=>cp(sec.synopsis||'','s')}>{Ic.copy}{cid==='s'?'Copied':'Copy'}</button>
-              </div>
-              <div className="db-pb">
-                {sec.signals.length>0?<>
-                  <ul className="db-findings">{sec.signals.map((s,i)=><li key={i}>{md(s)}</li>)}</ul>
-                  {sec.diagnosis&&<div className="db-diagnosis"><div className="db-diagnosis-label">Diagnosis</div><div className="db-rich">{md(sec.diagnosis)}</div></div>}
-                </>:<div className="db-rich">{md(sec.raw||brief)}</div>}
-              </div>
-            </>}
-
-            {/* Next Moves */}
-            {dbTab==='moves'&&<>
-              <div className="db-ph">
-                <div className="db-ph-left">
-                  <div className="db-ph-icon lav">{Ic.target}</div>
-                  <div className="db-ph-text"><h3>Recommended Next Moves</h3><p>Prioritized actions to advance this opportunity</p></div>
-                </div>
-                <button className={`cp ${cid==='a'?'ok':''}`} onClick={()=>cp(sec.actions||'','a')}>{Ic.copy}{cid==='a'?'Copied':'Copy'}</button>
-              </div>
-              <div className="db-pb">
-                {sec.moves.length>0?<ol className="db-moves">{sec.moves.map((m,i)=>{
-                  const pm=parseMove(m);
-                  return <li key={i}>
-                    <span className="db-moves-num">{i+1}</span>
-                    <div className="db-moves-content">
-                      {pm.title&&<div className="db-moves-title">{pm.title}</div>}
-                      <div className="db-moves-desc">{md(pm.desc)}</div>
-                    </div>
-                  </li>
-                })}</ol>:<div className="db-rich" style={{color:'#94a3b8'}}>No specific moves were identified. Review the signal report for insights.</div>}
-              </div>
-            </>}
-
-            {/* Follow-Up Email */}
-            {dbTab==='email'&&<>
-              <div className="db-ph">
-                <div className="db-ph-left">
-                  <div className="db-ph-icon rose">{Ic.mail}</div>
-                  <div className="db-ph-text"><h3>Draft Follow-Up Email</h3><p>Ready to review, personalize, and send</p></div>
-                </div>
-                <button className={`cp ${cid==='e'?'ok':''}`} onClick={()=>cp(sec.email||'','e')}>{Ic.copy}{cid==='e'?'Copied':'Copy'}</button>
-              </div>
-              <div className="db-pb">
-                <div className="db-email">
-                  {sec.emailSubject&&<div className="db-email-header">
-                    <div className="db-email-row"><span className="db-email-label">To</span><span className="db-email-val">{prospect||'Prospect'}</span></div>
-                    <div className="db-email-row"><span className="db-email-label">Subject</span><span className="db-email-val" style={{fontWeight:700}}>{sec.emailSubject}</span></div>
-                  </div>}
-                  <div className="db-email-body">{md(sec.emailBody)}</div>
-                </div>
-              </div>
-            </>}
-
-            {/* Transcript */}
-            {dbTab==='transcript'&&<>
-              <div className="db-ph">
-                <div className="db-ph-left">
-                  <div className="db-ph-icon navy">{Ic.msg}</div>
-                  <div className="db-ph-text"><h3>Conversation Transcript</h3><p>{tx.length} exchanges between {name||'you'} and Sophie</p></div>
-                </div>
-                <button className={`cp ${cid==='t'?'ok':''}`} onClick={()=>cp(tx.map(m=>`${m.role==='s'?'Sophie':name}: ${m.text}`).join('\n\n'),'t')}>{Ic.copy}{cid==='t'?'Copied':'Copy'}</button>
-              </div>
-              <div className="db-transcript">
-                {tx.map((m,i)=><div key={i} className="db-tx-msg">
-                  <div className={`db-tx-avatar ${m.role==='s'?'sophie':'user'}`}>
-                    {m.role==='s'?<img src="sophie.png" alt="S"/>:name[0]?.toUpperCase()||'Y'}
-                  </div>
-                  <div className="db-tx-body">
-                    <div className="db-tx-name">{m.role==='s'?'Sophie':name||'You'}</div>
-                    <div className="db-tx-text">{m.text}</div>
-                  </div>
-                </div>)}
-              </div>
-            </>}
-
-          </div>
-
-          {/* ── Action Footer ── */}
-          <div className="db-actions">
-            <button className="da-btn primary" onClick={reset}>{Ic.refresh}Start New Session</button>
-            <button className="da-btn secondary" onClick={()=>setStep('session')}>{Ic.arrow}Back to Conversation</button>
-            <button className="da-btn secondary" onClick={()=>{window.open(CAL,'_blank')}}>{Ic.zap}Book a Consultation</button>
-          </div>
+        {briefing?<div className="ld-s"><div style={{marginBottom:16}}><Mark s={32}/></div><div className="thk" style={{justifyContent:'center'}}><div className="dts"><span/><span/><span/></div>Sophie is preparing your debrief...</div></div>:<>
+          {sec.synopsis&&<div className="dc"><div className="dc-h"><h3><span style={{color:'var(--blue)'}}>{Ic.chart}</span>Signal Report</h3><button className={`cp ${cid==='s'?'ok':''}`} onClick={()=>cp(sec.synopsis,'s')}>{Ic.copy}{cid==='s'?'Copied':'Copy'}</button></div><div className="dc-b"><pre>{sec.synopsis}</pre></div></div>}
+          {sec.actions&&<div className="dc"><div className="dc-h"><h3><span style={{color:'var(--lav)'}}>{Ic.target}</span>Next Moves</h3><button className={`cp ${cid==='a'?'ok':''}`} onClick={()=>cp(sec.actions,'a')}>{Ic.copy}{cid==='a'?'Copied':'Copy'}</button></div><div className="dc-b"><pre>{sec.actions}</pre></div></div>}
+          {sec.email&&<div className="dc"><div className="dc-h"><h3><span style={{color:'var(--rose)'}}>{Ic.mail}</span>Draft Follow-Up</h3><button className={`cp ${cid==='e'?'ok':''}`} onClick={()=>cp(sec.email,'e')}>{Ic.copy}{cid==='e'?'Copied':'Copy'}</button></div><div className="dc-b"><pre>{sec.email}</pre></div></div>}
+          {!sec.synopsis&&!sec.actions&&!sec.email&&brief&&<div className="dc"><div className="dc-h"><h3>{Ic.clip}Debrief</h3><button className={`cp ${cid==='f'?'ok':''}`} onClick={()=>cp(brief,'f')}>{Ic.copy}{cid==='f'?'Copied':'Copy'}</button></div><div className="dc-b"><pre>{brief}</pre></div></div>}
+          <div className="dc"><div className="dc-h"><h3>{Ic.msg}Full Transcript</h3><button className={`cp ${cid==='t'?'ok':''}`} onClick={()=>cp(tx.map(m=>`${m.role==='s'?'Sophie':name}: ${m.text}`).join('\n\n'),'t')}>{Ic.copy}{cid==='t'?'Copied':'Copy'}</button></div><div className="dc-b tf">{tx.map((m,i)=><div key={i} className="tm"><div className={`ta ${m.role}`}>{m.role==='s'?'S':name[0]?.toUpperCase()||'Y'}</div><div><div className="tn">{m.role==='s'?'Sophie':name}</div><div className="tt">{m.text}</div></div></div>)}</div></div>
+          <div className="da"><button className="bp" onClick={reset}>{Ic.refresh}New Session</button><button className="bs" onClick={()=>setStep('session')}>{Ic.arrow}Back to Conversation</button></div>
         </>}
       </div>}
     </main>
