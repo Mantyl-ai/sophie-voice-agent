@@ -32,12 +32,6 @@
   to = "/.netlify/functions/usage-tracker"
   status = 200
 
-# Calendly webhook — booking notifications to Jose + prospect
-[[redirects]]
-  from = "/api/calendly-webhook"
-  to = "/.netlify/functions/calendly-webhook"
-  status = 200
-
 # SPA fallback — serve index.html for all routes
 [[redirects]]
   from = "/*"
