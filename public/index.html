@@ -57,7 +57,7 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 .hero-stat-label{font-size:11px;color:#64748b;font-weight:500;margin-top:4px}
 
 /* Right — Sophie showcase */
-.hero-right{position:relative;display:flex;align-items:center;justify-content:center;padding:32px 0}
+.hero-right{position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:32px 0}
 
 /* Sophie container with brand gradient background */
 .sophie-showcase{position:relative;display:flex;align-items:flex-end;justify-content:center}
@@ -82,7 +82,7 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 .insight-card-sub{font-size:9px;color:#64748b;margin-top:2px;font-weight:400}
 .ic-1{top:14%;right:4%;animation-delay:0s}
 .ic-2{top:48%;left:0%;animation-delay:1.8s}
-.ic-3{bottom:14%;right:8%;animation-delay:3.2s}
+.ic-3{bottom:28%;right:8%;animation-delay:3.2s}
 @keyframes card-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 
 /* Ambient particles */
@@ -965,10 +965,6 @@ function App(){
             <div className="hero-stat"><span className="hero-stat-num">5 min</span><span className="hero-stat-label">Avg. session</span></div>
             <div className="hero-stat"><span className="hero-stat-num">3</span><span className="hero-stat-label">Deliverables</span></div>
           </div>
-          <button onClick={previewSophie} style={{marginTop:18,padding:'10px 22px',background:playing?'rgba(107,138,219,.15)':'rgba(255,255,255,.06)',border:'1px solid '+(playing?'rgba(107,138,219,.4)':'rgba(255,255,255,.1)'),borderRadius:10,color:playing?'#93b0f1':'rgba(255,255,255,.7)',fontSize:13,fontWeight:600,fontFamily:'var(--font)',cursor:'pointer',display:'flex',alignItems:'center',gap:8,transition:'.2s'}}>
-            {playing?<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>}
-            {playing?'Playing…':'Preview Sophie\'s Voice'}
-          </button>
         </div>
         <div className="hero-right">
           <div className="sophie-showcase">
@@ -977,6 +973,10 @@ function App(){
             <div className="sophie-ring-2"/>
             <SophiePortrait w={320}/>
           </div>
+          <button onClick={previewSophie} style={{marginTop:12,padding:'10px 22px',background:playing?'rgba(107,138,219,.15)':'rgba(255,255,255,.06)',border:'1px solid '+(playing?'rgba(107,138,219,.4)':'rgba(255,255,255,.1)'),borderRadius:10,color:playing?'#93b0f1':'rgba(255,255,255,.7)',fontSize:13,fontWeight:600,fontFamily:'var(--font)',cursor:'pointer',display:'flex',alignItems:'center',gap:8,transition:'.2s',position:'relative',zIndex:5}}>
+            {playing?<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>}
+            {playing?'Playing…':'Preview Sophie\'s Voice'}
+          </button>
           <div className="insight-card ic-1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B8ADB" strokeWidth="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><div><div className="insight-card-text">Signal detected</div><div className="insight-card-sub">Timeline avoidance</div></div></div>
           <div className="insight-card ic-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D4849A" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div><div className="insight-card-text">Risk analysis</div><div className="insight-card-sub">Single-threaded</div></div></div>
           <div className="insight-card ic-3"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E89E6C" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><div><div className="insight-card-text">Follow-up ready</div><div className="insight-card-sub">Auto-drafted</div></div></div>
