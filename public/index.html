@@ -99,7 +99,7 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,black,transparent);-webkit-mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,black,transparent)}
 
 /* Sophie preview audio button */
-.sophie-preview{position:relative;z-index:4;margin-top:20px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.sophie-preview{position:relative;z-index:4;margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:6px}
 .sophie-preview-label{font-size:10px;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
 .sophie-preview-btn{display:inline-flex;align-items:center;gap:10px;padding:12px 28px;background:rgba(255,255,255,.06);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.12);border-radius:48px;cursor:pointer;transition:all .25s;font-family:var(--font);font-size:13px;font-weight:600;color:rgba(255,255,255,.9);box-shadow:0 4px 24px rgba(0,0,0,.2)}
 .sophie-preview-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(107,138,219,.35);transform:translateY(-2px);box-shadow:0 8px 32px rgba(107,138,219,.15)}
@@ -306,13 +306,7 @@ const SophiePortrait=({w=340})=>(
 <img src="sophie.png" alt="Sophie — AI Sales Intelligence Agent" className="sophie-img" style={{width:w}} />
 );
 
-// ── ELEVENLABS CONFIG ────────────────────────────────────────────
-// Belle voice — set your ElevenLabs API key via ?xi=YOUR_KEY in the URL
-const ELEVEN_KEY = new URLSearchParams(window.location.search).get('xi') || '';
-const ELEVEN_VOICE = 'EXAVITQu4vr4xnSDxMaL'; // Belle — update if your voice ID differs
-const ELEVEN_MODEL = 'eleven_multilingual_v2';
-
-// ── SOPHIE PREVIEW — hear what she sounds like ──────────────────
+// ── SOPHIE PREVIEW — hear what she sounds like (via /api/tts → Netlify → ElevenLabs Belle) ──
 const SOPHIE_SAYINGS=[
   "Hey there, it's Sophie! Ready to get started? Fill out the form below and we'll dive right in.",
   "I'm Sophie, your AI sales analyst. Go ahead and fill out the form below — I'll take it from there.",
@@ -321,18 +315,18 @@ const SOPHIE_SAYINGS=[
   "Let's do this! Fill out the form below and I'll have your signal report ready in minutes."
 ];
 
-// Audio cache so we only call ElevenLabs once per saying
+// Audio cache — only calls ElevenLabs once per saying per session
 const _audioCache={};
-async function elevenSpeak(text){
+async function sophieSpeak(text){
   if(_audioCache[text])return new Audio(_audioCache[text]);
-  const res=await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${ELEVEN_VOICE}`,{
+  const res=await fetch('/api/tts',{
     method:'POST',
-    headers:{'xi-api-key':ELEVEN_KEY,'Content-Type':'application/json','Accept':'audio/mpeg'},
-    body:JSON.stringify({text,model_id:ELEVEN_MODEL,voice_settings:{stability:0.5,similarity_boost:0.75,style:0.4}})
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({text})
   });
-  if(!res.ok)throw new Error('ElevenLabs '+res.status);
-  const blob=await res.blob();
-  const url=URL.createObjectURL(blob);
+  if(!res.ok)throw new Error('TTS '+res.status);
+  const data=await res.json();
+  const url='data:audio/mpeg;base64,'+data.audio;
   _audioCache[text]=url;
   return new Audio(url);
 }
@@ -349,29 +343,27 @@ const SophiePreview=()=>{
       if(audioRef.current){audioRef.current.pause();audioRef.current.currentTime=0}
       setPlaying(false);return;
     }
-    // Try ElevenLabs first, fall back to browser TTS
-    if(ELEVEN_KEY){
-      setLoading(true);
-      try{
-        const a=await elevenSpeak(SOPHIE_SAYINGS[idx]);
-        audioRef.current=a;
-        a.onended=()=>{setPlaying(false);setIdx(p=>(p+1)%SOPHIE_SAYINGS.length)};
-        a.onerror=()=>setPlaying(false);
-        setLoading(false);setPlaying(true);
-        a.play();
-        return;
-      }catch(e){setLoading(false);/* fall through to browser TTS */}
+    setLoading(true);
+    try{
+      const a=await sophieSpeak(SOPHIE_SAYINGS[idx]);
+      audioRef.current=a;
+      a.onended=()=>{setPlaying(false);setIdx(p=>(p+1)%SOPHIE_SAYINGS.length)};
+      a.onerror=()=>setPlaying(false);
+      setLoading(false);setPlaying(true);
+      a.play();
+    }catch(e){
+      setLoading(false);
+      // Fallback to browser TTS if /api/tts fails
+      const syn=window.speechSynthesis;syn.cancel();
+      const u=new SpeechSynthesisUtterance(SOPHIE_SAYINGS[idx]);
+      const v=syn.getVoices();
+      const pk=v.find(x=>x.name.includes('Samantha'))||v.find(x=>x.name.includes('Karen'))||v.find(x=>x.lang.startsWith('en')&&x.name.includes('Google'))||v.find(x=>x.lang.startsWith('en'));
+      if(pk)u.voice=pk;u.rate=1;u.pitch=1.05;
+      u.onstart=()=>setPlaying(true);
+      u.onend=()=>{setPlaying(false);setIdx(p=>(p+1)%SOPHIE_SAYINGS.length)};
+      u.onerror=()=>setPlaying(false);
+      syn.speak(u);
     }
-    // Browser TTS fallback
-    const syn=window.speechSynthesis;syn.cancel();
-    const u=new SpeechSynthesisUtterance(SOPHIE_SAYINGS[idx]);
-    const v=syn.getVoices();
-    const pk=v.find(x=>x.name.includes('Samantha'))||v.find(x=>x.name.includes('Karen'))||v.find(x=>x.lang.startsWith('en')&&x.name.includes('Google'))||v.find(x=>x.lang.startsWith('en'));
-    if(pk)u.voice=pk;u.rate=1;u.pitch=1.05;
-    u.onstart=()=>setPlaying(true);
-    u.onend=()=>{setPlaying(false);setIdx(p=>(p+1)%SOPHIE_SAYINGS.length)};
-    u.onerror=()=>setPlaying(false);
-    syn.speak(u);
   };
 
   // Preload browser voices as fallback
