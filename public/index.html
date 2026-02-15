@@ -441,16 +441,16 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 .db-tabs-wrap{background:var(--navy);border-bottom:3px solid var(--grad);padding:0 36px;position:sticky;top:56px;z-index:50}
 .db-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
 .db-tabs::-webkit-scrollbar{display:none}
-.db-tab{padding:12px 22px;font-family:var(--font);font-size:12px;font-weight:600;color:rgba(255,255,255,.4);cursor:pointer;border:none;background:rgba(255,255,255,.02);border-radius:10px 10px 0 0;transition:.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;position:relative}
-.db-tab:hover{color:rgba(255,255,255,.7);background:rgba(255,255,255,.04)}
-.db-tab.active{color:#fff;background:rgba(255,255,255,.08)}
-.db-tab.active::after{content:'';position:absolute;bottom:0;left:16px;right:16px;height:2px;background:var(--grad);border-radius:2px 2px 0 0}
+.db-tab{padding:12px 22px;font-family:var(--font);font-size:12px;font-weight:600;color:rgba(255,255,255,.65);cursor:pointer;border:none;background:rgba(255,255,255,.06);border-radius:10px 10px 0 0;transition:.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;position:relative;border:1px solid rgba(255,255,255,.06);border-bottom:none}
+.db-tab:hover{color:rgba(255,255,255,.9);background:rgba(255,255,255,.1)}
+.db-tab.active{color:#fff;background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.12)}
+.db-tab.active::after{content:'';position:absolute;bottom:0;left:12px;right:12px;height:2.5px;background:var(--grad);border-radius:2px 2px 0 0}
 .db-tab-icon{width:16px;height:16px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .db-tab-icon svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
 .db-tab-icon.blue{color:var(--blue)}
 .db-tab-icon.lav{color:var(--lav)}
 .db-tab-icon.rose{color:var(--rose)}
-.db-tab-icon.navy{color:rgba(255,255,255,.35)}
+.db-tab-icon.navy{color:rgba(255,255,255,.6)}
 
 /* ── Tab Panel (content area) ── */
 .db-panel{background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 var(--r-xl) var(--r-xl);min-height:420px;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(15,23,42,.04)}
@@ -604,6 +604,28 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
   .vs-exit-hint{font-size:10px;text-align:center}
   .vs-input{flex-direction:column}
 }
+
+/* ─── PAYWALL / LIMIT REACHED SCREEN ─── */
+.paywall-screen{display:flex;justify-content:center;align-items:center;min-height:400px;padding:40px 20px}
+.paywall-card{text-align:center;max-width:520px;padding:48px 40px;background:#fff;border-radius:20px;border:1px solid rgba(107,138,219,.15);box-shadow:0 8px 32px rgba(0,0,0,.06)}
+.paywall-icon{margin-bottom:20px}
+.paywall-title{font-size:22px;font-weight:700;color:var(--navy);margin:0 0 12px}
+.paywall-desc{font-size:15px;color:#64748b;line-height:1.6;margin:0 0 28px}
+.paywall-desc strong{color:var(--navy)}
+.paywall-cta{display:inline-flex;align-items:center;gap:8px;padding:14px 36px;background:var(--grad);color:#fff;border:none;border-radius:8px;font-family:var(--font);font-size:15px;font-weight:600;text-decoration:none;transition:all .2s;box-shadow:0 4px 16px rgba(107,138,219,.3);cursor:pointer}
+.paywall-cta:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(107,138,219,.4)}
+.paywall-back{display:block;margin:16px auto 0;padding:8px 16px;background:none;border:none;color:#94a3b8;font-size:13px;cursor:pointer;font-family:var(--font);transition:color .2s}
+.paywall-back:hover{color:var(--navy)}
+
+/* ─── RISK LEVEL EXPLANATION (below badge) ─── */
+.risk-explain{font-size:10px;color:#94a3b8;margin-top:6px;line-height:1.4;max-width:200px;font-weight:400;letter-spacing:.01em}
+
+/* ─── POST-RESULTS CTA BANNER ─── */
+.db-cta-banner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 24px;margin-top:20px;background:linear-gradient(135deg,rgba(107,138,219,.06),rgba(155,127,199,.06));border:1px solid rgba(107,138,219,.12);border-radius:14px}
+.db-cta-banner-text{font-size:14px;color:var(--navy);font-weight:500}
+.db-cta-banner-text strong{font-weight:700}
+.db-cta-banner-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:var(--grad);color:#fff;border:none;border-radius:8px;font-family:var(--font);font-size:13px;font-weight:600;text-decoration:none;cursor:pointer;transition:all .2s;flex-shrink:0}
+.db-cta-banner-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(107,138,219,.3)}
 </style>
 </head>
 <body>
@@ -652,6 +674,7 @@ const CHAT_ENDPOINT = '/api/chat';       // → Netlify Function → OpenAI
 const DEBRIEF_ENDPOINT = '/api/debrief'; // → Netlify Function → Anthropic
 const TTS_ENDPOINT = '/api/tts';         // → Netlify Function → ElevenLabs TTS
 const ERROR_ENDPOINT = '/api/error-report'; // → Netlify Function → Email alert
+const USAGE_ENDPOINT = '/api/usage-tracker'; // → Netlify Function → Upstash Redis
 
 // ── Error Reporting — fire-and-forget email to jose@mantyl.ai ──
 let _errCtx = { name: '', email: '', prospect: '', stage: '', step: 'setup', txLen: 0 };
@@ -674,6 +697,14 @@ function reportError(message, source) {
       })
     }).catch(() => {}); // Best-effort — never block the app
   } catch (_) {}
+}
+
+// ── Usage Tracking — 3-use cap per email, jose@mantyl.ai exempt ──
+async function checkUsage(email){
+  try{const r=await fetch(`${USAGE_ENDPOINT}?email=${encodeURIComponent(email)}`);if(!r.ok)return{allowed:true};return r.json()}catch(e){return{allowed:true}}
+}
+async function incrementUsage(email){
+  try{await fetch(USAGE_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})})}catch(e){}
 }
 
 // ── Sophie Preview — Hero CTA sayings via ElevenLabs Belle ──
@@ -864,6 +895,9 @@ function App(){
   const start=async()=>{
     if(!validate()||starting)return;
     setStarting(true);setErr(null);
+    // ── Usage gate: check if this email has exceeded the free limit ──
+    const userEmail=(email||'').trim().toLowerCase();
+    if(userEmail){try{const usage=await checkUsage(userEmail);if(!usage.allowed){setStep('paywall');setStarting(false);return}}catch(e){console.warn('[Usage] Check failed, proceeding:',e.message)}}
     let c=`Session Context:\nRep: ${name}\nEmail: ${email}\nProspect/Account: ${prospect}\nStage: ${stage}\n`;
     if(ctx)c+=`Notes: ${ctx}\n`;
     if(fc)c+=`\nDocuments:${fc}\n`;
@@ -916,7 +950,7 @@ function App(){
   const send=async t=>{if(!t.trim()||sendLock.current)return;sendLock.current=true;const u=[...mr.current,{role:'user',content:t}];setMsgs(u);setTx(p=>[...p,{role:'u',text:t}]);setThink(true);try{const r=await ask(u);setMsgs(p=>[...p,{role:'assistant',content:r}]);setTx(p=>[...p,{role:'s',text:r}]);say(r)}catch(e){setErr(e.message);reportError(e.message,'send')}finally{setThink(false);sendLock.current=false}};
   const sub=e=>{e.preventDefault();if(!ti.trim())return;send(ti);setTi('')};
 
-  const end=async()=>{if(audioRef.current){audioRef.current.pause();audioRef.current=null}window.speechSynthesis?.cancel();rr.current?.stop();setHear(false);setTalk(false);setStep('debrief');setBriefing(true);try{setBrief(await genDebrief(mr.current))}catch(e){setBrief('Error: '+e.message);reportError(e.message,'debrief')}finally{setBriefing(false)}};
+  const end=async()=>{if(audioRef.current){audioRef.current.pause();audioRef.current=null}window.speechSynthesis?.cancel();rr.current?.stop();setHear(false);setTalk(false);setStep('debrief');setBriefing(true);try{setBrief(await genDebrief(mr.current));const ue=(email||'').trim().toLowerCase();if(ue)incrementUsage(ue)}catch(e){setBrief('Error: '+e.message);reportError(e.message,'debrief')}finally{setBriefing(false)}};
 
   const cp=(t,id)=>{navigator.clipboard.writeText(t);setCid(id);setTimeout(()=>setCid(null),2e3)};
   const reset=()=>{setStep('setup');setMsgs([]);setTx([]);setBrief('');setErr(null);setFiles([]);setFc('');setCtx('');setTi('');setStarting(false);sendLock.current=false};
@@ -1078,6 +1112,24 @@ function App(){
         <div className="cta"><div className="cta-l"><span className="cta-m">M</span><div><div className="cta-tt">Want this built for your team?</div><div className="cta-dd">Custom AI tools tailored to your CRM, playbook, and workflow.</div></div></div><a href={CAL} target="_blank" rel="noopener noreferrer" className="cta-b">Book a Call</a></div>
       </div>}
 
+      {step==='paywall'&&<div className="paywall-screen fi-a">
+        <div className="paywall-card">
+          <div className="paywall-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--peach)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <h2 className="paywall-title">Thanks for trying Sophie!</h2>
+          <p className="paywall-desc">
+            You've used all <strong>3 free sessions</strong>. If you'd like Sophie custom-built for your team with <strong>unlimited usage</strong>, personalized to your exact playbook, CRM, and workflow — let's talk.
+          </p>
+          <a href={CAL} target="_blank" rel="noopener noreferrer" className="paywall-cta">
+            Book a Free Consultation
+          </a>
+          <button className="paywall-back" onClick={reset}>
+            ← Back to form
+          </button>
+        </div>
+      </div>}
+
       {step==='session'&&<div className="vs fi-a">
         {/* Ambient particles */}
         <div className="vs-particle vp-1"/><div className="vs-particle vp-2"/>
@@ -1199,8 +1251,9 @@ function App(){
             <div className="db-meta">
               <div className="db-meta-item"><div className="db-meta-label">Account</div><div className="db-meta-value">{prospect||'—'}</div></div>
               <div className="db-meta-item"><div className="db-meta-label">Stage</div><div className="db-meta-value sm">{stage||'—'}</div></div>
-              <div className="db-meta-item"><div className="db-meta-label">Exchanges</div><div className="db-meta-value">{tx.length}</div></div>
-              <div className="db-meta-item"><div className="db-meta-label">Risk Level</div><div className="db-meta-value"><span className={`risk-badge ${sec.risk}`}><span className="risk-dot"/>{sec.risk.toUpperCase()}</span></div></div>
+              <div className="db-meta-item"><div className="db-meta-label">Risk Level</div><div className="db-meta-value"><span className={`risk-badge ${sec.risk}`}><span className="risk-dot"/>{sec.risk.toUpperCase()}</span></div>
+                <div className="risk-explain">{sec.risk==='green'?'Healthy — strong buying signals detected':sec.risk==='yellow'?'Caution — mixed signals or unresolved concerns identified':sec.risk==='red'?'At risk — significant objections or disengagement detected':'Assessing risk level...'}</div>
+              </div>
             </div>
           </div>
 
@@ -1239,6 +1292,10 @@ function App(){
                   <ul className="db-findings">{sec.signals.map((s,i)=><li key={i}>{md(s)}</li>)}</ul>
                   {sec.diagnosis&&<div className="db-diagnosis"><div className="db-diagnosis-label">Diagnosis</div><div className="db-rich">{md(sec.diagnosis)}</div></div>}
                 </>:<div className="db-rich">{md(sec.raw||brief)}</div>}
+                <div className="db-cta-banner">
+                  <div className="db-cta-banner-text"><strong>Want Sophie built for your team?</strong> Custom AI agents with your playbook, CRM, and workflows.</div>
+                  <a href={CAL} target="_blank" rel="noopener noreferrer" className="db-cta-banner-btn">{Ic.zap}Book a Free Call</a>
+                </div>
               </div>
             </>}
 
@@ -1281,6 +1338,10 @@ function App(){
                     <div className="db-email-row"><span className="db-email-label">Subject</span><span className="db-email-val" style={{fontWeight:700}}>{sec.emailSubject}</span></div>
                   </div>}
                   <div className="db-email-body">{md(sec.emailBody)}</div>
+                </div>
+                <div className="db-cta-banner">
+                  <div className="db-cta-banner-text"><strong>Like what Sophie generated?</strong> Imagine this integrated with your CRM — automatically.</div>
+                  <a href={CAL} target="_blank" rel="noopener noreferrer" className="db-cta-banner-btn">{Ic.zap}Let's Talk</a>
                 </div>
               </div>
             </>}

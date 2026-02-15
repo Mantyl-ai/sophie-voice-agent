@@ -26,6 +26,12 @@
   to = "/.netlify/functions/error-report"
   status = 200
 
+# Usage tracking — 3-use cap per email
+[[redirects]]
+  from = "/api/usage-tracker"
+  to = "/.netlify/functions/usage-tracker"
+  status = 200
+
 # SPA fallback — serve index.html for all routes
 [[redirects]]
   from = "/*"
