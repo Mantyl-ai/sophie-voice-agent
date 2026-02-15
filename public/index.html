@@ -413,35 +413,30 @@ At session end, generate:
 2. Draft follow-up message
 3. Recommended next moves`;
 
-// ── API (key injected backend — placeholder for demo) ────────────
-// In production, replace with your backend endpoint that wraps OpenAI
-const API_ENDPOINT = null; // Set to your backend URL, e.g. 'https://api.mantyl.ai/sophie/chat'
-
-async function ask(messages, key) {
-  const endpoint = API_ENDPOINT || 'https://api.openai.com/v1/chat/completions';
-  const headers = API_ENDPOINT
-    ? { 'Content-Type': 'application/json' }
-    : { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` };
-  const res = await fetch(endpoint, {
-    method: 'POST', headers,
+// ── API — Netlify serverless proxies (keys stored server-side) ───
+async function ask(messages) {
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ model: 'gpt-4o', messages, temperature: .7, max_tokens: 800 })
   });
   if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error?.message||`Error ${res.status}`); }
   return (await res.json()).choices[0].message.content;
 }
 
-async function genDebrief(messages, key) {
+async function genDebrief(messages) {
   const p = `Based on the conversation, generate:\n\n## SIGNAL REPORT\nRisk Level: [GREEN/YELLOW/RED]\n- Key signals (3-5 bullets)\n- Diagnosis (2-3 sentences)\n\n## RECOMMENDED NEXT MOVES\n1. [Highest priority with specific language]\n2. [Second]\n3. [Third]\n\n## DRAFT FOLLOW-UP MESSAGE\nSubject: [line]\n\n[Body, 150 words max, professional, specific]\n\nBest,\n[Rep Name]`;
-  const endpoint = API_ENDPOINT || 'https://api.openai.com/v1/chat/completions';
-  const headers = API_ENDPOINT
-    ? { 'Content-Type': 'application/json' }
-    : { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` };
-  const res = await fetch(endpoint, {
-    method: 'POST', headers,
-    body: JSON.stringify({ model: 'gpt-4o', messages: [...messages, { role: 'user', content: p }], temperature: .5, max_tokens: 1200 })
+  // Separate system message from conversation for Anthropic API format
+  const sysMsg = messages.find(m => m.role === 'system');
+  const convMsgs = messages.filter(m => m.role !== 'system');
+  const allMessages = [...convMsgs, { role: 'user', content: p }];
+  const res = await fetch('/api/debrief', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ system: sysMsg?.content || '', messages: allMessages, max_tokens: 1200 })
   });
   if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error?.message||`Error ${res.status}`); }
-  return (await res.json()).choices[0].message.content;
+  return (await res.json()).content;
 }
 
 // ── Icons ────────────────────────────────────────────────────────
@@ -498,7 +493,7 @@ function App(){
   useEffect(()=>{sr.current?.scrollIntoView({behavior:'smooth'})},[tx]);
 
   // For demo/development: allow optional API key via URL param
-  const urlKey = new URLSearchParams(window.location.search).get('key') || '';
+  // API keys are stored server-side in Netlify environment variables
 
   const addF=useCallback(nf=>{const a=Array.from(nf);setFiles(p=>[...p,...a]);a.forEach(f=>{const r=new FileReader();r.onload=e=>setFc(p=>p+`\n\n--- ${f.name} ---\n${e.target.result}`);r.readAsText(f)})},[]);
   const rmF=i=>setFiles(p=>p.filter((_,x)=>x!==i));
@@ -514,7 +509,7 @@ function App(){
     const s={role:'system',content:SYS+'\n\n'+c};
     setMsgs([s]);setTx([]);setStep('session');
     try{
-      const g=await ask([s,{role:'user',content:`Session started. I'm ${name}. I want to talk about my engagement with ${prospect}. We're in ${stage}. Acknowledge what you know, then ask your first question.`}],urlKey);
+      const g=await ask([s,{role:'user',content:`Session started. I'm ${name}. I want to talk about my engagement with ${prospect}. We're in ${stage}. Acknowledge what you know, then ask your first question.`}]);
       setMsgs(p=>[...p,{role:'user',content:'[Session started]'},{role:'assistant',content:g}]);
       setTx(p=>[...p,{role:'s',text:g}]);
       say(g);
@@ -526,10 +521,10 @@ function App(){
   const listen=()=>{if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){setErr('Speech not supported — use Chrome or type below.');return}const S=window.SpeechRecognition||window.webkitSpeechRecognition;const r=new S();r.continuous=false;r.interimResults=false;r.lang='en-US';r.onstart=()=>setHear(true);r.onresult=e=>{setHear(false);send(e.results[0][0].transcript)};r.onerror=e=>{setHear(false);if(e.error!=='no-speech')setErr(`Mic: ${e.error}`)};r.onend=()=>setHear(false);sy.current?.cancel();setTalk(false);r.start();rr.current=r};
   const unlisten=()=>{rr.current?.stop();setHear(false)};
 
-  const send=async t=>{if(!t.trim())return;const u=[...mr.current,{role:'user',content:t}];setMsgs(u);setTx(p=>[...p,{role:'u',text:t}]);setThink(true);try{const r=await ask(u,urlKey);setMsgs(p=>[...p,{role:'assistant',content:r}]);setTx(p=>[...p,{role:'s',text:r}]);say(r)}catch(e){setErr(e.message)}finally{setThink(false)}};
+  const send=async t=>{if(!t.trim())return;const u=[...mr.current,{role:'user',content:t}];setMsgs(u);setTx(p=>[...p,{role:'u',text:t}]);setThink(true);try{const r=await ask(u);setMsgs(p=>[...p,{role:'assistant',content:r}]);setTx(p=>[...p,{role:'s',text:r}]);say(r)}catch(e){setErr(e.message)}finally{setThink(false)}};
   const sub=e=>{e.preventDefault();if(!ti.trim())return;send(ti);setTi('')};
 
-  const end=async()=>{sy.current?.cancel();rr.current?.stop();setHear(false);setTalk(false);setStep('debrief');setBriefing(true);try{setBrief(await genDebrief(mr.current,urlKey))}catch(e){setBrief('Error: '+e.message)}finally{setBriefing(false)}};
+  const end=async()=>{sy.current?.cancel();rr.current?.stop();setHear(false);setTalk(false);setStep('debrief');setBriefing(true);try{setBrief(await genDebrief(mr.current))}catch(e){setBrief('Error: '+e.message)}finally{setBriefing(false)}};
 
   const cp=(t,id)=>{navigator.clipboard.writeText(t);setCid(id);setTimeout(()=>setCid(null),2e3)};
   const reset=()=>{setStep('setup');setMsgs([]);setTx([]);setBrief('');setErr(null);setFiles([]);setFc('');setCtx('');setTi('')};
