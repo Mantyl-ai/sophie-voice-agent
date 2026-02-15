@@ -345,12 +345,14 @@ const SophiePreview=()=>{
     }
     setLoading(true);
     try{
+      // Stop any leftover audio from rapid clicks
+      if(audioRef.current){try{audioRef.current.pause();audioRef.current.currentTime=0}catch(_){}}
       const a=await sophieSpeak(SOPHIE_SAYINGS[idx]);
       audioRef.current=a;
       a.onended=()=>{setPlaying(false);setIdx(p=>(p+1)%SOPHIE_SAYINGS.length)};
       a.onerror=()=>setPlaying(false);
       setLoading(false);setPlaying(true);
-      a.play();
+      a.play().catch(()=>setPlaying(false));
     }catch(e){
       setLoading(false);
       // Fallback to browser TTS if /api/tts fails
@@ -421,7 +423,10 @@ async function ask(messages) {
     body: JSON.stringify({ model: 'gpt-4o', messages, temperature: .7, max_tokens: 800 })
   });
   if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error?.message||`Error ${res.status}`); }
-  return (await res.json()).choices[0].message.content;
+  const data = await res.json();
+  const content = data?.choices?.[0]?.message?.content;
+  if (!content) throw new Error('Unexpected response from Sophie — please try again.');
+  return content;
 }
 
 async function genDebrief(messages) {
@@ -436,7 +441,9 @@ async function genDebrief(messages) {
     body: JSON.stringify({ system: sysMsg?.content || '', messages: allMessages, max_tokens: 1200 })
   });
   if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error?.message||`Error ${res.status}`); }
-  return (await res.json()).content;
+  const data = await res.json();
+  if (!data?.content) throw new Error('Unexpected debrief response — please try again.');
+  return data.content;
 }
 
 // ── Icons ────────────────────────────────────────────────────────
@@ -487,6 +494,7 @@ function App(){
   const[ti,setTi]=useState('');
   const[cid,setCid]=useState(null);
   const[fe,setFe]=useState({});
+  const[starting,setStarting]=useState(false);
 
   const rr=useRef(null),sy=useRef(window.speechSynthesis),sr=useRef(null),mr=useRef(msgs);
   useEffect(()=>{mr.current=msgs},[msgs]);
@@ -501,8 +509,8 @@ function App(){
   const validate=()=>{const e={};if(!email.trim())e.email='Required';if(!name.trim())e.name='Required';if(!prospect.trim())e.prospect='Required';if(!stage)e.stage='Required';setFe(e);return !Object.keys(e).length};
 
   const start=async()=>{
-    if(!validate())return;
-    setErr(null);
+    if(!validate()||starting)return;
+    setErr(null);setStarting(true);
     let c=`Session Context:\nRep: ${name}\nEmail: ${email}\nProspect/Account: ${prospect}\nStage: ${stage}\n`;
     if(ctx)c+=`Notes: ${ctx}\n`;
     if(fc)c+=`\nDocuments:${fc}\n`;
@@ -513,7 +521,7 @@ function App(){
       setMsgs(p=>[...p,{role:'user',content:'[Session started]'},{role:'assistant',content:g}]);
       setTx(p=>[...p,{role:'s',text:g}]);
       say(g);
-    }catch(e){setErr(e.message);setStep('setup')}
+    }catch(e){setErr(e.message);setStep('setup')}finally{setStarting(false)}
   };
 
   const say=t=>{if(!sy.current)return;sy.current.cancel();const u=new SpeechSynthesisUtterance(t);const v=sy.current.getVoices();const pk=v.find(x=>x.name.includes('Samantha'))||v.find(x=>x.name.includes('Karen'))||v.find(x=>x.lang.startsWith('en')&&x.name.includes('Google'))||v.find(x=>x.lang.startsWith('en'));if(pk)u.voice=pk;u.rate=1;u.pitch=1.05;u.onstart=()=>setTalk(true);u.onend=()=>setTalk(false);u.onerror=()=>setTalk(false);sy.current.speak(u)};
@@ -521,13 +529,14 @@ function App(){
   const listen=()=>{if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){setErr('Speech not supported — use Chrome or type below.');return}const S=window.SpeechRecognition||window.webkitSpeechRecognition;const r=new S();r.continuous=false;r.interimResults=false;r.lang='en-US';r.onstart=()=>setHear(true);r.onresult=e=>{setHear(false);send(e.results[0][0].transcript)};r.onerror=e=>{setHear(false);if(e.error!=='no-speech')setErr(`Mic: ${e.error}`)};r.onend=()=>setHear(false);sy.current?.cancel();setTalk(false);r.start();rr.current=r};
   const unlisten=()=>{rr.current?.stop();setHear(false)};
 
-  const send=async t=>{if(!t.trim())return;const u=[...mr.current,{role:'user',content:t}];setMsgs(u);setTx(p=>[...p,{role:'u',text:t}]);setThink(true);try{const r=await ask(u);setMsgs(p=>[...p,{role:'assistant',content:r}]);setTx(p=>[...p,{role:'s',text:r}]);say(r)}catch(e){setErr(e.message)}finally{setThink(false)}};
+  const sendLock=useRef(false);
+  const send=async t=>{if(!t.trim()||sendLock.current)return;sendLock.current=true;const u=[...mr.current,{role:'user',content:t}];setMsgs(u);setTx(p=>[...p,{role:'u',text:t}]);setThink(true);try{const r=await ask(u);setMsgs(p=>[...p,{role:'assistant',content:r}]);setTx(p=>[...p,{role:'s',text:r}]);say(r)}catch(e){setErr(e.message)}finally{setThink(false);sendLock.current=false}};
   const sub=e=>{e.preventDefault();if(!ti.trim())return;send(ti);setTi('')};
 
   const end=async()=>{sy.current?.cancel();rr.current?.stop();setHear(false);setTalk(false);setStep('debrief');setBriefing(true);try{setBrief(await genDebrief(mr.current))}catch(e){setBrief('Error: '+e.message)}finally{setBriefing(false)}};
 
   const cp=(t,id)=>{navigator.clipboard.writeText(t);setCid(id);setTimeout(()=>setCid(null),2e3)};
-  const reset=()=>{setStep('setup');setMsgs([]);setTx([]);setBrief('');setErr(null);setFiles([]);setFc('');setCtx('');setTi('')};
+  const reset=()=>{setStep('setup');setMsgs([]);setTx([]);setBrief('');setErr(null);setFiles([]);setFc('');setCtx('');setTi('');setStarting(false);sendLock.current=false};
 
   const os=hear?'li':talk?'sp':'id';
   const ps=t=>{const s={};t.split(/^## /m).filter(Boolean).forEach(p=>{const l=p.split('\n'),tt=l[0].trim(),b=l.slice(1).join('\n').trim();if(tt.includes('SIGNAL')||tt.includes('SYNOPSIS'))s.synopsis=b;else if(tt.includes('NEXT')||tt.includes('MOVE')||tt.includes('ACTION'))s.actions=b;else if(tt.includes('EMAIL')||tt.includes('FOLLOW')||tt.includes('MESSAGE'))s.email=b});return s};
@@ -601,7 +610,7 @@ function App(){
           {files.length>0&&<div className="uf">{files.map((f,i)=><div key={i} className="uf-i"><span style={{color:'var(--blue)'}}>{Ic.file}</span><span className="uf-n">{f.name}</span><span className="uf-s">{(f.size/1024).toFixed(1)}KB</span><button className="uf-x" onClick={e=>{e.stopPropagation();rmF(i)}}>{Ic.x}</button></div>)}</div>}
         </div>
 
-        <button className="go-btn" onClick={start}>{Ic.hp} Start Session with Sophie</button>
+        <button className="go-btn" onClick={start} disabled={starting}>{Ic.hp} {starting?'Connecting to Sophie...':'Start Session with Sophie'}</button>
 
         <div className="cta"><div className="cta-l"><span className="cta-m">M</span><div><div className="cta-tt">Want this built for your team?</div><div className="cta-dd">Custom AI tools tailored to your CRM, playbook, and workflow.</div></div></div><a href={CAL} target="_blank" rel="noopener noreferrer" className="cta-b">Book a Call</a></div>
       </div>}
