@@ -30,10 +30,10 @@
   "homepage": "https://sophie.mantyl.ai",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mantyl/sophie-voice-agent"
+    "url": "https://github.com/jbalbu01/sophie-voice-agent"
   },
   "bugs": {
-    "url": "https://github.com/mantyl/sophie-voice-agent/issues"
+    "url": "https://github.com/jbalbu01/sophie-voice-agent/issues"
   },
   "engines": {
     "node": ">=18.0.0"

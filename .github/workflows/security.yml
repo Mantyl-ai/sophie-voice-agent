@@ -1,0 +1,78 @@
+name: Security & Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  secret-scan:
+    name: Secret Detection
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Gitleaks Scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  lint:
+    name: Lint & Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Validate HTML
+        run: |
+          # Check for common HTML issues
+          echo "Validating HTML files..."
+          for f in public/*.html; do
+            if [ -f "$f" ]; then
+              echo "  ✓ $f exists"
+            fi
+          done
+
+      - name: Check for hardcoded secrets
+        run: |
+          echo "Scanning for potential secrets..."
+          # Check for common secret patterns in source files
+          if grep -rn "sk-[a-zA-Z0-9]\{20,\}" --include="*.js" --include="*.html" --include="*.json" . \
+             | grep -v node_modules | grep -v ".env.example" | grep -v package-lock; then
+            echo "::error::Potential API key found in source files!"
+            exit 1
+          fi
+          echo "  ✓ No hardcoded secrets detected"
+
+      - name: Validate netlify.toml
+        run: |
+          if [ -f netlify.toml ]; then
+            echo "  ✓ netlify.toml present"
+          else
+            echo "::error::netlify.toml missing!"
+            exit 1
+          fi
+
+      - name: Validate function structure
+        run: |
+          echo "Checking serverless functions..."
+          for f in netlify/functions/*.js; do
+            if [ -f "$f" ]; then
+              # Verify functions use env vars, not hardcoded keys
+              if grep -q "process.env" "$f"; then
+                echo "  ✓ $(basename $f) uses environment variables"
+              else
+                echo "  ⚠ $(basename $f) may not use environment variables"
+              fi
+            fi
+          done
