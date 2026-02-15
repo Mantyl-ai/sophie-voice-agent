@@ -20,6 +20,12 @@
   to = "/.netlify/functions/tts"
   status = 200
 
+# Error reporting — email alerts on user errors
+[[redirects]]
+  from = "/api/error-report"
+  to = "/.netlify/functions/error-report"
+  status = 200
+
 # SPA fallback — serve index.html for all routes
 [[redirects]]
   from = "/*"
