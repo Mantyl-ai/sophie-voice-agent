@@ -60,7 +60,7 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 .hero-right{position:relative;display:flex;align-items:center;justify-content:center;padding:32px 0}
 
 /* Sophie container with brand gradient background */
-.sophie-showcase{position:relative;display:flex;align-items:flex-end;justify-content:center}
+.sophie-showcase{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .sophie-bg{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:360px;height:360px;border-radius:50%;background:radial-gradient(circle at 40% 40%,
   rgba(107,138,219,.4) 0%,
   rgba(155,127,199,.35) 25%,
@@ -99,24 +99,24 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,black,transparent);-webkit-mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,black,transparent)}
 
 /* Sophie preview audio button */
-.sophie-preview{position:relative;z-index:4;margin-top:16px;display:flex;flex-direction:column;align-items:center;gap:8px}
-.sophie-preview-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:rgba(15,23,42,.75);backdrop-filter:blur(12px);border:1px solid rgba(107,138,219,.2);border-radius:40px;cursor:pointer;transition:all .3s;font-family:var(--font);font-size:12px;font-weight:600;color:rgba(255,255,255,.85);box-shadow:0 4px 20px rgba(0,0,0,.25)}
-.sophie-preview-btn:hover{background:rgba(15,23,42,.9);border-color:rgba(107,138,219,.4);transform:translateY(-2px);box-shadow:0 6px 28px rgba(107,138,219,.2)}
-.sophie-preview-btn.playing{border-color:rgba(212,132,154,.4);background:rgba(15,23,42,.9)}
-.sophie-preview-btn svg{flex-shrink:0}
-.sophie-preview-icon{width:28px;height:28px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.sophie-preview-icon svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2.5}
+.sophie-preview{position:relative;z-index:4;margin-top:20px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.sophie-preview-label{font-size:10px;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.sophie-preview-btn{display:inline-flex;align-items:center;gap:10px;padding:12px 28px;background:rgba(255,255,255,.06);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.12);border-radius:48px;cursor:pointer;transition:all .25s;font-family:var(--font);font-size:13px;font-weight:600;color:rgba(255,255,255,.9);box-shadow:0 4px 24px rgba(0,0,0,.2)}
+.sophie-preview-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(107,138,219,.35);transform:translateY(-2px);box-shadow:0 8px 32px rgba(107,138,219,.15)}
+.sophie-preview-btn.playing{border-color:rgba(212,132,154,.35);background:rgba(212,132,154,.08)}
+.sophie-preview-btn.loading{opacity:.7;pointer-events:none}
+.sophie-preview-icon{width:32px;height:32px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 10px rgba(107,138,219,.3)}
+.sophie-preview-icon svg{width:14px;height:14px;fill:#fff;stroke:none}
 .sophie-preview-icon.playing svg{animation:sp-pulse 1s ease-in-out infinite}
 @keyframes sp-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.9)}}
-.sophie-preview-wave{display:flex;align-items:center;gap:2px;height:14px}
-.sophie-preview-wave span{width:2.5px;border-radius:2px;background:var(--grad);animation:sp-wave .5s ease-in-out infinite alternate}
+.sophie-preview-wave{display:flex;align-items:center;gap:2.5px;height:16px}
+.sophie-preview-wave span{width:3px;border-radius:2px;background:var(--grad);animation:sp-wave .5s ease-in-out infinite alternate}
 .sophie-preview-wave span:nth-child(1){height:4px;animation-delay:0s}
-.sophie-preview-wave span:nth-child(2){height:8px;animation-delay:.08s}
-.sophie-preview-wave span:nth-child(3){height:12px;animation-delay:.16s}
-.sophie-preview-wave span:nth-child(4){height:8px;animation-delay:.24s}
+.sophie-preview-wave span:nth-child(2){height:9px;animation-delay:.08s}
+.sophie-preview-wave span:nth-child(3){height:14px;animation-delay:.16s}
+.sophie-preview-wave span:nth-child(4){height:9px;animation-delay:.24s}
 .sophie-preview-wave span:nth-child(5){height:4px;animation-delay:.32s}
-@keyframes sp-wave{0%{height:3px}100%{height:14px}}
-.sophie-preview-hint{font-size:10px;color:rgba(255,255,255,.3);font-weight:500;letter-spacing:.03em}
+@keyframes sp-wave{0%{height:3px}100%{height:16px}}
 
 /* Bottom gradient fade to white */
 .hero-fade{position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to bottom,transparent,rgba(15,23,42,.8));z-index:1;pointer-events:none}
@@ -275,7 +275,8 @@ body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh}
   .hero-left{padding:36px 20px 20px;text-align:center;align-items:center}
   .hero-h1{font-size:34px}
   .hero-right{padding:0 0 24px}
-  .sophie-img{width:220px}
+  .sophie-img{width:200px}
+  .sophie-preview-btn{padding:10px 20px;font-size:12px}
   .sophie-bg{width:260px;height:260px}
   .sophie-ring,.sophie-ring-2{display:none}
   .insight-card{display:none}
@@ -305,46 +306,92 @@ const SophiePortrait=({w=340})=>(
 <img src="sophie.png" alt="Sophie — AI Sales Intelligence Agent" className="sophie-img" style={{width:w}} />
 );
 
+// ── ELEVENLABS CONFIG ────────────────────────────────────────────
+// Belle voice — set your ElevenLabs API key via ?xi=YOUR_KEY in the URL
+const ELEVEN_KEY = new URLSearchParams(window.location.search).get('xi') || '';
+const ELEVEN_VOICE = 'EXAVITQu4vr4xnSDxMaL'; // Belle — update if your voice ID differs
+const ELEVEN_MODEL = 'eleven_multilingual_v2';
+
 // ── SOPHIE PREVIEW — hear what she sounds like ──────────────────
 const SOPHIE_SAYINGS=[
-  "Hey there! I'm Sophie — ready to help you debrief your last sales meeting?",
-  "Need help following up? Tell me about the call and I'll draft something sharp.",
-  "I noticed some buying signals in your last conversation — want me to break them down?",
-  "Let's figure out your next move. Walk me through what happened and I'll find the gaps.",
-  "Got a stalled deal? Let's talk through it — I bet we can find an angle you haven't tried."
+  "Hey there, it's Sophie! Ready to get started? Fill out the form below and we'll dive right in.",
+  "I'm Sophie, your AI sales analyst. Go ahead and fill out the form below — I'll take it from there.",
+  "Ready when you are! Just fill out the quick form below and we can start working on your next move.",
+  "Hey! Sophie here. Drop your info in the form below and let's figure out your next best step together.",
+  "Let's do this! Fill out the form below and I'll have your signal report ready in minutes."
 ];
+
+// Audio cache so we only call ElevenLabs once per saying
+const _audioCache={};
+async function elevenSpeak(text){
+  if(_audioCache[text])return new Audio(_audioCache[text]);
+  const res=await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${ELEVEN_VOICE}`,{
+    method:'POST',
+    headers:{'xi-api-key':ELEVEN_KEY,'Content-Type':'application/json','Accept':'audio/mpeg'},
+    body:JSON.stringify({text,model_id:ELEVEN_MODEL,voice_settings:{stability:0.5,similarity_boost:0.75,style:0.4}})
+  });
+  if(!res.ok)throw new Error('ElevenLabs '+res.status);
+  const blob=await res.blob();
+  const url=URL.createObjectURL(blob);
+  _audioCache[text]=url;
+  return new Audio(url);
+}
+
 const SophiePreview=()=>{
   const[playing,setPlaying]=useState(false);
+  const[loading,setLoading]=useState(false);
   const[idx,setIdx]=useState(0);
-  const synRef=useRef(window.speechSynthesis);
-  const play=()=>{
-    if(playing){synRef.current.cancel();setPlaying(false);return}
-    synRef.current.cancel();
+  const audioRef=useRef(null);
+
+  const play=async()=>{
+    // Stop if currently playing
+    if(playing){
+      if(audioRef.current){audioRef.current.pause();audioRef.current.currentTime=0}
+      setPlaying(false);return;
+    }
+    // Try ElevenLabs first, fall back to browser TTS
+    if(ELEVEN_KEY){
+      setLoading(true);
+      try{
+        const a=await elevenSpeak(SOPHIE_SAYINGS[idx]);
+        audioRef.current=a;
+        a.onended=()=>{setPlaying(false);setIdx(p=>(p+1)%SOPHIE_SAYINGS.length)};
+        a.onerror=()=>setPlaying(false);
+        setLoading(false);setPlaying(true);
+        a.play();
+        return;
+      }catch(e){setLoading(false);/* fall through to browser TTS */}
+    }
+    // Browser TTS fallback
+    const syn=window.speechSynthesis;syn.cancel();
     const u=new SpeechSynthesisUtterance(SOPHIE_SAYINGS[idx]);
-    const v=synRef.current.getVoices();
+    const v=syn.getVoices();
     const pk=v.find(x=>x.name.includes('Samantha'))||v.find(x=>x.name.includes('Karen'))||v.find(x=>x.lang.startsWith('en')&&x.name.includes('Google'))||v.find(x=>x.lang.startsWith('en'));
-    if(pk)u.voice=pk;
-    u.rate=1;u.pitch=1.05;
+    if(pk)u.voice=pk;u.rate=1;u.pitch=1.05;
     u.onstart=()=>setPlaying(true);
     u.onend=()=>{setPlaying(false);setIdx(p=>(p+1)%SOPHIE_SAYINGS.length)};
     u.onerror=()=>setPlaying(false);
-    synRef.current.speak(u);
+    syn.speak(u);
   };
-  // Preload voices
-  useEffect(()=>{synRef.current.getVoices();const h=()=>synRef.current.getVoices();synRef.current.addEventListener?.('voiceschanged',h);return()=>synRef.current.removeEventListener?.('voiceschanged',h)},[]);
+
+  // Preload browser voices as fallback
+  useEffect(()=>{const s=window.speechSynthesis;s.getVoices();const h=()=>s.getVoices();s.addEventListener?.('voiceschanged',h);return()=>s.removeEventListener?.('voiceschanged',h)},[]);
+
   return(
     <div className="sophie-preview">
-      <button className={`sophie-preview-btn ${playing?'playing':''}`} onClick={play}>
+      <span className="sophie-preview-label">Preview</span>
+      <button className={`sophie-preview-btn ${playing?'playing':''} ${loading?'loading':''}`} onClick={play}>
         <span className={`sophie-preview-icon ${playing?'playing':''}`}>
           {playing
-            ?<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
-            :<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="#fff" stroke="none"/></svg>}
+            ?<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1" fill="#fff"/><rect x="14" y="4" width="4" height="16" rx="1" fill="#fff"/></svg>
+            :<svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3" fill="#fff"/></svg>}
         </span>
-        {playing
-          ?<><div className="sophie-preview-wave"><span/><span/><span/><span/><span/></div>Sophie is speaking...</>
-          :<>Hear what Sophie sounds like</>}
+        {loading
+          ?<>Loading voice...</>
+          :playing
+            ?<><div className="sophie-preview-wave"><span/><span/><span/><span/><span/></div>Sophie is speaking...</>
+            :<>Hear What Sophie Sounds Like</>}
       </button>
-      {!playing&&<span className="sophie-preview-hint">Click to preview Sophie's voice</span>}
     </div>
   );
 };
