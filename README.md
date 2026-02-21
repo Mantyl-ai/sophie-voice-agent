@@ -1,129 +1,194 @@
-# Sales Intelligence MCP Server
+# Sales Enablement Plugin for Claude
 
-Gives Claude direct access to your sales tools — Gong, ZoomInfo, Clay, and LinkedIn Sales Navigator — so you can research prospects, pull call transcripts, and enrich leads without leaving the conversation.
+A compounding GTM enablement engine — 18 skills, 7 commands, 16 MCP tools, self-healing content, and persistent memory that learns from every deal.
 
-16 tools. One server. Works with Claude Desktop.
+This is not a collection of static templates. It's enablement infrastructure that gets smarter the more your team uses it.
 
 ## Quick Start
 
 ```bash
-# One-command install
-bash install.sh
+# Install the plugin
+claude plugins add sales-enablement-plugin
+
+# Build the bundled MCP server (optional, for Gong/ZoomInfo/Clay/LinkedIn tools)
+cd mcp-server && npm install && npm run build
 ```
 
-The script installs the server, finds your Claude Desktop config, prompts for API keys, and wires everything up. Restart Claude Desktop and you're live.
+Then restart Claude Desktop. That's it.
 
-### Manual Setup
+## How It Works
 
-```bash
-# 1. Install and build
-npm install && npm run build
-
-# 2. Add to your Claude Desktop config
-#    Mac:     ~/Library/Application Support/Claude/claude_desktop_config.json
-#    Linux:   ~/.config/Claude/claude_desktop_config.json
-#    Windows: %APPDATA%\Claude\claude_desktop_config.json
+```
+┌─────────────────────────────────────────────────────┐
+│                  Claude Desktop                      │
+│                                                      │
+│   User: "/deal-review Acme Corp"                     │
+│                                                      │
+│   ┌───────────────┐    ┌──────────────────────┐     │
+│   │  18 Skills     │◄──►│  Persistent Memory   │     │
+│   │  (analysis,    │    │  (deal patterns,     │     │
+│   │   coaching,    │    │   competitive intel, │     │
+│   │   playbooks)   │    │   ICP data)          │     │
+│   └───────┬───────┘    └──────────────────────┘     │
+│           │                                          │
+│   ┌───────▼───────────────────────────────────┐     │
+│   │           16 MCP Tools                     │     │
+│   │  Gong · ZoomInfo · Clay · LinkedIn         │     │
+│   │  HubSpot · Slack · Notion · Fireflies      │     │
+│   └───────────────────────────────────────────┘     │
+│                                                      │
+│   Output: Deal score, risk flags, next steps,        │
+│   competitive positioning — all personalized         │
+│   to the rep's experience level                      │
+└─────────────────────────────────────────────────────┘
 ```
 
-Add this to your `mcpServers` section:
+Every interaction reads from and writes to memory. The system learns your competitive landscape, deal patterns, ICP, and team strengths over time.
+
+## What's Inside
+
+### 18 Skills
+
+**Core Enablement (10)**
+| Skill | What It Does |
+|---|---|
+| Battle Cards | Side-by-side competitive comparisons with talk tracks |
+| Objection Handling | Framework-based responses (price, timing, competition) |
+| Discovery Guide | SPIN/Sandler/Challenger question sets and call guides |
+| Deal Qualification | MEDDIC/BANT/SPICED scoring with gap analysis |
+| Proposal Builder | Custom proposals, business cases, and exec summaries |
+| ROI Calculator | TCO comparisons and value models for prospects |
+| Win-Loss Analysis | Pattern recognition across won and lost deals |
+| Sales Coaching | Call reviews, skill plans, and role-play practice |
+| Playbook Builder | Repeatable sales processes by product or segment |
+| Buyer Persona | ICP and persona development with messaging guidance |
+
+**Intelligence Layer (2)**
+| Skill | What It Does |
+|---|---|
+| GTM Memory | Persistent knowledge base that compounds across sessions |
+| Rep Profile | Adapts all output to each rep's skill level and style |
+
+**Self-Healing (1)**
+| Skill | What It Does |
+|---|---|
+| Content Health | Flags stale assets when market conditions shift |
+
+**Cross-GTM (5)**
+| Skill | What It Does |
+|---|---|
+| Campaign to Field | Translates marketing launches into rep-ready materials |
+| Handoff Builder | Structured handoffs (SDR-to-AE, AE-to-CS, etc.) |
+| Expansion Playbook | Upsell/cross-sell/renewal plays for existing customers |
+| Pipeline Intelligence | Deal velocity, conversion, and coaching signals |
+| Partner Enablement | Channel partner playbooks and co-sell guides |
+
+### 7 Commands
+
+| Command | What It Does |
+|---|---|
+| `/deal-review` | Structured deal assessment with scoring and next steps |
+| `/enablement-dashboard` | Org-wide readiness evaluation |
+| `/onboarding-plan` | New hire ramp curriculum with milestones |
+| `/competitive-pulse` | Latest competitive landscape briefing |
+| `/pipeline-digest` | Weekly pipeline health and risk analysis |
+| `/content-audit` | Asset freshness scan with gap identification |
+| `/rep-dashboard` | Personalized performance and development view |
+
+### 4 Scheduled Automations
+
+- **Weekly Competitive Pulse** — Scans for competitor moves
+- **Weekly Pipeline Digest** — Pipeline health summary
+- **Monthly Content Audit** — Flags stale enablement assets
+- **Daily Deal Signals** — Surfaces deals needing attention
+
+### 16 MCP Tools (Bundled Server)
+
+The plugin ships with a TypeScript MCP server providing direct access to four platforms:
+
+| Platform | Tools |
+|---|---|
+| **Gong** | search_calls, get_transcript, get_call_details, search_calls_by_participant, get_call_stats |
+| **ZoomInfo** | search_company, search_contact, get_org_chart, get_tech_stack |
+| **Clay** | enrich_person, enrich_company, trigger_enrichment |
+| **LinkedIn** | search_leads, get_profile, search_companies |
+| **Utility** | sales_intel_status |
+
+## Integrations
+
+Works standalone out of the box. Optionally connect any of these for richer context:
+
+| Platform | What It Adds |
+|---|---|
+| HubSpot | Deal data, contact history, pipeline metrics |
+| Slack | Team signals, deal room context |
+| Notion | Playbooks, competitive docs, knowledge base |
+| Microsoft 365 | Email threads, calendar context |
+| Fireflies | Meeting transcripts and action items |
+| Clay | Contact and company enrichment |
+| ZoomInfo | Firmographic and technographic data |
+| Atlassian | Project tracking, engineering context |
+| Close | Pipeline and activity data |
+
+See [CONNECTORS.md](CONNECTORS.md) for setup instructions.
+
+## Configuration
+
+Copy the settings template and customize:
 
 ```json
 {
-  "sales-intelligence": {
-    "command": "node",
-    "args": ["/path/to/dist/index.js"],
-    "env": {
-      "GONG_ACCESS_KEY": "your-key",
-      "GONG_ACCESS_KEY_SECRET": "your-secret",
-      "ZOOMINFO_CLIENT_ID": "your-id",
-      "ZOOMINFO_PRIVATE_KEY": "your-key",
-      "CLAY_API_KEY": "your-key",
-      "LINKEDIN_ACCESS_TOKEN": "your-token"
-    }
-  }
+  "company_name": "Your Company",
+  "product_name": "Your Product",
+  "default_qualification_framework": "MEDDIC",
+  "default_discovery_framework": "SPIN"
 }
 ```
 
-Restart Claude Desktop. Only configure the platforms you use — unused ones are skipped gracefully.
+## Example Output
 
-## 16 Tools
+**Input:** `/deal-review Acme Corp`
 
-### Gong (5 tools)
-| Tool | What It Does |
-|---|---|
-| `search_calls` | Find calls by keyword, date, or deal |
-| `get_transcript` | Pull full call transcript |
-| `get_call_details` | Call metadata, participants, duration |
-| `search_calls_by_participant` | Find all calls with a specific person |
-| `get_call_stats` | Talk ratio, longest monologue, questions asked |
+**Output:**
+```
+Deal Health Score: 72/100
 
-### ZoomInfo (4 tools)
-| Tool | What It Does |
-|---|---|
-| `search_company` | Firmographic data, revenue, headcount |
-| `search_contact` | Find contacts by title, company, location |
-| `get_org_chart` | Reporting structure and hierarchy |
-| `get_tech_stack` | Technologies a company uses |
+Strengths:
+- Champion identified (VP Sales, strong internal advocate)
+- Technical validation complete, positive eval feedback
+- Timeline aligns with Q2 budget cycle
 
-### Clay (3 tools)
-| Tool | What It Does |
-|---|---|
-| `enrich_person` | Full contact enrichment from email or LinkedIn |
-| `enrich_company` | Company enrichment from domain |
-| `trigger_enrichment` | Kick off a Clay enrichment workflow |
+Risks:
+- No access to economic buyer (CFO)
+- Competitor (Rival Inc) in final evaluation
+- Legal review not yet started — 3 week typical cycle
 
-### LinkedIn Sales Navigator (3 tools)
-| Tool | What It Does |
-|---|---|
-| `search_leads` | Advanced lead search with filters |
-| `get_profile` | Full profile data for a prospect |
-| `search_companies` | Company search with firmographic filters |
+Recommended Next Steps:
+1. Request champion intro to CFO before next meeting
+2. Prepare Rival Inc battlecard (see /competitive-pulse)
+3. Send ROI model tailored to their 340-rep team size
 
-### Utility (1 tool)
-| Tool | What It Does |
-|---|---|
-| `sales_intel_status` | Check which platforms are connected and healthy |
+Confidence: Commit (if CFO access secured by Feb 28)
+```
 
-## Usage Examples
+## Project Structure
 
-Once installed, just talk to Claude naturally:
-
-**Prospect Research**
-> "What do we know about Acme Corp? Pull their tech stack and find the VP of Sales."
-
-**Call Review**
-> "Find my last 3 calls with Acme Corp and summarize the key objections."
-
-**Lead Enrichment**
-> "Enrich sarah.chen@acme.com and find her reporting chain."
-
-**Pipeline Prep**
-> "For my calls tomorrow, pull company info and recent call history for each account."
-
-## Where to Get API Keys
-
-| Platform | Where |
-|---|---|
-| Gong | Settings > Integrations > API |
-| ZoomInfo | Developer Portal > Create App |
-| Clay | Settings > API |
-| LinkedIn | Developer Portal > OAuth 2.0 token |
-
-## Troubleshooting
-
-| Problem | Fix |
-|---|---|
-| Module not found | Run `npm install && npm run build` again |
-| Server not showing in Claude | Verify `dist/index.js` path in config |
-| LinkedIn 401 errors | Regenerate token from Developer Portal |
-| Missing tools for a platform | Add that platform's API keys to config |
-| Config file not found | Check path with `ls ~/Library/Application\ Support/Claude/` (Mac) |
-
-## Tech Stack
-
-TypeScript (86.8%), Shell (8.3%), JavaScript (4.9%)
-
-Built with the Model Context Protocol (MCP) SDK.
+```
+sales-enablement-plugin/
+├── skills/              # 18 skill modules
+├── commands/            # 7 slash commands
+├── shortcuts/           # 4 scheduled automations
+├── mcp-server/          # TypeScript MCP server (16 tools)
+│   ├── src/
+│   ├── package.json
+│   └── tsconfig.json
+├── docs/                # Additional documentation
+├── .claude-plugin/      # Plugin configuration
+├── CONNECTORS.md        # Integration setup guide
+├── CONTRIBUTING.md
+├── CHANGELOG.md
+└── LICENSE              # MIT
+```
 
 ## License
 
