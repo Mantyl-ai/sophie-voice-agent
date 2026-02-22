@@ -1,6 +1,5 @@
 # Sophie — AI Sales Intelligence Agent
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/SITE_ID/deploy-status)](https://app.netlify.com/sites/sophie-voice-agent/deploys)
 
 An AI-powered sales analyst by [Mantyl](https://mantyl.ai). Sales reps upload context about a prospect, have a live voice conversation with Sophie, and walk away with a signal report, recommended next moves, and a draft follow-up email — in under five minutes.
 
