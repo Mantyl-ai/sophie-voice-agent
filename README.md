@@ -1,7 +1,14 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Mantyl-ai/.github/main/profile/banner.png" alt="Mantyl" width="100%" />
+</p>
+
 # Sophie — AI Sales Intelligence Agent
 
+[![Live](https://img.shields.io/badge/Live-sophie.mantyl.ai-6C63FF?style=flat-square)](https://sophie.mantyl.ai)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](./LICENSE)
+[![Netlify](https://img.shields.io/badge/Deployed_on-Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white)](https://sophie.mantyl.ai)
 
-An AI-powered sales analyst by [Mantyl](https://mantyl.ai). Sales reps upload context about a prospect, have a live voice conversation with Sophie, and walk away with a signal report, recommended next moves, and a draft follow-up email — in under five minutes.
+An AI-powered sales analyst by [Mantyl.ai](https://mantyl.ai). Sales reps upload context about a prospect, have a live voice conversation with Sophie, and walk away with a signal report, recommended next moves, and a draft follow-up email — in under five minutes.
 
 ## How It Works
 
@@ -18,7 +25,7 @@ An AI-powered sales analyst by [Mantyl](https://mantyl.ai). Sales reps upload co
 ## Quick Start
 
 ```bash
-git clone <repo-url> && cd sophie-voice-agent
+git clone https://github.com/Mantyl-ai/sophie-voice-agent.git && cd sophie-voice-agent
 cp .env.example .env          # Add your API keys
 npx netlify dev                # http://localhost:8888
 ```
@@ -127,4 +134,10 @@ See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for custom domains, cost estimati
 
 ## License
 
-[MIT](LICENSE) — Mantyl, Inc.
+[MIT](LICENSE) — [Mantyl.ai](https://mantyl.ai)
+
+---
+
+<p align="center">
+  <sub>Built by <a href="https://mantyl.ai">Mantyl.ai</a> — AI-Native Automation for GTM Teams</sub>
+</p>
